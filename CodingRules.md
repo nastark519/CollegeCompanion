@@ -1,4 +1,8 @@
-# SSTARK INDUSTRIES CODING STANDARDS ### Terminology
+# SSTARK INDUSTRIES CODING STANDARDS
+--- 
+### Terminology
+
+
 **Identifier**: This is the name of a method, class or variable in the program.
 **Loop Structures**: If, When, Else, Do, While, For, Foreach
 **Blocks**: Any section of code contained between curly braces that is itself one entire method/function.
