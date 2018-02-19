@@ -212,8 +212,16 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\blackboard.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\colorful.jpg" />
+    <Content Include="Content\companion.css" />
+    <Content Include="Content\padnPlant.jpg" />
+    <Content Include="Content\streetChalk.jpg" />
+    <Content Include="Content\streetChalk.png" />
+    <Content Include="Content\studentsBlue.jpg" />
+    <Content Include="Content\teachersDesk.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -223,6 +231,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\Noteworthy-Bold-02.ttf" />
+    <Content Include="fonts\Noteworthy-Light-01.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
