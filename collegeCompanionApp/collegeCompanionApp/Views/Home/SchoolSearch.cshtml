@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "School Search";
+}
+
+<div class="container">
+
+    &nbsp
+
+    <h2>School Search: </h2>
+
+    <hr />
+
+    <div class="form-group text-center">
+        @*User's Input for School Search*@
+        <input class="well-sm" type="text" id="UserSchoolInput" name="UserSchoolInput" placeholder="Western Oregon..." />
+        @*Search Button.*@
+        <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg" />
+    </div>
+</div>
+
+<hr />
+
+@* Display Schools after Search Button Clicked.*@
+<div id="results" style="display: none">
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Schools</th>
+                </tr>
+            </thead>
+            <tbody id="SchoolTable">
+                @*<tr>
+                    <td id="School-0"></td>
+                </tr>
+                <tr>
+                    <td id="School-1"></td>
+                </tr>
+                <tr>
+                    <td id="School-2"></td>
+                </tr>
+                <tr>
+                    <td id="School-3"></td>
+                </tr>*@
+            </tbody>
+        </table>
+        <label id="NotFound"></label>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/SchoolSearch.js"></script>
+}
