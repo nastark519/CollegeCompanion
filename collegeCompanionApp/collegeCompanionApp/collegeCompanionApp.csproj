@@ -245,11 +245,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\SchoolSearch.js" />
-<<<<<<< HEAD
-=======
     <Content Include="Scripts\StateSearch.js" />
     <Content Include="Views\Home\SchoolSearch.cshtml" />
->>>>>>> remotes/rsimpson15/collegecompanion-2/featureStateSearch
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -284,11 +281,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Home\SchoolSearch.cshtml" />
-=======
     <Content Include="Views\Home\StateSearch.cshtml" />
->>>>>>> remotes/rsimpson15/collegecompanion-2/featureStateSearch
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
