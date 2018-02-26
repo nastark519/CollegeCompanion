@@ -33,40 +33,40 @@ namespace collegeCompanionApp.Controllers
         }
 
         //[Route("Home/Search")]
-        public JsonResult Search()
-        {
-            Console.WriteLine("In the Search method in Home Controller");
+        //public JsonResult Search()
+        //{
+        //    Console.WriteLine("In the Search method in Home Controller");
 
-            //Get College Scorecard API
-            string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
-            //School Name
-            string schoolName = Request.QueryString["schoolName"];
-            HttpUtility.UrlPathEncode(schoolName);//Adds %20 to spaces
+        //    //Get College Scorecard API
+        //    string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
+        //    //School Name
+        //    string schoolName = Request.QueryString["schoolName"];
+        //    HttpUtility.UrlPathEncode(schoolName);//Adds %20 to spaces
 
 
-            //URL to College Scorecard
-            string url = "https://api.data.gov/ed/collegescorecard/v1/schools?api_key=" + 
-                key + "&school.name=" + schoolName + "&_fields=school.name,id";
+        //    //URL to College Scorecard
+        //    string url = "https://api.data.gov/ed/collegescorecard/v1/schools?api_key=" + 
+        //        key + "&school.name=" + schoolName + "&_fields=school.name,id";
           
 
-            //Sends request to College Scorecard to get JSon
-            WebRequest request = WebRequest.Create(url);
-            request.Credentials = CredentialCache.DefaultCredentials;
-            WebResponse response = request.GetResponse(); //The Response            
-            Stream dataStream = response.GetResponseStream(); //Start Data Stream from Server.            
-            string reader = new StreamReader(dataStream).ReadToEnd(); //Data Stream to a reader string
+        //    //Sends request to College Scorecard to get JSon
+        //    WebRequest request = WebRequest.Create(url);
+        //    request.Credentials = CredentialCache.DefaultCredentials;
+        //    WebResponse response = request.GetResponse(); //The Response            
+        //    Stream dataStream = response.GetResponseStream(); //Start Data Stream from Server.            
+        //    string reader = new StreamReader(dataStream).ReadToEnd(); //Data Stream to a reader string
 
 
-            //JSon string to a JSon object             
-            var serializer = new JavaScriptSerializer();
-            var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
+        //    //JSon string to a JSon object             
+        //    var serializer = new JavaScriptSerializer();
+        //    var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
 
 
-            //Clean/Close Up
-            response.Close();
-            dataStream.Close();
+        //    //Clean/Close Up
+        //    response.Close();
+        //    dataStream.Close();
 
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

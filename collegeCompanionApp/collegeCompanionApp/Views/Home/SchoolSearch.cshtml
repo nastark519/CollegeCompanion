@@ -22,32 +22,32 @@
 <hr />
 
 @* Display Schools after Search Button Clicked.*@
-<div id="results" style="display: none">
+<div id="Results" style="display: none">
     <div class="container">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Schools</th>
+                    <th>Accreditor</th>
+                    <th>State</th>
+                    <th>City</th>
+                    <th>Ownership</th>
                 </tr>
             </thead>
-            <tbody id="SchoolTable">
-                @*<tr>
-                    <td id="School-0"></td>
-                </tr>
-                <tr>
-                    <td id="School-1"></td>
-                </tr>
-                <tr>
-                    <td id="School-2"></td>
-                </tr>
-                <tr>
-                    <td id="School-3"></td>
-                </tr>*@
+            <tbody id="SearchResults">
+                @*Results*@
             </tbody>
         </table>
-        <label id="NotFound"></label>
+        <div class="text-center">
+            <ul class="pager">
+                <li><button class="btn btn-default" type="button" id="Previous"> < </button></li>
+                <li><button class="btn btn-default" type="button" id="Next"> > </button></li>
+            </ul>
+        </div>
     </div>
 </div>
+
+<h2 class="text-center" id="NotFound"></h2>
 
 @section scripts
 {
