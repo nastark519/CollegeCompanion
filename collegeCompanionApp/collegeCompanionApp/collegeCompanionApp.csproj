@@ -212,6 +212,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\CompanionDB.mdf" />
+    <Content Include="App_Data\CompanionDB_log.ldf">
+      <DependentUpon>CompanionDB.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\DOWN.sql" />
     <Content Include="App_Data\UP.sql" />
     <Content Include="Content\blackboard.jpg" />
