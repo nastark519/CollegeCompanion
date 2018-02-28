@@ -1,5 +1,11 @@
 
-
+CREATE TABLE dbo.City
+(
+	[CityID] INT IDENTITY(1,1) NOT NULL,
+	[CityName] VARCHAR(45) NOT NULL,
+	[CityState] VARCHAR(45) NOT NULL,
+	CONSTRAINT [PK_dbo.City] PRIMARY KEY (CityID)
+);
 
 CREATE TABLE dbo.College
 (
@@ -10,24 +16,6 @@ CREATE TABLE dbo.College
 	CONSTRAINT [PF_dbo.College_City] FOREIGN KEY (CityID) REFERENCES dbo.City (CityID)
 );
 
-CREATE TABLE dbo.CollegeFavorite
-(
-	[CollegeFavoriteID] INT IDENTITY(1,1) NOT NULL,
-	[CollegeID] INT NULL,
-	[PartyID] INT NULL,
-	CONSTRAINT [PK_dbo.CollegeFavorite] PRIMARY KEY (CollegeFavoriteID),
-	CONSTRAINT [PF_dbo.CollegeFavorite_College] FOREIGN KEY (CollegeID) REFERENCES dbo.College (CollegeID),
-	CONSTRAINT [PF_dbo.CollegeFavorite_Part] FOREIGN KEY (PartyID) REFERENCES dbo.Party (PartyID)
-);
-
-CREATE TABLE dbo.City
-(
-	[CityID] INT IDENTITY(1,1) NOT NULL,
-	[CityName] VARCHAR(45) NOT NULL,
-	[CityState] VARCHAR(45) NOT NULL,
-	CONSTRAINT [PK_dbo.City] PRIMARY KEY (CityID)
-);
-
 CREATE TABLE dbo.Party
 (
 	[PartyID] INT IDENTITY(1,1) NOT NULL,
@@ -35,6 +23,18 @@ CREATE TABLE dbo.Party
 	[PartyEmail] VARCHAR(45) NOT NULL,
 	CONSTRAINT [PK_dbo.Party] PRIMARY KEY (PartyID)
 );
+
+CREATE TABLE dbo.CollegeFavorite
+(
+	[CollegeFavoriteID] INT IDENTITY(1,1) NOT NULL,
+	[CollegeID] INT NULL,
+	[PartyID] INT NULL,
+	CONSTRAINT [PK_dbo.CollegeFavorite] PRIMARY KEY (CollegeFavoriteID),
+	CONSTRAINT [PF_dbo.CollegeFavorite_College] FOREIGN KEY (CollegeID) REFERENCES dbo.College (CollegeID),
+	CONSTRAINT [PF_dbo.CollegeFavorite_Party] FOREIGN KEY (PartyID) REFERENCES dbo.Party (PartyID)
+);
+
+
 
 INSERT INTO dbo.City (CityName, CityState) VALUES
 ('SSTarksvill', 'OR'),
