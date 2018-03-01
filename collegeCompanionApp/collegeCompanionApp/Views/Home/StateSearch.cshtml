@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "State Search";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="adjustTop">
+
+    <h2>School Search: </h2>
+    <div class="form-group text-center">
+            @*Search Box*@
+            <input type="text" placeholder="Enter State..." name="StateSearch" id="StateSearch">
+            <input type="submit" class="btn-sm" name="Search" id="Search" value="Search">
+    </div>
+
+    @* Search Results*@
+    <div class="adjustTop">
+        <div id="results">
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>College Name</th>
+                            <th>State</th>
+                            <th>City</th>
+                            <th>Accreditor</th>
+                            <th>Privacy Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ResultsTable">
+                        @* Results provided to user via table in Javascript*@
+                    </tbody>
+                </table>
+                <label id="NotFound"></label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <ul class="pager">
+        <li><button class="btn btn-default" type="button" id="Previous"> < </button></li>
+        <li><button class="btn btn-default" type="button" id="Next"> > </button></li>
+    </ul>
+</div>
+
+    @section scripts{
+        <script type="text/javascript" src="~/Scripts/StateSearch.js"></script>
+    }
