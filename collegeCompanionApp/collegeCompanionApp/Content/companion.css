@@ -52,6 +52,14 @@ body, img {
     background-size: cover;
 }
 
+#img-searchForm {
+    width: 100%;
+    height: auto;
+    min-height: 100px;
+    background-image: url(../Content/blackboard.jpg);
+    background-size: cover;
+}
+
 /* Large Header & Logo Style */
 
 .ccheader {
@@ -96,6 +104,18 @@ body, img {
     margin-left: 10%;
 }
 
+.searchFormBox {
+    clear: both;
+    width: 90%;
+    height: auto;
+    min-height: 600px;
+    max-height: 800px;
+    padding: 10px;
+    font-size-adjust: inherit;
+    color:aliceblue;
+    margin-left: 2%;
+}
+
 .shiftDiv-down {
     margin-top: 50%;
 }
@@ -106,4 +126,11 @@ body, img {
 
 .shiftDiv-left {
     margin-left:50%;
+}
+
+/* text classes*/
+
+.warning {
+    color:crimson;
+    font-weight:bold;
 }

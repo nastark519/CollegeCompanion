@@ -32,6 +32,11 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
+        public ActionResult SearchForm()
+        {
+            return View();
+        }
+
         public ActionResult StateSearch()
         {
             return View();
