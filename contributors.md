@@ -1,6 +1,8 @@
 Contributors
 ============
 
+---
+
 * **Daniel Tapia**
 * **Rochelle Simpson**
 * **Nathan Stark**
