@@ -1,0 +1,40 @@
+﻿@model IEnumerable<collegeCompanionApp.Models.Party>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="adjustTop">
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PartyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartyEmail)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartyEmail)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PartyID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.PartyID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PartyID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
