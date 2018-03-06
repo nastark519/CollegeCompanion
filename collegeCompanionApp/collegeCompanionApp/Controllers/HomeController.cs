@@ -40,6 +40,11 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
+        public ActionResult SearchForm()
+        {
+            return View();
+        }
+
         //[Route("Home/Search")]
         //public JsonResult Search()
         //{
@@ -55,7 +60,7 @@ namespace collegeCompanionApp.Controllers
         //    //URL to College Scorecard
         //    string url = "https://api.data.gov/ed/collegescorecard/v1/schools?api_key=" + 
         //        key + "&school.name=" + schoolName + "&_fields=school.name,id";
-          
+
 
         //    //Sends request to College Scorecard to get JSon
         //    WebRequest request = WebRequest.Create(url);

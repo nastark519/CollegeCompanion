@@ -46,7 +46,7 @@ function start() {
 
     //URL
     var APIKey = "nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
-    var fields = "school.name,school.state,school.city,school.accreditor,school.ownership" //Fields
+    var fields = "school.name,school.state,school.city,school.accreditor,school.ownership"; //Fields
     var source = "https://api.data.gov/ed/collegescorecard/v1/schools?school.name="; //Source
 
     var url = source + schoolName + "&api_key=" + APIKey + "&_fields=" + fields + "&per_page=10&page=" + page;
