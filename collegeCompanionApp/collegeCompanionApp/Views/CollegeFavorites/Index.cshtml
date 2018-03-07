@@ -1,0 +1,44 @@
+﻿@model IEnumerable<collegeCompanionApp.Models.CollegeFavorite>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="adjustTop">
+
+    <h2>College Favorites</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.College.CityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Party.PartyName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.College.CityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Party.PartyName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CollegeFavoriteID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.CollegeFavoriteID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CollegeFavoriteID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

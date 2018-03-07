@@ -202,6 +202,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CollegeFavoritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -295,6 +296,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\StateSearch.cshtml" />
+    <Content Include="Views\CollegeFavorites\Create.cshtml" />
+    <Content Include="Views\CollegeFavorites\Delete.cshtml" />
+    <Content Include="Views\CollegeFavorites\Details.cshtml" />
+    <Content Include="Views\CollegeFavorites\Edit.cshtml" />
+    <Content Include="Views\CollegeFavorites\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
