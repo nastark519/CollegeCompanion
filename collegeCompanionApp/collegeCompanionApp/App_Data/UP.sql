@@ -1,6 +1,7 @@
 
 
 
+/*
 CREATE TABLE dbo.City
 (
 	[CityID] INT IDENTITY(1,1) NOT NULL,
@@ -8,14 +9,18 @@ CREATE TABLE dbo.City
 	[CityState] VARCHAR(45) NOT NULL,
 	CONSTRAINT [PK_dbo.City] PRIMARY KEY (CityID)
 );
+*/
 
 CREATE TABLE dbo.College
 (
 	[CollegeID] INT IDENTITY(1,1) NOT NULL,
-	[CityID] INT NOT NULL,
+	[CityName] NVARCHAR (200) NULL,
+	[StateName] NVARCHAR (200) NOT NULL,
 	[CollegeName] NVARCHAR (200) NOT NULL,
-	CONSTRAINT [PK_dbo.College] PRIMARY KEY (CollegeID),
-	CONSTRAINT [PF_dbo.College_City] FOREIGN KEY (CityID) REFERENCES dbo.City (CityID)
+	[Focus] NVARCHAR (200) NULL,
+	[Accreditor] NVARCHAR (200) NULL,
+	[Ownership] INT NULL,     /* 1 is public 2 is private non-prophet 3 is private for prophet */
+	CONSTRAINT [PK_dbo.College] PRIMARY KEY (CollegeID)
 );
 
 CREATE TABLE dbo.Party
@@ -38,6 +43,7 @@ CREATE TABLE dbo.CollegeFavorite
 
 
 
+/*
 INSERT INTO dbo.City (CityName, CityState) VALUES
 ('SSTarksvill', 'OR'),
 ('Happy Town', 'VA'),
@@ -59,28 +65,29 @@ INSERT INTO dbo.City (CityName, CityState) VALUES
 ('Petersburg', 'VA'),
 ('Hotel', 'CA'),
 ('Independence', 'OR');
+*/
 
-INSERT INTO dbo.College (CityID, CollegeName) VALUES
-('1', 'SSTark University'),
-('3', 'Hard College'),
-('2', 'Easey School'),
-('5', 'Helpful School'),
-('6', 'Unhelpful School'),
-('4', 'HP College'),
-('7', 'Micosoft University'),
-('8', 'Yearly University'),
-('9', 'Monthly College'),
-('10', 'Weekly School'),
-('11', 'Daily School'),
-('12', 'Lovely School'),
-('13', 'Beautiful University'),
-('14', 'Pretty College'),
-('15', 'Strong School'),
-('16', 'Ellie School'),
-('17', 'Amanda School'),
-('18', 'College College'),
-('19', 'Coffee School'),
-('20', 'Heavenly School');
+INSERT INTO dbo.College (CityName, StateName, CollegeName, Focus, Accreditor, [Ownership]) VALUES
+('SSTarksvill', 'OR', 'SSTark University', 'Math', 'Me baby', '2'),
+('Happy Town', 'VA', 'Hard College', 'CS', 'someone else', '3'),
+('Monmouth', 'OR', 'Easey School', 'Math', 'Me baby', '1'),
+('Iron Man', 'CA', 'Helpful School', 'CS', 'you Mama', '2'),
+('Danials Town', 'WY', 'Unhelpful School', 'Math', 'Me baby', '3'),
+('Rochelle Land', 'NY', 'HP College', 'CS and Math', 'someone else', '1'),
+('Nathansvill', 'OH', 'Micosoft University', 'Math', 'Me baby', '2'),
+('College Town', 'OR', 'Yearly University', 'CS', 'someone else', '2'),
+('Universityvill', 'WA', 'Monthly College', 'Math', 'Me baby', '3'),
+('Thor City', 'OH', 'Weekly School', 'CS and Art', '3oh3', '3'),
+('Banner City', 'OR', 'Daily School', 'Math', 'Me baby', '1'),
+('Portland', 'OR', 'Lovely School', 'CS', 'someone else', '1'),
+('Oakland', 'CA', 'Beautiful University', 'Math', 'Me baby', '2'),
+('Richmond', 'VA', 'Pretty College', 'CS', 'so many people', '3'),
+('Thanosvill', 'OR', 'Strong School', 'Math', 'Me baby', '1'),
+('Marvel Town', 'OR', 'Ellie School', 'CS', 'someone else', '1'),
+('Tony Town', 'CA', 'Amanda School', 'Math', 'Me baby', '3'),
+('Petersburg', 'VA', 'College College', 'Medical', 'everyone else', '3'),
+('Hotel', 'CA', 'Coffee School', 'Math', 'Me baby', '2'),
+('Independence', 'OR', 'Heavenly School', 'CS', 'someone else', '1');
 
 INSERT INTO dbo.Party (PartyName, PartyEmail) VALUES
 ('Nathan Stark', 'nstar@fake.com'),

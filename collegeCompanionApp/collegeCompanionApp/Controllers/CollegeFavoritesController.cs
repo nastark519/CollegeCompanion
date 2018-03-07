@@ -6,12 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using collegeCompanionApp.Models;
 
-namespace collegeCompanionApp.Models
+namespace collegeCompanionApp.Controllers
 {
     public class CollegeFavoritesController : Controller
     {
-        private CompaionContext db = new CompaionContext();
+        private CompanionContext db = new CompanionContext();
 
         // GET: CollegeFavorites
         public ActionResult Index()
@@ -38,7 +39,7 @@ namespace collegeCompanionApp.Models
         // GET: CollegeFavorites/Create
         public ActionResult Create()
         {
-            ViewBag.CollegeID = new SelectList(db.Colleges, "CollegeID", "CollegeName");
+            ViewBag.CollegeID = new SelectList(db.Colleges, "CollegeID", "CityName");
             ViewBag.PartyID = new SelectList(db.Parties, "PartyID", "PartyName");
             return View();
         }
@@ -57,7 +58,7 @@ namespace collegeCompanionApp.Models
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CollegeID = new SelectList(db.Colleges, "CollegeID", "CollegeName", collegeFavorite.CollegeID);
+            ViewBag.CollegeID = new SelectList(db.Colleges, "CollegeID", "CityName", collegeFavorite.CollegeID);
             ViewBag.PartyID = new SelectList(db.Parties, "PartyID", "PartyName", collegeFavorite.PartyID);
             return View(collegeFavorite);
         }
@@ -74,7 +75,7 @@ namespace collegeCompanionApp.Models
             {
                 return HttpNotFound();
             }
-            ViewBag.CollegeID = new SelectList(db.Colleges, "CollegeID", "CollegeName", collegeFavorite.CollegeID);
+            ViewBag.CollegeID = new SelectList(db.Colleges, "CollegeID", "CityName", collegeFavorite.CollegeID);
             ViewBag.PartyID = new SelectList(db.Parties, "PartyID", "PartyName", collegeFavorite.PartyID);
             return View(collegeFavorite);
         }
@@ -92,7 +93,7 @@ namespace collegeCompanionApp.Models
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CollegeID = new SelectList(db.Colleges, "CollegeID", "CollegeName", collegeFavorite.CollegeID);
+            ViewBag.CollegeID = new SelectList(db.Colleges, "CollegeID", "CityName", collegeFavorite.CollegeID);
             ViewBag.PartyID = new SelectList(db.Parties, "PartyID", "PartyName", collegeFavorite.PartyID);
             return View(collegeFavorite);
         }
