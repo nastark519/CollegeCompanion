@@ -251,7 +251,8 @@
     <Content Include="fonts\Noteworthy-Light-01.ttf" />
     <None Include="Properties\PublishProfiles\CollegeCompanionApp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\form.js" />
+    <Content Include="Scripts\CollegeSearch.js" />
+    <Content Include="Scripts\FormSearch.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -316,6 +317,7 @@
     <Content Include="Views\Parties\Edit.cshtml" />
     <Content Include="Views\Parties\Index.cshtml" />
     <Content Include="Views\Home\SearchForm.cshtml" />
+    <Content Include="Views\Home\CollegeSearch.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

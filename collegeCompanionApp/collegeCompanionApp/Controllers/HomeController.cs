@@ -45,6 +45,18 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult SearchForm()
+        {
+            return RedirectToAction("CollegeSearch");
+        }
+
+        
+        public ActionResult CollegeSearch()
+        {
+            return View();
+        }
+
         //[Route("Home/Search")]
         //public JsonResult Search()
         //{

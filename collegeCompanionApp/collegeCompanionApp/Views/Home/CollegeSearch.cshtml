@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "CollegeSearch";
+}
+
+
+<h2>College Search: </h2>
+
+
+<hr />
+
+@* Display Schools after Search Button Clicked.*@
+<div id="Results" style="display: none">
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Schools</th>
+                    @*<th>Accreditor</th>*@
+                    <th>State</th>
+                    @*<th>City</th>*@
+                    @*<th>Ownership</th>*@
+                </tr>
+            </thead>
+            <tbody id="SearchResults">
+                @*Results*@
+            </tbody>
+        </table>
+        @*<div class="text-center">
+            <ul class="pager">
+                <li><button class="btn btn-default" type="button" id="Previous"> < </button></li>
+                <li><button class="btn btn-default" type="button" id="Next"> > </button></li>
+            </ul>
+        </div>*@
+
+        @**New Search*@
+        <div class="ccheader">
+            <div class="text-right" id="newSearch">
+                <button type="submit" id="submit" class="btn btn-primary mb-2" onclick="location.href = 'SearchForm';">New Search!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="text-center" id="NotFound"></h2>
+
+
+@section scripts{
+    <script type="text/javascript" src="~/Scripts/CollegeSearch.js"></script>
+}
