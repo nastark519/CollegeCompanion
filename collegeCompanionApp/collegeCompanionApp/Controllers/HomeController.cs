@@ -7,11 +7,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Security;
+using collegeCompanionApp.Models;
 
 namespace collegeCompanionApp.Controllers
 {
     public class HomeController : Controller
     {
+
         public ActionResult Index()
         {
             return View();
