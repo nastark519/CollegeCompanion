@@ -67,7 +67,7 @@ INSERT INTO dbo.City (CityName, CityState) VALUES
 ('Independence', 'OR');
 */
 
-INSERT INTO dbo.College (CityName, StateName, CollegeName, Focus, Accreditor, Ownership) VALUES
+INSERT INTO dbo.College (CityName, StateName, CollegeName, Focus, Accreditor, [Ownership]) VALUES
 ('SSTarksvill', 'OR', 'SSTark University', 'Math', 'Me baby', '2'),
 ('Happy Town', 'VA', 'Hard College', 'CS', 'someone else', '3'),
 ('Monmouth', 'OR', 'Easey School', 'Math', 'Me baby', '1'),
