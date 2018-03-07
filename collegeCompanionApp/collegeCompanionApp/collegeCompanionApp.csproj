@@ -204,17 +204,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PartiesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\City.cs" />
     <Compile Include="Models\College.cs" />
     <Compile Include="Models\CollegeFavorite.cs" />
-    <Compile Include="Controllers\CollegeFavoritesController.cs" />
-    <Compile Include="Controllers\CollegesController.cs" />
-    <Compile Include="Models\CompaionContext.cs" />
+    <Compile Include="Models\CompanionContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Party.cs" />
@@ -299,21 +295,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\StateSearch.cshtml" />
-    <Content Include="Views\Colleges\Create.cshtml" />
-    <Content Include="Views\Colleges\Delete.cshtml" />
-    <Content Include="Views\Colleges\Details.cshtml" />
-    <Content Include="Views\Colleges\Edit.cshtml" />
-    <Content Include="Views\Colleges\Index.cshtml" />
-    <Content Include="Views\CollegeFavorites\Create.cshtml" />
-    <Content Include="Views\CollegeFavorites\Delete.cshtml" />
-    <Content Include="Views\CollegeFavorites\Details.cshtml" />
-    <Content Include="Views\CollegeFavorites\Edit.cshtml" />
-    <Content Include="Views\CollegeFavorites\Index.cshtml" />
-    <Content Include="Views\Parties\Create.cshtml" />
-    <Content Include="Views\Parties\Delete.cshtml" />
-    <Content Include="Views\Parties\Details.cshtml" />
-    <Content Include="Views\Parties\Edit.cshtml" />
-    <Content Include="Views\Parties\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
