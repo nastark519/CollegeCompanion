@@ -1,4 +1,5 @@
-﻿using System;
+﻿using collegeCompanionApp.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,8 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using System.Web.Security;
 using collegeCompanionApp.Models;
+using collegeCompanionApp.Models.ViewModel;
+using System.Diagnostics;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -35,13 +37,14 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
-        public ActionResult StateSearch()
+        public ActionResult SearchForm()
         {
-            return View();
+            FormDataViewModel db = new FormDataViewModel();
+            Debug.Assert(db.StateList != null, "Database has the wrong connection.");
+            return View(db);
         }
 
-        
-        public ActionResult SearchForm()
+        public ActionResult SearchResults()
         {
             return View();
         }
@@ -133,8 +136,8 @@ namespace collegeCompanionApp.Controllers
         //    //Clean/Close Up
         //    response.Close();
         //    dataStream.Close();
-
-        //    return Json(data, JsonRequestBehavior.AllowGet);
         //}
+
+
     }
 }
