@@ -59,7 +59,7 @@ namespace collegeCompanionApp.Controllers
             string state = Request.QueryString["school.state"];
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
-            var values = "school.name=" + schoolName; // + "&school.state=" + state;
+            var values = "school.name=" + schoolName + "&school.state=" + state;
             var APIKey = "&api_key=nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
             var fields = "&_fields=school.name,school.state"; //Fields 
 
