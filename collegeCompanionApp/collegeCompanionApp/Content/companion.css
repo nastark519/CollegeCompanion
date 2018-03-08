@@ -67,6 +67,11 @@ body, img {
     font-size-adjust: inherit;
 }
 
+.ccsubHeader {
+    font-family: CCfont;
+    font-size:medium;
+}
+
 /* Text Box Placements */
 
 .indexBox {
@@ -128,9 +133,26 @@ body, img {
     margin-left:50%;
 }
 
+.shiftDiv-Tinyleft {
+    margin-left: 5%;
+}
+
 /* text classes*/
 
-.warning {
+#warning {
     color:crimson;
     font-weight:bold;
+}
+
+/*Panels*/
+#center {
+    clear: both;
+    text-align: center;
+    align-content: center;
+    position: center;
+}
+
+.panel-style {
+    margin-top: -20px !important;
+    color: steelblue !important;
 }

@@ -1,4 +1,8 @@
-﻿console.log("Running form.js!");
+﻿
+//Add top level doc ready and prevent default, register call back on it
+
+
+console.log("Running form.js!");
 
 // Method calls checkFields when the submit button is pressed
 // If checkFields returns false then it throws the user an error.
