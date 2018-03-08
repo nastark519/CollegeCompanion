@@ -31,7 +31,7 @@ function start() {
 }
 
 function displaySearch(data) {
-
+    
     var schools = data.metadata.total;//Total number of schools
     console.log("Total Results: " + schools);
 

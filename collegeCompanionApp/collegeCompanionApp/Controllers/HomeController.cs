@@ -40,21 +40,64 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
+        
         public ActionResult SearchForm()
         {
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult SearchForm()
-        {
-            return RedirectToAction("CollegeSearch");
         }
 
         
+        public JsonResult Search()
+        {
+            Console.WriteLine("SearchForm() Method!");
+
+            //Get College Scorecard API
+            //string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
+            //HttpUtility.UrlPathEncode(schoolName);//Adds %20 to spaces
+
+            string schoolName = Request.QueryString["school.name"];
+            string state = Request.QueryString["school.state"];
+
+            var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
+            var values = "school.name=" + schoolName; // + "&school.state=" + state;
+            var APIKey = "&api_key=nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
+            var fields = "&_fields=school.name,school.state"; //Fields 
+
+            //URL to College Scorecard
+            string url = source + values + APIKey + fields;
+
+
+            //Sends request to College Scorecard to get JSon
+            WebRequest request = WebRequest.Create(url);
+            request.Credentials = CredentialCache.DefaultCredentials;
+            WebResponse response = request.GetResponse(); //The Response            
+            Stream dataStream = response.GetResponseStream(); //Start Data Stream from Server.            
+            string reader = new StreamReader(dataStream).ReadToEnd(); //Data Stream to a reader string
+
+
+            //JSon string to a JSon object             
+            var serializer = new JavaScriptSerializer();
+            var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
+
+            //Clean/Close Up
+            response.Close();
+            dataStream.Close();
+
+
+            
+
+            //return CollegeSearch(college);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult CollegeSearch()
         {
-            return View();
+            var college = new College();
+            college.CollegeName = "Western";
+            college.StateName = "Oregon";
+
+            return View(college);
         }
 
         //[Route("Home/Search")]
