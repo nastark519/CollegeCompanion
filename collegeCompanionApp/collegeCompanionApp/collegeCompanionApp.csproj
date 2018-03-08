@@ -218,8 +218,6 @@
     <Compile Include="Models\FinLimitList.cs" />
     <Compile Include="Models\FormDataDB.cs" />
     <Compile Include="Models\FormDataViewModel.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PrivacyList.cs" />
     <Compile Include="Models\StateList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
