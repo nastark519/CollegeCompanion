@@ -156,3 +156,11 @@ body, img {
     margin-top: -20px !important;
     color: steelblue !important;
 }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
