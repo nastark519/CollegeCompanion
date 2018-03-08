@@ -215,6 +215,13 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Party.cs" />
+    <Compile Include="Models\FinLimitList.cs" />
+    <Compile Include="Models\FormDataDB.cs" />
+    <Compile Include="Models\FormDataViewModel.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PrivacyList.cs" />
+    <Compile Include="Models\StateList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -225,6 +232,11 @@
     </Content>
     <Content Include="App_Data\DOWN.sql" />
     <Content Include="App_Data\UP.sql" />
+    <Content Include="App_Data\formdata.mdf" />
+    <Content Include="App_Data\formdata_log.ldf">
+      <DependentUpon>formdata.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\upFormData.sql" />
     <Content Include="Content\blackboard.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -308,6 +320,8 @@
     <Content Include="Views\Parties\Edit.cshtml" />
     <Content Include="Views\Parties\Index.cshtml" />
     <Content Include="Views\Home\SearchForm.cshtml" />
+    <Content Include="Views\Home\SearchForm.cshtml" />
+    <Content Include="Views\Home\SearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
