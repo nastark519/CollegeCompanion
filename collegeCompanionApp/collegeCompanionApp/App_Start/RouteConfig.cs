@@ -13,11 +13,12 @@ namespace collegeCompanionApp
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //routes.MapRoute(
-            //    name: "SchoolSearch",
-            //    url: "Home/{action}",
-            //    defaults: new { controller = "Home", action = "Search" } //page = UrlParameter.Optional }
-            //);
+
+            routes.MapRoute(
+                name: "CollegeSearch",
+                url: "Home/{action}/{page}",
+                defaults: new { controller = "Home", action = "CollegeSearch", page = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
                 name: "Default",

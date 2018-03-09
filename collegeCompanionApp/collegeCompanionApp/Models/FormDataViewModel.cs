@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace collegeCompanionApp.Models.ViewModel
 {
-    public class FormDataViewModel: formdataDB
+    public class FormDataViewModel: FormdataDB
     {
 
         public IEnumerable<FinLimitList> FinLimitList { get; set; }

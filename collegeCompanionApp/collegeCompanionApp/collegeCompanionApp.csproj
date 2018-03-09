@@ -216,7 +216,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Party.cs" />
     <Compile Include="Models\FinLimitList.cs" />
-    <Compile Include="Models\formdataDB.cs" />
+    <Compile Include="Models\FormdataDB.cs" />
     <Compile Include="Models\FormDataViewModel.cs" />
     <Compile Include="Models\PrivacyList.cs" />
     <Compile Include="Models\StateList.cs" />
@@ -229,6 +229,10 @@
       <DependentUpon>CompanionDB.mdf</DependentUpon>
     </Content>
     <Content Include="App_Data\DOWN.sql" />
+    <Content Include="App_Data\testDB.mdf" />
+    <Content Include="App_Data\testDB_log.ldf">
+      <DependentUpon>testDB.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\UP.sql" />
     <Content Include="App_Data\formdata.mdf" />
     <Content Include="App_Data\formdata_log.ldf">
@@ -258,7 +262,8 @@
     <Content Include="fonts\Noteworthy-Light-01.ttf" />
     <None Include="Properties\PublishProfiles\CollegeCompanionApp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\form.js" />
+    <Content Include="Scripts\CollegeSearch.js" />
+    <Content Include="Scripts\FormSearch.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -317,7 +322,7 @@
     <Content Include="Views\Parties\Details.cshtml" />
     <Content Include="Views\Parties\Edit.cshtml" />
     <Content Include="Views\Parties\Index.cshtml" />
-    <Content Include="Views\Home\SearchForm.cshtml" />
+    <Content Include="Views\Home\CollegeSearch.cshtml" />
     <Content Include="Views\Home\SearchForm.cshtml" />
     <Content Include="Views\Home\SearchResults.cshtml" />
   </ItemGroup>

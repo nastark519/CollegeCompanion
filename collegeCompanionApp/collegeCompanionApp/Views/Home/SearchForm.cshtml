@@ -1,5 +1,4 @@
-<!-- @model collegeCompanionApp.Models.ViewModel.FormDataViewModel -->
-﻿@model collegeCompanionApp.Models.formdataDB
+@model collegeCompanionApp.Models.FormdataDB
 
 @{
     ViewBag.Title = "Search Form";
@@ -9,7 +8,7 @@
     <div class="img-fullpage" id="img-searchForm">
         <div class="searchFormBox">
             <div class="shiftDiv-Tinydown">
-                <form>
+                <form method="post">
                     <div class="col-lg-6">
                         @*Input Field for School Name*@
                         <div class="form-group">
@@ -21,7 +20,7 @@
                         @*Selector for State*@
                         <div class="form-group">
                             <label for="stateInput" class="ccheader">Please Select a State</label>
-                            <select class="form-control" id="stateInput" name="stateInput" required>
+                            <select class="form-control" id="stateInput" name="stateInput">
                                 <option disabled selected> -- select an option -- </option>
                                 @foreach (var item in Model.StateLists)
                                 {
@@ -41,7 +40,7 @@
                         @*Note: This data is saved but not used in search criteria.*@
                         <div class="form-group">
                             <label for="degreeInput" class="ccheader">Desired Degree Focus</label>
-                            <input type="text" class="form-control" id="degreeInput" name="degreeInput"  placeholder="Enter Degree Name...">
+                            <input type="text" class="form-control" id="degreeInput" name="degreeInput" placeholder="Enter Degree Name...">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -52,8 +51,8 @@
                                 <option disabled selected> -- select an option -- </option>
                                 @foreach (var item in Model.FinLimitLists)
                                 {
-                                <option value="@item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
-                                 }
+                                    <option value="@item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
+                                }
                             </select>
                         </div>
                         @*Input for Student Loan Acceptance Rate*@
@@ -77,17 +76,19 @@
                             <select class="form-control" id="stateInput" name="stateInput">
                                 <option disabled selected> -- select an option -- </option>
                                 @foreach (var item in Model.PrivacyLists)
-                                 {
-                                     <option value="@item.PrivacyNumber">@item.PrivacyType</option>
-                                 }
+                                {
+                                    <option value="@item.PrivacyNumber">@item.PrivacyType</option>
+                                }
                             </select>
                         </div>
                     </div>
-
                     @**Submit Button*@
                     <div class="ccheader">
                         <div class="text-right">
-                            <button type="submit" id="submit" class="btn btn-primary mb-2">Find Colleges!</button>
+                            <button type="button" id="submit" class="btn btn-primary mb-2">Find Colleges!</button>
+                        </div>
+                        <div class="text-center">
+                            <h2><u id="feedbackNoInput"></u></h2>
                         </div>
                     </div>
                 </form>
@@ -95,3 +96,7 @@
         </div>
     </div>
 </body>
+
+@section scripts{
+    <script type="text/javascript" src="~/Scripts/FormSearch.js"></script>
+}
