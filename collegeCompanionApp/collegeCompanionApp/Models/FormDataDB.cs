@@ -1,14 +1,17 @@
 namespace collegeCompanionApp.Models
 {
+    using collegeCompanionApp.Models;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using System.Web;
 
     public partial class FormDataDB : DbContext
     {
         public FormDataDB()
-            : base("name=FormDataDB_Context")
+            : base("name=DefaultConnection")
         {
         }
 

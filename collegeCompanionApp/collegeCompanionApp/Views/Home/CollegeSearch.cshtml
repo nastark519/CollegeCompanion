@@ -4,61 +4,31 @@
     ViewBag.Title = "CollegeSearch";
 }
 
-<h2>CollegeSearch</h2>
-
-<div>
-    <h4>College</h4>
+<div class="container">
+    <h2>Colleges</h2>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CityName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CityName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StateName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StateName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CollegeName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CollegeName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Focus)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Focus)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Accreditor)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Accreditor)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Ownership)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ownership)
-        </dd>
-
-    </dl>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.CityName)</th>
+                <th>@Html.DisplayNameFor(model => model.StateName)</th>
+                <th>@Html.DisplayNameFor(model => model.CollegeName)</th>
+                <th>@Html.DisplayNameFor(model => model.Focus)</th>
+                <th>@Html.DisplayNameFor(model => model.Accreditor)</th>
+                <th>@Html.DisplayNameFor(model => model.Ownership)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.CityName)</td>
+                <td>@Html.DisplayFor(model => model.StateName)</td>
+                <td>@Html.DisplayFor(model => model.CollegeName)</td>
+                <td>@Html.DisplayFor(model => model.Focus)</td>
+                <td>@Html.DisplayFor(model => model.Accreditor)</td>
+                <td>@Html.DisplayFor(model => model.Ownership)</td>
+            </tr>           
+        </tbody>
+    </table>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.CollegeID }) |

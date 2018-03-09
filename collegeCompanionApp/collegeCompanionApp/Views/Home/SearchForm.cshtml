@@ -1,4 +1,5 @@
-@model collegeCompanionApp.Models.ViewModel.FormDataViewModel
+@model collegeCompanionApp.Models.FormDataDB
+
 @{
     ViewBag.Title = "Search Form";
 }
@@ -19,11 +20,11 @@
                         @*Selector for State*@
                         <div class="form-group">
                             <label for="stateInput" class="ccheader">Please Select a State</label>
-                            <select class="form-control" id="stateInput" name="stateInput" required>
+                            <select class="form-control" id="stateInput" name="stateInput">
                                 <option disabled selected> -- select an option -- </option>
-                                @foreach (var item in Model.StateList)
+                                @foreach (var item in Model.StateLists)
                                 {
-                                    <option value="@item.QueryName">@item.Name)</option>
+                                    <option value="@item.QueryName">@item.Name</option>
                                 }
                             </select>
                         </div>
@@ -39,7 +40,7 @@
                         @*Note: This data is saved but not used in search criteria.*@
                         <div class="form-group">
                             <label for="degreeInput" class="ccheader">Desired Degree Focus</label>
-                            <input type="text" class="form-control" id="degreeInput" name="degreeInput"  placeholder="Enter Degree Name...">
+                            <input type="text" class="form-control" id="degreeInput" name="degreeInput" placeholder="Enter Degree Name...">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -48,10 +49,10 @@
                             <label for="finLimitInput" class="ccheader">Financial Limits</label>
                             <select class="form-control" id="finLimitInput" name="finLimitInput">
                                 <option disabled selected> -- select an option -- </option>
-                                @foreach (var item in Model.FinLimitList)
+                                @foreach (var item in Model.FinLimitLists)
                                 {
-                                <option value="@item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
-                                 }
+                                    <option value="@item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
+                                }
                             </select>
                         </div>
                         @*Input for Student Loan Acceptance Rate*@
@@ -74,17 +75,20 @@
                             <label for="ownershipInput" class="ccheader">Please Select Ownership Type</label>
                             <select class="form-control" id="stateInput" name="stateInput">
                                 <option disabled selected> -- select an option -- </option>
-                                @foreach (var item in Model.PrivacyList)
-                                 {
-                                     <option value="@item.PrivacyNumber">@item..PrivacyType</option>
-                                 }
+                                @foreach (var item in Model.PrivacyLists)
+                                {
+                                    <option value="@item.PrivacyNumber">@item.PrivacyType</option>
+                                }
                             </select>
                         </div>
                     </div>
                     @**Submit Button*@
                     <div class="ccheader">
                         <div class="text-right">
-                            <button type="submit" id="submit" class="btn btn-primary mb-2">Find Colleges!</button>
+                            <button type="button" id="submit" class="btn btn-primary mb-2">Find Colleges!</button>
+                        </div>
+                        <div class="text-center">
+                            <h2><u id="feedbackNoInput"></u></h2>
                         </div>
                     </div>
                 </form>

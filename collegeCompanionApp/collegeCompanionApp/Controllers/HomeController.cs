@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using collegeCompanionApp.Models;
 using collegeCompanionApp.Models.ViewModel;
 using System.Diagnostics;
 
@@ -33,14 +32,18 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult SchoolSearch()
         {
-            Console.WriteLine("In the SchoolSearch method");
+            return View();
+        }
+
+        public ActionResult StateSearch()
+        {
             return View();
         }
 
         public ActionResult SearchForm()
         {
-            FormDataViewModel db = new FormDataViewModel();
-            Debug.Assert(db.StateList != null, "Database has the wrong connection.");
+            FormDataDB db = new FormDataDB();
+            //Debug.Assert(db.StateList != null, "Database has the wrong connection.");
             return View(db);
         }
 
@@ -50,16 +53,20 @@ namespace collegeCompanionApp.Controllers
         }
 
         
+
         public JsonResult Search()
         {
             Console.WriteLine("SearchForm() Method!");
 
             //Get College Scorecard API
             //string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
-            //HttpUtility.UrlPathEncode(schoolName);//Adds %20 to spaces
 
             string schoolName = Request.QueryString["school.name"];
             string state = Request.QueryString["school.state"];
+
+            //var college = new College();
+            //college.CollegeName = schoolName;
+            //college.StateName = state;
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
             var values = "school.name=" + schoolName + "&school.state=" + state;
@@ -68,7 +75,9 @@ namespace collegeCompanionApp.Controllers
 
             //URL to College Scorecard
             string url = source + values + APIKey + fields;
-
+            //Replace spaces with %20 
+            url = url.Trim();
+            url = url.Replace(" ", "%20"); 
 
             //Sends request to College Scorecard to get JSon
             WebRequest request = WebRequest.Create(url);
@@ -87,18 +96,17 @@ namespace collegeCompanionApp.Controllers
             dataStream.Close();
 
 
-            
-
             //return CollegeSearch(college);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
 
+        
         public ActionResult CollegeSearch()
         {
             var college = new College();
-            college.CollegeName = "Western";
-            college.StateName = "Oregon";
+            college.CollegeName = Request.QueryString["school.name"];
+            college.StateName = Request.QueryString["state.name"];
 
             return View(college);
         }
@@ -137,7 +145,6 @@ namespace collegeCompanionApp.Controllers
         //    response.Close();
         //    dataStream.Close();
         //}
-
 
     }
 }
