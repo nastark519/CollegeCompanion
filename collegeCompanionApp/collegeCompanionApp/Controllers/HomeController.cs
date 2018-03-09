@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using collegeCompanionApp.Models.ViewModel;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -42,7 +43,7 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult SearchForm()
         {
-            formdataDB db = new formdataDB();
+            FormdataDB db = new FormdataDB();
             Debug.Assert(db != null, "Database has the wrong connection.");
             return View(db);
         }
@@ -77,23 +78,41 @@ namespace collegeCompanionApp.Controllers
             string url = source + values + APIKey + fields;
             //Replace spaces with %20 
             url = url.Trim();
-            url = url.Replace(" ", "%20"); 
+            url = url.Replace(" ", "%20");
 
-            //Sends request to College Scorecard to get JSon
+            // build a WebRequest
             WebRequest request = WebRequest.Create(url);
-            request.Credentials = CredentialCache.DefaultCredentials;
-            WebResponse response = request.GetResponse(); //The Response            
-            Stream dataStream = response.GetResponseStream(); //Start Data Stream from Server.            
-            string reader = new StreamReader(dataStream).ReadToEnd(); //Data Stream to a reader string
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
 
+            // Read the content.  
+            string responseFromServer = reader.ReadToEnd();
 
-            //JSon string to a JSon object             
-            var serializer = new JavaScriptSerializer();
-            var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
-
-            //Clean/Close Up
+            // Clean up the streams and the response.  
+            reader.Close();
             response.Close();
-            dataStream.Close();
+
+            // Create a JObject, using Newtonsoft NuGet package
+            JObject json = JObject.Parse(responseFromServer);
+
+            // Create a serializer to deserialize the string response (string in JSON format)
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+            // Store JSON results in results to be passed back to client (javascript)
+            var data = serializer.DeserializeObject(responseFromServer);
+
+            // Get Feilds for Database
+            string IPAddress = Request.UserHostAddress;
+            string Browser = Request.UserAgent;
+
+            //Save data in DB
+            if (ModelState.IsValid)
+            {
+                var college = new College();
+                college.CollegeName = Request.QueryString["school.name"];
+                college.StateName = Request.QueryString["state.name"];
+            }
 
 
             //return CollegeSearch(college);

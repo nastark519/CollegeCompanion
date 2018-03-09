@@ -216,7 +216,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Party.cs" />
     <Compile Include="Models\FinLimitList.cs" />
-    <Compile Include="Models\formdataDB.cs" />
+    <Compile Include="Models\FormdataDB.cs" />
     <Compile Include="Models\FormDataViewModel.cs" />
     <Compile Include="Models\PrivacyList.cs" />
     <Compile Include="Models\StateList.cs" />
@@ -321,7 +321,7 @@
     <Content Include="Views\Parties\Delete.cshtml" />
     <Content Include="Views\Parties\Details.cshtml" />
     <Content Include="Views\Parties\Edit.cshtml" />
-    <Content Include="Views\Parties\Index.cshtml" /> 
+    <Content Include="Views\Parties\Index.cshtml" />
     <Content Include="Views\Home\CollegeSearch.cshtml" />
     <Content Include="Views\Home\SearchForm.cshtml" />
     <Content Include="Views\Home\SearchResults.cshtml" />

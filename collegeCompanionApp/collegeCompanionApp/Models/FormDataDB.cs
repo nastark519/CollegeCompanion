@@ -8,9 +8,9 @@ namespace collegeCompanionApp.Models
     using System.Linq;
     using System.Web;
 
-    public partial class formdataDB : DbContext
+    public partial class FormdataDB : DbContext
     {
-        public FormDataDB()
+        public FormdataDB()
             : base("name=DefaultConnection")
         {
         }
