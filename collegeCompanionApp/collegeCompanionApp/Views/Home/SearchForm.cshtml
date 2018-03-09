@@ -1,4 +1,6 @@
-@model collegeCompanionApp.Models.ViewModel.FormDataViewModel
+<!-- @model collegeCompanionApp.Models.ViewModel.FormDataViewModel -->
+﻿@model collegeCompanionApp.Models.formdataDB
+
 @{
     ViewBag.Title = "Search Form";
 }
@@ -21,9 +23,9 @@
                             <label for="stateInput" class="ccheader">Please Select a State</label>
                             <select class="form-control" id="stateInput" name="stateInput" required>
                                 <option disabled selected> -- select an option -- </option>
-                                @foreach (var item in Model.StateList)
+                                @foreach (var item in Model.StateLists)
                                 {
-                                    <option value="@item.QueryName">@item.Name)</option>
+                                    <option value="@item.QueryName">@item.Name</option>
                                 }
                             </select>
                         </div>
@@ -48,7 +50,7 @@
                             <label for="finLimitInput" class="ccheader">Financial Limits</label>
                             <select class="form-control" id="finLimitInput" name="finLimitInput">
                                 <option disabled selected> -- select an option -- </option>
-                                @foreach (var item in Model.FinLimitList)
+                                @foreach (var item in Model.FinLimitLists)
                                 {
                                 <option value="@item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
                                  }
@@ -74,9 +76,9 @@
                             <label for="ownershipInput" class="ccheader">Please Select Ownership Type</label>
                             <select class="form-control" id="stateInput" name="stateInput">
                                 <option disabled selected> -- select an option -- </option>
-                                @foreach (var item in Model.PrivacyList)
+                                @foreach (var item in Model.PrivacyLists)
                                  {
-                                     <option value="@item.PrivacyNumber">@item..PrivacyType</option>
+                                     <option value="@item.PrivacyNumber">@item.PrivacyType</option>
                                  }
                             </select>
                         </div>

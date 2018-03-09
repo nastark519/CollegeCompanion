@@ -5,10 +5,10 @@ namespace collegeCompanionApp.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class FormDataDB : DbContext
+    public partial class formdataDB : DbContext
     {
-        public FormDataDB()
-            : base("name=FormDataDB_Context")
+        public formdataDB()
+            : base("name=formdataDB_Context")
         {
         }
 
