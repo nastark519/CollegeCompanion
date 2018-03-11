@@ -15,9 +15,15 @@ namespace collegeCompanionApp
 
 
             routes.MapRoute(
-                name: "CollegeSearch",
+                name: "Search",
                 url: "Home/{action}/{page}",
-                defaults: new { controller = "Home", action = "CollegeSearch", page = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Search", page = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "SearchResults",
+                url: "Home/{action}/{page}",
+                defaults: new { controller = "Home", action = "SearchResults", page = UrlParameter.Optional }
             );
 
             routes.MapRoute(

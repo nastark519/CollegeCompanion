@@ -2,12 +2,18 @@
 @{
     ViewBag.Title = "SearchResults";
 }
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="adjustTop">
     <div class="container">
         <h2>SearchResults</h2>
         <hr />
+        <h2 class="text-center" id="NotFound"></h2>
         @*Razor call for loop to populate these as needed after search*@
+        <div id="Results">
+
+        </div>
+
         <div class="col-sm-5">
             <div class="panel panel-info">
                 <div class="panel-heading text-center">
@@ -87,3 +93,6 @@
     </nav>
 </div>
 
+@section scripts{
+    <script type="text/javascript" src="~/Scripts/SearchResults.js"></script>
+}
