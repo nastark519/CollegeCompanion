@@ -57,22 +57,42 @@ namespace collegeCompanionApp.Controllers
 
         public JsonResult Search()
         {
-            Console.WriteLine("SearchForm() Method!");
+            Debug.WriteLine("SearchForm() Method!");
 
             //Get College Scorecard API
             //string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
-
             string schoolName = Request.QueryString["school.name"];
             string state = Request.QueryString["school.state"];
+            string city = Request.QueryString["school.city"];
+            string accreditor = Request.QueryString["school.accreditor"];
+            string ownership = Request.QueryString["school.ownership"];
 
-            //var college = new College();
-            //college.CollegeName = schoolName;
-            //college.StateName = state;
+            var college = new College();
+            college.CollegeName = schoolName;
+            college.StateName = state;
+            college.CityName = city;
+            college.Accreditor = accreditor;
+            //college.Ownership = ownership;
+
+            var values = "school.state=" + state;
+            if(schoolName != "")
+            {
+                values = values + "&school.name=" + schoolName;
+            }
+            if (city != "")
+            {
+                values = values + "&school.city=" + city;
+            }
+            if (accreditor != "")
+            {
+                values = values + "&school.accreditor=" + accreditor;
+            }
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
-            var values = "school.name=" + schoolName + "&school.state=" + state;
+            //var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city +
+            //    "&school.accreditor=" + accreditor + "&school.ownership=" + ownership;
             var APIKey = "&api_key=nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
-            var fields = "&_fields=school.name,school.state"; //Fields 
+            var fields = "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte"; //Fields 
 
             //URL to College Scorecard
             string url = source + values + APIKey + fields;
@@ -102,17 +122,13 @@ namespace collegeCompanionApp.Controllers
             // Store JSON results in results to be passed back to client (javascript)
             var data = serializer.DeserializeObject(responseFromServer);
 
-            // Get Feilds for Database
-            string IPAddress = Request.UserHostAddress;
-            string Browser = Request.UserAgent;
-
             //Save data in DB
-            if (ModelState.IsValid)
-            {
-                var college = new College();
-                college.CollegeName = Request.QueryString["school.name"];
-                college.StateName = Request.QueryString["state.name"];
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    var college = new College();
+            //    college.CollegeName = data.results[0]["school.name"];
+            //    college.StateName = Request.QueryString["state.name"];
+            //}
 
 
             //return CollegeSearch(college);
@@ -121,14 +137,14 @@ namespace collegeCompanionApp.Controllers
 
 
         
-        public ActionResult CollegeSearch()
-        {
-            var college = new College();
-            college.CollegeName = Request.QueryString["school.name"];
-            college.StateName = Request.QueryString["state.name"];
+        //public ActionResult CollegeSearch()
+        //{
+        //    var college = new College();
+        //    college.CollegeName = Request.QueryString["school.name"];
+        //    college.StateName = Request.QueryString["state.name"];
 
-            return View(college);
-        }
+        //    return View(college);
+        //}
 
         //[Route("Home/Search")]
         //public JsonResult Search()

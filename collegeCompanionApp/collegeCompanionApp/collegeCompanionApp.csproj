@@ -266,6 +266,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\SchoolSearch.js" />
+    <Content Include="Scripts\SearchResults.js" />
     <Content Include="Scripts\StateSearch.js" />
     <Content Include="Views\Home\SchoolSearch.cshtml" />
     <Content Include="Web.config" />

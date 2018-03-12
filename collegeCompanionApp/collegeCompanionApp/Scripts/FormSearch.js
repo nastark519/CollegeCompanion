@@ -9,55 +9,34 @@ function start() {
 
     var schoolName = $('#schoolNameInput').val();
     var state = $('#stateInput').val();
+    var city = $('#cityInput').val();
+    var accreditor = $('#accreditorInput').val();
+    var ownership = $('#ownershipInput').val();
+
+    //console.log("City Name: " + city);
+
     if (state == null) {
         $('#feedbackNoInput').html("Please select a State!");
     } else { 
-    
+
+        if (ownership == null) {
+            console.log("Ownership is Empty!")
+            ownership = "1,2,3"
+        }
+
         console.log("School Name: " + schoolName);
-        console.log("State: " + state);
+        console.log("Ownership: " + ownership);
 
-        //URL
-        var APIKey = "nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
-        var fields = "school.name,school.state"; //Fields
-        var source = "https://api.data.gov/ed/collegescorecard/v1/schools?school.name="; //Source
-
-        var url = source + schoolName + "&school.state=" + state + "&api_key=" + APIKey + "&_fields=" + fields;
+        var fields = "&schoolName=" + schoolName + "&state=" + state + "&city=" + city +
+            "&accreditor=" + accreditor + "&ownership=" + ownership;
+        var url = "SearchResults?" + fields;
+        url = url.replace(/ /g, "%20"); //replace spaces with '%20'
+        
         console.log("URL: " + url);
 
-        //Requesting JSon through Ajax
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: url,
-            success: successSearch,
-            error: errorOnAjax
-        });
-
-        //var url = "CollegeSearch?school.name=" + schoolName + "&school.state=" + state;
-        //url = url.replace(/ /g, "%20"); //replace spaces with '%20'
-
-        //console.log("URL: " + url);
-        
-
-        ////Requesting JSon through Ajax
-        //$.ajax({
-        //    type: "POST",
-        //    dataType: "json",
-        //    url: url,
-        //    success: successSearch,
-        //    error: errorOnAjax
-        //});
+        window.location.href = url;
 
     }
 }
 
 
-function successSearch(data) {
-    console.log("Total Results: " + data.metadata.total);
-}
-
-
-function errorOnAjax() {
-    console.log("error on Ajax");
-    return false;
-}
