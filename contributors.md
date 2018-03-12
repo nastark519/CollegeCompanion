@@ -6,4 +6,4 @@ Contributors
 * **Daniel Tapia**
 * **Rochelle Simpson**
 * **Nathan Stark**
-*Secret Contributor: **Robin Dolan***
+* *Secret Contributor: **Robin Dolan***
