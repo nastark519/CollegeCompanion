@@ -252,6 +252,7 @@
     <Content Include="fonts\Noteworthy-Bold-02.ttf" />
     <Content Include="fonts\Noteworthy-Light-01.ttf" />
     <None Include="Properties\PublishProfiles\CollegeCompanionApp - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\collegeCompanionApp20180311104300 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\CollegeSearch.js" />
     <Content Include="Scripts\FormSearch.js" />
