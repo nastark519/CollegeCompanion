@@ -18,6 +18,7 @@ function start() {
     console.log("Accreditor: " + accreditor);
     console.log("Ownership: " + ownership);
 
+
     //var fields = "&_fields=school.name,school.state,school.city";
     var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city
         + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership;
@@ -42,16 +43,20 @@ function successSearch(data) {
 
     if (schools > 0) {
 
+        $("#NotFound").empty();
+        $("#Results").empty();
+
         for (i = 0; i <= schools; i++) {
             if (data.results[i]) {
 
                 var accreditor = data.results[i]["school.accreditor"];
                 var ownership = data.results[i]["school.ownership"];
+                var tuition = data.results[i]["school.tuition_revenue_per_fte"]
 
                 if (accreditor == null) {
                     accreditor = "N/A";
                 }
-
+                    
                 if (ownership == 1) {
                     ownership = "Public";
                 } else if (ownership == 2) {
@@ -59,6 +64,11 @@ function successSearch(data) {
                 } else {
                     ownership = "Private For-Profit";
                 }
+
+                tuition = tuition.toLocaleString();
+
+                console.log("Tuition: " + tuition);
+
                 $("#Results").append(
                     '<div class="col-sm-5">' +
                         '<div class="panel panel-info">' +
@@ -88,7 +98,7 @@ function successSearch(data) {
                                 '<div class="row">' +
                                     '<h4 class="text-center">' +
                                         '<i class="glyphicon glyphicon-usd"></i>' +
-                                        '20,000 ' +
+                                        tuition +
                                 '/year' +
                             '</h4>' +
                                     '<div class="row" style="margin-top:5%;">' +

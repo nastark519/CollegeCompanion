@@ -19,6 +19,14 @@ function start() {
         $('#feedbackNoInput').html("Please select a State!");
     } else { 
 
+        if (ownership == null) {
+            console.log("Ownership is Empty!")
+            ownership = "1,2,3"
+        }
+
+        console.log("School Name: " + schoolName);
+        console.log("Ownership: " + ownership);
+
         var fields = "&schoolName=" + schoolName + "&state=" + state + "&city=" + city +
             "&accreditor=" + accreditor + "&ownership=" + ownership;
         var url = "SearchResults?" + fields;
