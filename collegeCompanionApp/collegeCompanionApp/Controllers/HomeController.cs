@@ -87,6 +87,7 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.accreditor=" + accreditor;
             }
+            values = values + "&school.ownership=" + ownership;
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
             //var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city +
