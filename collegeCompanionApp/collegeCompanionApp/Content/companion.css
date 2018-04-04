@@ -1,0 +1,169 @@
+﻿/*===========Custom CSS for College Companion=======================*/
+
+/* Font Import */
+
+@font-face {
+    font-family: 'CCfont';
+    src: url(../fonts/Noteworthy-Bold-02.ttf);
+}
+
+/* Page Adjusts for Accounts 
+    add a div to the view and call it this when making a new view.
+    this will keep the nav bar from running to the space.
+*/
+.adjustTop {
+    margin-top:50px;
+}
+
+/* Image Spread Styles */
+body, img {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 1000px;
+    min-height: 1000px;
+}
+
+.img-fullpage {
+    font-size: 16px;
+    height: 2em;
+    display: block;
+    margin-top: 50px;
+}
+
+#img-index {
+    width: 100%;
+    height: auto;
+    background-image: url(../Content/colorful.jpg);
+    background-size: cover;
+}
+
+#img-about {
+    width: 100%;
+    height: auto;
+    min-height: 100px;
+    background-image: url(../Content/streetChalk.png);
+    background-size: cover;
+}
+
+#img-contact {
+    width: 100%;
+    height: auto;
+    min-height: 100px;
+    background-image: url(../Content/padnPlant.jpg);
+    background-size: cover;
+}
+
+#img-searchForm {
+    width: 100%;
+    height: auto;
+    min-height: 100px;
+    background-image: url(../Content/blackboard.jpg);
+    background-size: cover;
+}
+
+/* Large Header & Logo Style */
+
+.ccheader {
+    font-family: CCfont;
+    font-size-adjust: inherit;
+}
+
+.ccsubHeader {
+    font-family: CCfont;
+    font-size:medium;
+}
+
+/* Text Box Placements */
+
+.indexBox {
+    clear: both;
+    width: 70%;
+    height: auto;
+    min-height: 600px;
+    padding: 10px;
+    font-size-adjust: inherit;
+    color:darkblue;
+}
+
+.aboutBox {
+    clear: both;
+    width: 50%;
+    height: auto;
+    min-height: 600px;
+    max-height: 800px;
+    padding: 10px;
+    font-size-adjust: inherit;
+    color: darkblue;
+    margin-left:30px;
+    overflow:auto;
+}
+
+.contactBox {
+    clear: both;
+    width: 50%;
+    height: auto;
+    min-height: 600px;
+    max-height: 800px;
+    padding: 10px;
+    font-size-adjust: inherit;
+    color: darkblue;
+    margin-left: 10%;
+}
+
+.searchFormBox {
+    clear: both;
+    width: 90%;
+    height: auto;
+    min-height: 600px;
+    max-height: 800px;
+    padding: 10px;
+    font-size-adjust: inherit;
+    color:aliceblue;
+    margin-left: 2%;
+}
+
+.shiftDiv-down {
+    margin-top: 50%;
+}
+
+.shiftDiv-Tinydown {
+    margin-top: 10%;
+}
+
+.shiftDiv-left {
+    margin-left:50%;
+}
+
+.shiftDiv-Tinyleft {
+    margin-left: 5%;
+}
+
+/* text classes*/
+
+#warning {
+    color:crimson;
+    font-weight:bold;
+}
+
+/*Panels*/
+#center {
+    clear: both;
+    text-align: center;
+    align-content: center;
+    position: center;
+}
+
+.panel-style {
+    margin-top: -20px !important;
+    color: steelblue !important;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
