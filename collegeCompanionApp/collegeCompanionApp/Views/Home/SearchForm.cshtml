@@ -43,6 +43,7 @@
                             <input type="text" class="form-control" id="degreeInput" name="degreeInput" placeholder="Enter Degree Name...">
                         </div>
                     </div>
+
                     <div class="col-lg-6">
                         @*Input for Financial Limit*@
                         <div class="form-group">
@@ -51,7 +52,7 @@
                                 <option disabled selected> -- select an option -- </option>
                                 @foreach (var item in Model.FinLimitLists)
                                 {
-                                    <option value="@item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
+                                    <option value="@item.LowerLimit @item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
                                 }
                             </select>
                         </div>

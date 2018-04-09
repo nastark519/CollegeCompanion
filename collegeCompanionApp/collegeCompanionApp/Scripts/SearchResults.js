@@ -37,6 +37,19 @@ function start() {
     });
 }
 
+//Global Variables
+var upperBound;
+var lowerBound;
+
+//Get the Financial Limits from the SearchForm
+//Parse the data into an upper and lower limit for searching
+function getLimits() {
+    var finLimit = $('#finLimitInput').val();
+    var findBounds = finLimit.split("");
+    upperBound = finBounds[0];
+    lowerBound = findBounds[1];
+}
+
 function successSearch(data) {
     var schools = data.metadata.total;//Total number of schools
     console.log("Total Results: " + schools);
@@ -51,15 +64,15 @@ function successSearch(data) {
 
                 var accreditor = data.results[i]["school.accreditor"];
                 var ownership = data.results[i]["school.ownership"];
-                var tuition = data.results[i]["school.tuition_revenue_per_fte"]
+                var tuition = data.results[i]["school.tuition_revenue_per_fte=" + lowerBound + ".." + upperBound];
 
-                if (accreditor == null) {
+                if (accreditor === null) {
                     accreditor = "N/A";
                 }
                     
-                if (ownership == 1) {
+                if (ownership === 1) {
                     ownership = "Public";
-                } else if (ownership == 2) {
+                } else if (ownership === 2) {
                     ownership = "Private Non-Profit";
                 } else {
                     ownership = "Private For-Profit";

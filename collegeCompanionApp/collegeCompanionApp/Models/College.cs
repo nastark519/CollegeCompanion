@@ -38,5 +38,10 @@ namespace collegeCompanionApp.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CollegeFavorite> CollegeFavorites { get; set; }
+
+        internal int? SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

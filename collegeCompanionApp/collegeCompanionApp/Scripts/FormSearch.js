@@ -15,11 +15,11 @@ function start() {
 
     //console.log("City Name: " + city);
 
-    if (state == null) {
+    if (state === null) {
         $('#feedbackNoInput').html("Please select a State!");
     } else { 
 
-        if (ownership == null) {
+        if (ownership === null) {
             console.log("Ownership is Empty!")
             ownership = "1,2,3"
         }
@@ -28,9 +28,10 @@ function start() {
         console.log("Ownership: " + ownership);
 
         var fields = "&schoolName=" + schoolName + "&state=" + state + "&city=" + city +
-            "&accreditor=" + accreditor + "&ownership=" + ownership;
+            "&accreditor=" + accreditor + "&ownership=" + ownership + "&school.tuition_revenue_per_fte=";
         var url = "SearchResults?" + fields;
         url = url.replace(/ /g, "%20"); //replace spaces with '%20'
+
         
         console.log("URL: " + url);
 
