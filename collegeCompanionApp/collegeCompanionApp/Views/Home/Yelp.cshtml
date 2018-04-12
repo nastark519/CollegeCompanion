@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Yelp";
+}
+
+<div class="container">
+
+    &nbsp
+
+    <h2>Food Delivery</h2>
+
+    <hr />
+
+    <div class="form-group text-center">
+        @*Location Text*@
+        <label>Location:</label>
+        @*Location Input*@
+        <input class="well-sm" type="text" id="Location" name="Location" placeholder="ZIP, School Name..." required />
+
+        @*Selecting A Term*@
+        <form id="Term">
+            @*Delivery Radio Automatically Checked*@
+            <input type="radio" name="Term" value="Delivery" checked> Delivery<br>
+            @*Grocery Radio*@
+            <input type="radio" name="Term" value="Grocery"> Grocery<br><br>
+            @*Search Button.*@
+            <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg" />
+        </form>
+    </div>
+</div>
+
+<hr />
+
+@*Display Results here*@
+<div id="Results" style="display: none">
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Address</th>
+                    <th>Rating</th>
+                    <th>Yelp Page</th>
+                </tr>
+            </thead>
+            <tbody id="SearchResults">
+                @*Results*@
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@*No Search Found Or Error Message*@
+<div class="text-center">
+    <h3 id="NoResults"></h3>
+    <h3 id="Error"></h3>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/YelpSearch.js"></script>
+}

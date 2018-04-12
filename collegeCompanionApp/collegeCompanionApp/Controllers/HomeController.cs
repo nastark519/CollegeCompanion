@@ -51,16 +51,19 @@ namespace collegeCompanionApp.Controllers
         public ActionResult SearchResults()
         {
             return View();
-        }
-
+        }   
         
+        public ActionResult Yelp()
+        {
+            return View();
+        }
 
         public JsonResult Search()
         {
             Debug.WriteLine("SearchForm() Method!");
 
-            //Get College Scorecard API
-            //string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
+            //Get College Scorecard API Key
+            //string CSC_APIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
             string schoolName = Request.QueryString["school.name"];
             string state = Request.QueryString["school.state"];
             string city = Request.QueryString["school.city"];
@@ -87,6 +90,7 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.accreditor=" + accreditor;
             }
+            values = values + "&school.ownership=" + ownership;
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
             //var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city +
@@ -134,8 +138,6 @@ namespace collegeCompanionApp.Controllers
             //return CollegeSearch(college);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-
-
         
         //public ActionResult CollegeSearch()
         //{
@@ -146,40 +148,52 @@ namespace collegeCompanionApp.Controllers
         //    return View(college);
         //}
 
-        //[Route("Home/Search")]
-        //public JsonResult Search()
-        //{
-        //    Console.WriteLine("In the Search method in Home Controller");
-
-        //    //Get College Scorecard API
-        //    string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
-        //    //School Name
-        //    string schoolName = Request.QueryString["schoolName"];
-        //    HttpUtility.UrlPathEncode(schoolName);//Adds %20 to spaces
 
 
-        //    //URL to College Scorecard
-        //    string url = "https://api.data.gov/ed/collegescorecard/v1/schools?api_key=" + 
-        //        key + "&school.name=" + schoolName + "&_fields=school.name,id";
 
+        public JsonResult YelpSearch()
+        {
+            Debug.WriteLine("YelpSearch() Method!");
 
-        //    //Sends request to College Scorecard to get JSon
-        //    WebRequest request = WebRequest.Create(url);
-        //    request.Credentials = CredentialCache.DefaultCredentials;
-        //    WebResponse response = request.GetResponse(); //The Response            
-        //    Stream dataStream = response.GetResponseStream(); //Start Data Stream from Server.            
-        //    string reader = new StreamReader(dataStream).ReadToEnd(); //Data Stream to a reader string
+            //Get Yelp API Key
+            string YelpAPIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["YelpAPIKey"]; 
+            //Get Location
+            string location = Request.QueryString["location"];
+            //Get Term
+            string term = Request.QueryString["term"];
+            //Parameters
+            string param = "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
+            //URL Endpoint
+            var url = "https://api.yelp.com/v3/businesses/search?" + param; 
 
+            //URL GET Request
+            Debug.WriteLine("URL: " + url);
 
-        //    //JSon string to a JSon object             
-        //    var serializer = new JavaScriptSerializer();
-        //    var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
+            // build a WebRequest
+            WebRequest request = WebRequest.Create(url);
+            request.Headers.Add("Authorization", "Bearer " + YelpAPIKey);
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
 
+            // Read the content.  
+            string responseFromServer = reader.ReadToEnd();
 
-        //    //Clean/Close Up
-        //    response.Close();
-        //    dataStream.Close();
-        //}
+            // Clean up the streams and the response.  
+            reader.Close();
+            response.Close();
+
+            // Create a JObject, using Newtonsoft NuGet package
+            JObject json = JObject.Parse(responseFromServer);
+
+            // Create a serializer to deserialize the string response (string in JSON format)
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+            // Store JSON results in results to be passed back to client (javascript)
+            var data = serializer.DeserializeObject(responseFromServer);
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

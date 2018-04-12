@@ -273,8 +273,11 @@
     <Content Include="Scripts\SchoolSearch.js" />
     <Content Include="Scripts\SearchResults.js" />
     <Content Include="Scripts\StateSearch.js" />
+    <Content Include="Scripts\YelpSearch.js" />
     <Content Include="Views\Home\SchoolSearch.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -317,6 +320,7 @@
     <Content Include="Views\Home\CollegeSearch.cshtml" />
     <Content Include="Views\Home\SearchForm.cshtml" />
     <Content Include="Views\Home\SearchResults.cshtml" />
+    <Content Include="Views\Home\Yelp.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
