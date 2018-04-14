@@ -6,42 +6,41 @@ namespace collegeCompanionApp.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("College")]
     public partial class College
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public College()
         {
-            CollegeFavorites = new HashSet<CollegeFavorite>();
+            College_User_Relations = new HashSet<College_User_Relations>();
         }
 
         public int CollegeID { get; set; }
 
-        [StringLength(200)]
-        public string CityName { get; set; }
+        [Required]
+        [StringLength(150)]
+        public string Name { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [StringLength(30)]
         public string StateName { get; set; }
 
         [Required]
-        [StringLength(200)]
-        public string CollegeName { get; set; }
+        [StringLength(25)]
+        public string City { get; set; }
 
-        [StringLength(200)]
-        public string Focus { get; set; }
-
-        [StringLength(200)]
+        [StringLength(25)]
         public string Accreditor { get; set; }
 
-        public int? Ownership { get; set; }
+        [StringLength(50)]
+        public string Focus { get; set; }
+
+        public int Ownership { get; set; }
+
+        public int Cost { get; set; }
+
+        public int? AdmissionRate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CollegeFavorite> CollegeFavorites { get; set; }
-
-        internal int? SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual ICollection<College_User_Relations> College_User_Relations { get; set; }
     }
 }

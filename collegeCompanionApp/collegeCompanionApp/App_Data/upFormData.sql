@@ -83,13 +83,16 @@ VALUES ('Alabama AL', 'Alabama', 'AL'),
 	   ('Wyoming WY', 'Wyoming', 'WY');
 
 INSERT INTO FinLimitList (LowerLimit, UpperLimit)
-VALUES (10, 20),
-	   (20, 30),
-	   (30, 40), 
-	   (40, 50), 
-	   (50, 60);
+VALUES (1000, 10000),
+	   (10000, 20000),
+	   (20000, 30000),
+	   (30000, 40000), 
+	   (40000, 50000), 
+	   (50000, 60000);
 
 INSERT INTO PrivacyList (PrivacyNumber, PrivacyType)
 VALUES (1, 'Public'),
 	   (2, 'Private, Non-Profit'),
 	   (3, 'Private, For-Profit');
+
+DROP TABLE FinLimitList;

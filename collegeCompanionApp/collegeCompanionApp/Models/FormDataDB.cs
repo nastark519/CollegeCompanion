@@ -11,7 +11,7 @@ namespace collegeCompanionApp.Models
     public partial class FormdataDB : DbContext
     {
         public FormdataDB()
-            : base("name=DefaultConnection")
+            : base("name=formdataDB_Context")
         {
         }
 

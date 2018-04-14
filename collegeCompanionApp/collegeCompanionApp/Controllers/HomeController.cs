@@ -23,6 +23,8 @@ namespace collegeCompanionApp.Controllers
         string accreditor = "";
         string ownership = "";
         string finLimit = "";
+        string acceptRate = "";
+        int storedLimit = 0;
 
         public ActionResult Index()
         {
@@ -58,6 +60,7 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult SearchResults()
         {
+
             return View();
         }
 
@@ -78,10 +81,11 @@ namespace collegeCompanionApp.Controllers
             city = Request.QueryString["school.city"];
             accreditor = Request.QueryString["school.accreditor"];
             ownership = Request.QueryString["school.ownership"];
-            finLimit = Request.QueryString["school.tuition_revenue_per_fte"];
+            finLimit = Request.QueryString["school.tuition_revenue_per_fte__range"];
+            acceptRate = Request.QueryString["2015.admissions.admission_rate.overall__range"];
 
             // build a WebRequest
-            WebRequest request = WebRequest.Create(createURL(schoolName, state, city, accreditor, ownership, finLimit));
+            WebRequest request = WebRequest.Create(CreateURL(schoolName, state, city, accreditor, ownership, finLimit, acceptRate));
             WebResponse response = request.GetResponse();
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(response.GetResponseStream());
@@ -120,27 +124,30 @@ namespace collegeCompanionApp.Controllers
         /// <param name="accreditor">A string from the dataset of API results.</param>
         /// <param name="ownership">An integer from the dataset of API results.</param>
         /// <param name="finLimit">An integer from the dataset of API results.</param>
-        public Boolean saveData(string schoolName, string stateName, string cityName, string accreditor, int ownership, int finLimit)
+        public Boolean SaveData(string schoolName, string stateName, string cityName, string accreditor, int ownership, int cost, int acceptRate)
         {
             Debug.WriteLine("saveData() Method!");
+            
             if (ModelState.IsValid)
             {
-                College db = new College();
-                db.CollegeName = schoolName;
-                db.StateName = stateName;
-                db.CityName = cityName;
-                db.Accreditor = accreditor;
-                db.Focus = Request.QueryString["degreeInput"];
-                db.Ownership = ownership;
-                //db.Cost = finLimit;
-                //db.CollegeFavorites = false;
+                College db = new College
+                {
+                    Name = schoolName,
+                    StateName = stateName,
+                    City = cityName,
+                    Accreditor = accreditor,
+                    Focus = Request.QueryString["degreeInput"],
+                    Ownership = ownership,
+                    Cost = cost,
+                    AdmissionRate = acceptRate
+                };
 
-                db.SaveChanges();
+                //db.SaveChanges();
                 return true;
             }
             else
             {
-                //Retun an Error Result Here
+                Debug.WriteLine("Error for SaveData() method.");
                 return false;
             }
         }
@@ -157,17 +164,12 @@ namespace collegeCompanionApp.Controllers
         /// <param name="accreditor">A string from the user input on the SearchForm.</param>
         /// <param name="ownership">An string from the user input on the SearchForm.</param>
         /// <param name="finLimit">An string from the user input on the SearchForm.</param>
-        public string createURL(string schoolName, string stateName, string cityName, string accreditor, string ownership, string finLimit)
+        public string CreateURL(string schoolName, string stateName, string cityName, string accreditor, string ownership, string finLimit, string acceptRate)
         {
             Debug.WriteLine("createURL() Method!");
-            var college = new College();
-            college.CollegeName = schoolName;
-            college.StateName = state;
-            college.CityName = city;
-            college.Accreditor = accreditor;
-            //college.Ownership = ownership;
 
             var values = "school.state=" + state;
+
             if (schoolName != "")
             {
                 values = values + "&school.name=" + schoolName;
@@ -180,16 +182,43 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.accreditor=" + accreditor;
             }
+            if (finLimit != null && finLimit != "")
+            {
+                if (finLimit.Length == 12)
+                {
+                    storedLimit = Convert.ToInt32(finLimit.Substring(0, 5));
+                    values = values + "&school.tuition_revenue_per_fte_range=" + finLimit;
+                    Debug.WriteLine("Stored Limit: " + storedLimit);
+                    Debug.WriteLine("Fin Limit: " + finLimit);
+                }
+                else if (finLimit.Length == 10)
+                {
+                    storedLimit = Convert.ToInt32(finLimit.Substring(0, 3));
+                    values = values + "&school.tuition_revenue_per_fte_range=" + finLimit;
+                    Debug.WriteLine("Stored Limit: " + storedLimit);
+                    Debug.WriteLine("Fin Limit: " + finLimit);
+                }
+                else
+                {
+                    storedLimit = Convert.ToInt32(finLimit);
+                    values = values + "&school.tuition_revenue_per_fte=" + finLimit;
+                    Debug.WriteLine("Stored Limit: " + storedLimit);
+                    Debug.WriteLine("Fin Limit: " + finLimit);
+                }
+            }
+            values = values + "&2015.admissions.admission_rate.overall__range=" + acceptRate;
             values = values + "&school.ownership=" + ownership;
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
             var APIKey = "&api_key=nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
-            var fields = "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte"; //Fields 
+            var fields = "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall";
+                //,2015.admissions.admission_rate.overall"; //Fields 
             //URL to College Scorecard
             string url = source + values + APIKey + fields;
             //Replace spaces with %20 
             url = url.Trim();
             url = url.Replace(" ", "%20");
+            Debug.WriteLine("URL: " + url);
 
             return url;
         }

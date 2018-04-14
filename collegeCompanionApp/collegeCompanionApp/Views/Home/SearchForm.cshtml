@@ -9,12 +9,12 @@
         <div class="searchFormBox">
             <div class="shiftDiv-Tinydown">
                 <form method="post">
-                    <div class="col-lg-6">
+                    <div class="col-sm-4">
                         @*Input Field for School Name*@
                         <div class="form-group">
                             <label for="schoolNameInput" class="ccheader">School Name</label>
                             <input type="text" class="form-control" id="schoolNameInput" name="schoolNameInput" aria-describedby="nameHelp" placeholder="Enter School Name...">
-                            <small id="nameHelp" class="form-text text-muted">You can enter the full name or a partial value.</small>
+                            <small id="nameHelp" class="form-text text-muted">Enter a full or a partial value.</small>
                         </div>
 
                         @*Selector for State*@
@@ -23,9 +23,9 @@
                             <select class="form-control" id="stateInput" name="stateInput">
                                 <option disabled selected> -- select an option -- </option>
                                 @foreach (var item in Model.StateLists)
-                                {
-                                    <option value="@item.QueryName">@item.Name</option>
-                                }
+                        {
+                            <option value="@item.QueryName">@item.Name</option>
+                }
                             </select>
                         </div>
                         @*Input Field for City*@
@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label for="cityInput" class="ccheader">City</label>
                             <input type="text" class="form-control" id="cityInput" name="cityInput" aria-describedby="cityHelp" placeholder="Enter City Name...">
-                            <small id="nameHelp" class="form-text text-muted">You can enter the full name or a partial value.</small>
+                            <small id="nameHelp" class="form-text text-muted">Enter a full or a partial value.</small>
                         </div>
 
                         @*Input Field for Degree / Major Desired*@
@@ -44,29 +44,28 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="col-sm-4">
                         @*Input for Financial Limit*@
                         <div class="form-group">
                             <label for="finLimitInput" class="ccheader">Financial Limits</label>
                             <select class="form-control" id="finLimitInput" name="finLimitInput">
                                 <option disabled selected> -- select an option -- </option>
                                 @foreach (var item in Model.FinLimitLists)
-                                {
-                                    <option value="@item.LowerLimit @item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
-                                }
+                        {
+                            <option value="@item.LowerLimit @item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
+                }
                             </select>
                         </div>
-                        @*Input for Student Loan Acceptance Rate*@
                         <div class="form-group">
-                            <label for="acceptRateInput" class="ccheader">Student Loan Acceptance Rate</label>
-                            <input type="text" pattern="[0-9]{2}" class="form-control" id="acceptRateInput" name="acceptRateInput" aria-describedby="acceptHelp" placeholder="Ex: 70">
-                            <small id="acceptHelp" class="form-text text-muted">Please enter numeric values with no percent sign.</small>
+                            <label for="costInput" class="ccheader">Or, Enter Your Amount!</label>
+                            <input contextmenu="text" pattern="[0-9]" class="form-control" id="costInput" name="costInput" aria-describedby="costHelp" placeholder="EX: 10000">
+                            <small id="costHelp" class="form-text text-muted">No dollar sign or comma required.</small>
                         </div>
                         @*Input for Accreditor*@
                         <div class="form-group">
                             <label for="accreditorInput" class="ccheader">Accreditor</label>
                             <input type="text" pattern="[a-zA-Z0-9]+" class="form-control" id="accreditorInput" name="accreditorInput" aria-describedby="accredHelp" placeholder="Enter Accreditor Name...">
-                            <small id="accredHelp" class="form-text text-muted">You can enter the full name or a partial value.</small>
+                            <small id="accredHelp" class="form-text text-muted">Enter a full or a partial value.</small>
                         </div>
                         @*Error Msg for School Name*@
                         <div class="invalid-feedback">
@@ -77,19 +76,27 @@
                             <select class="form-control" id="ownershipInput" name="ownershipInput">
                                 <option disabled selected> -- select an option -- </option>
                                 @foreach (var item in Model.PrivacyLists)
-                                {
-                                    <option value="@item.PrivacyNumber">@item.PrivacyType</option>
-                                }
+                        {
+                            <option value="@item.PrivacyNumber">@item.PrivacyType</option>
+                }
                             </select>
                         </div>
                     </div>
-                    @**Submit Button*@
-                    <div class="ccheader">
-                        <div class="text-right">
-                            <button type="button" id="submit" class="btn btn-primary mb-2">Find Colleges!</button>
+                    <div class="col-sm-3">
+                        @*Input for Student Loan Acceptance Rate*@
+                        <div class="form-group">
+                            <label for="acceptRateInput" class="ccheader">Acceptance Rate</label>
+                            <input type="text" pattern="[0-9]{2}" class="form-control" id="acceptRateInput" name="acceptRateInput" aria-describedby="acceptHelp" placeholder="Ex: 70">
+                            <small id="acceptHelp" class="form-text text-muted">No percent sign required.</small>
                         </div>
-                        <div class="text-center">
-                            <h2><u id="feedbackNoInput"></u></h2>
+                        @**Submit Button*@
+                        <div class="ccheader">
+                            <div class="text-right">
+                                <button type="button" id="submit" class="btn btn-primary mb-2">Find Colleges!</button>
+                            </div>
+                            <div class="text-center">
+                                <h2><u id="feedbackNoInput"></u></h2>
+                            </div>
                         </div>
                     </div>
                 </form>

@@ -203,7 +203,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CollegeFavoritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -211,16 +210,16 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\College.cs" />
-    <Compile Include="Models\CollegeFavorite.cs" />
+    <Compile Include="Models\College_User_Relations.cs" />
     <Compile Include="Models\CompanionContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Party.cs" />
     <Compile Include="Models\FinLimitList.cs" />
     <Compile Include="Models\FormdataDB.cs" />
     <Compile Include="Models\FormDataViewModel.cs" />
     <Compile Include="Models\PrivacyList.cs" />
     <Compile Include="Models\StateList.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -279,7 +278,6 @@
     <Content Include="Scripts\SchoolSearch.js" />
     <Content Include="Scripts\SearchResults.js" />
     <Content Include="Scripts\StateSearch.js" />
-    <Content Include="Views\Home\SchoolSearch.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -314,13 +312,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\StateSearch.cshtml" />
-    <Content Include="Views\CollegeFavorites\Create.cshtml" />
-    <Content Include="Views\CollegeFavorites\Delete.cshtml" />
-    <Content Include="Views\CollegeFavorites\Details.cshtml" />
-    <Content Include="Views\CollegeFavorites\Edit.cshtml" />
-    <Content Include="Views\CollegeFavorites\Index.cshtml" />
-    <Content Include="Views\Home\CollegeSearch.cshtml" />
     <Content Include="Views\Home\SearchForm.cshtml" />
     <Content Include="Views\Home\SearchResults.cshtml" />
   </ItemGroup>
