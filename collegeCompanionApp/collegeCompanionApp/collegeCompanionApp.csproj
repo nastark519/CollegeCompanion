@@ -223,17 +223,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\CompanionDB.mdf" />
-    <Content Include="App_Data\CompanionDB_log.ldf">
-      <DependentUpon>CompanionDB.mdf</DependentUpon>
-    </Content>
     <Content Include="App_Data\DOWN.sql" />
     <Content Include="App_Data\UP.sql" />
-    <Content Include="App_Data\formdata.mdf" />
-    <Content Include="App_Data\formdata_log.ldf">
-      <DependentUpon>formdata.mdf</DependentUpon>
-    </Content>
-    <Content Include="App_Data\upFormData.sql" />
     <Content Include="Content\blackboard.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -256,6 +247,7 @@
     <Content Include="fonts\Noteworthy-Bold-02.ttf" />
     <Content Include="fonts\Noteworthy-Light-01.ttf" />
     <None Include="Properties\PublishProfiles\CollegeCompanionApp - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\collegeCompanionApp20180311104300 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\CollegeSearch.js" />
     <Content Include="Scripts\FormSearch.js" />
