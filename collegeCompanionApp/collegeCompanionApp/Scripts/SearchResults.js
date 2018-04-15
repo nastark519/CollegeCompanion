@@ -51,7 +51,7 @@ function successSearch(data) {
 
                 var accreditor = data.results[i]["school.accreditor"];
                 var ownership = data.results[i]["school.ownership"];
-                var tuition = data.results[i]["school.tuition_revenue_per_fte"]
+                var tuition = data.results[i]["school.tuition_revenue_per_fte"];
 
                 if (accreditor == null) {
                     accreditor = "N/A";

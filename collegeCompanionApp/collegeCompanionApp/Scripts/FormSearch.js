@@ -20,8 +20,8 @@ function start() {
     } else { 
 
         if (ownership == null) {
-            console.log("Ownership is Empty!")
-            ownership = "1,2,3"
+            console.log("Ownership is Empty!");
+            ownership = "1,2,3";
         }
 
         console.log("School Name: " + schoolName);
@@ -34,6 +34,7 @@ function start() {
         
         console.log("URL: " + url);
 
+        // Send to Fields to URL
         window.location.href = url;
 
     }
