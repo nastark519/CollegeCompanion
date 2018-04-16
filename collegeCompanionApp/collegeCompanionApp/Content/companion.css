@@ -116,12 +116,12 @@ body, img {
     clear: both;
     width: 90%;
     height: auto;
-    min-height: 600px;
-    max-height: 800px;
-    padding: 10px;
+    min-height: 900px;
+    max-height: 900px;
     font-size-adjust: inherit;
     color:aliceblue;
     margin-left: 2%;
+    overflow-y:auto;
 }
 
 .shiftDiv-down {

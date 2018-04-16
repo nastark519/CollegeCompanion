@@ -5,12 +5,18 @@ window.onload = start;
 function start() {
 
     var currentURL = window.location.href;
+    console.log("URL: " + currentURL);
 
     var schoolName = getAllUrlParams(currentURL).schoolName;
     var state = getAllUrlParams(currentURL).state;
     var city = getAllUrlParams(currentURL).city;
     var accreditor = getAllUrlParams(currentURL).accreditor;
     var ownership = getAllUrlParams(currentURL).ownership;
+    var cost = getAllUrlParams(currentURL).cost;
+    var upperBound = getAllUrlParams(currentURL).upperBound;
+    var lowerBound = getAllUrlParams(currentURL).lowerBound;
+    var acceptRate = getAllUrlParams(currentURL).acceptanceRate;
+    var schoolTuition = "";
 
     console.log("School Name: " + schoolName);
     console.log("State Name: " + state);
@@ -18,14 +24,33 @@ function start() {
     console.log("Accreditor: " + accreditor);
     console.log("Ownership: " + ownership);
 
+    if (cost !== null && upperBound === "") {
+        schoolTuition = "&school.tuition_revenue_per_fte=" + cost;
+        console.log("Cost: " + cost);
+    }
+
+    if (upperBound !== "" && cost === null) {
+        schoolTuition = "&school.tuition_revenue_per_fte__range=" + lowerBound + ".." + upperBound;
+        console.log("UpperBound: " + upperBound);
+        console.log("LowerBound: " + lowerBound);
+    }
+
+    if (acceptRate === null || acceptRate === "undefined") {
+        console.log("Acceptance Rate is Empty!");
+        acceptRate = "1";
+        console.log("Acceptance Rate: " + acceptRate);
+    } else {
+        acceptRate = acceptRate / 100;
+        console.log("Acceptance Rate: " + acceptRate);
+    }
 
     //var fields = "&_fields=school.name,school.state,school.city";
     var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city
-        + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership;
+        + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership + schoolTuition
+        + "&2015.admissions.admission_rate.overall__range=0.1.." + acceptRate;
     var url = "Search?" + values;
  
     console.log("URL is " + url);
-    
 
     //Requesting JSon through Ajax
     $.ajax({
@@ -51,15 +76,20 @@ function successSearch(data) {
 
                 var accreditor = data.results[i]["school.accreditor"];
                 var ownership = data.results[i]["school.ownership"];
-                var tuition = data.results[i]["school.tuition_revenue_per_fte"]
+                var tuition = data.results[i]["school.tuition_revenue_per_fte"];
+                var acceptRate = data.results[i]["2015.admissions.admission_rate.overall"];
 
-                if (accreditor == null) {
+                if (accreditor === null) {
                     accreditor = "N/A";
                 }
+
+                if (acceptRate === null) {
+                    acceptRate = "N/A";
+                }
                     
-                if (ownership == 1) {
+                if (ownership === 1) {
                     ownership = "Public";
-                } else if (ownership == 2) {
+                } else if (ownership === 2) {
                     ownership = "Private Non-Profit";
                 } else {
                     ownership = "Private For-Profit";
@@ -118,17 +148,15 @@ function successSearch(data) {
                         '</div>' +
                                 '<div class="row">' +
                                     '&emsp; Accreditor: ' + accreditor +
+                                '</div>' +
+                                '<div class="row">' +
+                                '&emsp; Acceptance Rate: ' + (acceptRate * 100) + "%" +
+                                '</div>' +
                         '</div>' +
                             '</div>' +
                         '</div>' +
                     '</div>'
                 );              
-
-                //$("#SearchResults").append("<tr><td>" + data.results[i]["school.name"]
-                //    + "</td><td>" + accreditor
-                //    + "</td><td>" + data.results[i]["school.state"]
-                //    + "</td><td>" + data.results[i]["school.city"]
-                //    + "</td><td>" + ownership + "</td></tr>");
             }
         }
     } else { //School Not found
