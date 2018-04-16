@@ -32,11 +32,11 @@ function start() {
 
     if (state === null) {
         $('#feedbackNoInput').html("Please select a State!");
-    } else { 
+    } else {
 
-        if (ownership == null) {
-            console.log("Ownership is Empty!");
-            ownership = "1,2,3";
+        if (ownership === null) {
+            console.log("Ownership is Empty!")
+            ownership = "1,2,3"
         }
 
         if (finLimit === null) {
@@ -59,18 +59,15 @@ function start() {
         console.log("Cost:" + cost);
         console.log("Acceptance Rate:" + acceptRate);
 
-        var unicorns = 0;
-
         var fields = "&schoolName=" + schoolName + "&state=" + state + "&city=" + city +
             "&accreditor=" + accreditor + "&ownership=" + ownership + "&lowerBound=" + lowerBound + "&upperBound=" + upperBound + "&cost=" + cost
             + "&acceptanceRate=" + acceptRate;
         var url = "SearchResults?" + fields;
         url = url.replace(/ /g, "%20"); //replace spaces with '%20'
 
-        
+
         console.log("URL: " + url);
 
-        // Send to Fields to URL
         window.location.href = url;
 
     }
