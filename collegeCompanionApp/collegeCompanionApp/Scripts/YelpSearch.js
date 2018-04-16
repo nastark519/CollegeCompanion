@@ -13,6 +13,7 @@ $("#Search").click(start);
 
 function start() {
     //Empty Everything for New Request
+    $("#Results").css("display", "none");
     $("#SearchResults").empty();
     $("#NoResults").empty();
     $("#Error").empty();
@@ -25,7 +26,8 @@ function start() {
     console.log("Location: " + location);
     console.log("Term: " + term);
 
-    if (location == "") {
+    //Meet Length Requirment
+    if (location.length <= 3) {
         console.log("No Location Entered");
         //No location entered
         $("#NoResults").text("Please Set A Location");
