@@ -59,7 +59,7 @@ function successSearch(data) {
     var x = 0;
     //Number of Businessess
     while (x < data.total) {
-        if (business[x] === null) {
+        if (business[x] == null) {
             break;
         } else {
             x++;

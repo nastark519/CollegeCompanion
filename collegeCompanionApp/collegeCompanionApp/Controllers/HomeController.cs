@@ -271,6 +271,12 @@ namespace collegeCompanionApp.Controllers
         //}
 
 
+        public ActionResult Yelp()
+        {
+            return View();
+        }
+
+
         public JsonResult YelpSearch()
         {
             Debug.WriteLine("YelpSearch() Method!");
