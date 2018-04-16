@@ -60,7 +60,6 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult SearchResults()
         {
-
             return View();
         }
 
@@ -153,7 +152,6 @@ namespace collegeCompanionApp.Controllers
             }
         }
 
-
         /// <summary>
         /// Creats a URL for the API search based on User Input.
         /// </summary>
@@ -225,55 +223,21 @@ namespace collegeCompanionApp.Controllers
             return url;
         }
 
+        public String CheckFinLimit(String finLimit)
 
-        //public JsonResult YelpSearch()
-        //{
-        //    Debug.WriteLine("YelpSearch() Method!");
+        {
 
-        //    //Get Yelp API Key
-        //    string YelpAPIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["YelpAPIKey"]; 
-        //    //Get Location
-        //    string location = Request.QueryString["location"];
-        //    //Get Term
-        //    string term = Request.QueryString["term"];
-        //    //Parameters
-        //    string param = "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
-        //    //URL Endpoint
-        //    var url = "https://api.yelp.com/v3/businesses/search?" + param; 
+            return finLimit;
 
-        //    //URL GET Request
-        //    Debug.WriteLine("URL: " + url);
+        }
 
-        //    // build a WebRequest
-        //    WebRequest request = WebRequest.Create(url);
-        //    request.Headers.Add("Authorization", "Bearer " + YelpAPIKey);
-        //    WebResponse response = request.GetResponse();
-        //    Stream dataStream = response.GetResponseStream();
-        //    StreamReader reader = new StreamReader(response.GetResponseStream());
-
-        //    // Read the content.  
-        //    string responseFromServer = reader.ReadToEnd();
-
-        //    // Clean up the streams and the response.  
-        //    reader.Close();
-        //    response.Close();
-
-        //    // Create a JObject, using Newtonsoft NuGet package
-        //    JObject json = JObject.Parse(responseFromServer);
-
-        //    // Create a serializer to deserialize the string response (string in JSON format)
-        //    JavaScriptSerializer serializer = new JavaScriptSerializer();
-
-        //    // Store JSON results in results to be passed back to client (javascript)
-        //    var data = serializer.DeserializeObject(responseFromServer);
-
-        //    return Json(data, JsonRequestBehavior.AllowGet);
-        //}
 
 
         public ActionResult Yelp()
         {
+
             return View();
+
         }
 
 
@@ -303,7 +267,7 @@ namespace collegeCompanionApp.Controllers
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(response.GetResponseStream());
 
-            //Read the content.
+            // Read the content.  
             string responseFromServer = reader.ReadToEnd();
 
             // Clean up the streams and the response.  
@@ -320,12 +284,11 @@ namespace collegeCompanionApp.Controllers
             var data = serializer.DeserializeObject(responseFromServer);
 
             return Json(data, JsonRequestBehavior.AllowGet);
-
         }
 
         public string IsAPIKey(string key)
         {
-            if(key.Length <= 5)
+            if (key.Length <= 5)
             {
                 key = "NoKey";
             }
@@ -334,7 +297,7 @@ namespace collegeCompanionApp.Controllers
 
         public string GetLocation(string location)
         {
-            if(location == null)
+            if (location == null)
             {
                 Debug.WriteLine("No Location");
             }
