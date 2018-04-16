@@ -34,9 +34,9 @@ function start() {
         $('#feedbackNoInput').html("Please select a State!");
     } else { 
 
-        if (ownership === null) {
-            console.log("Ownership is Empty!")
-            ownership = "1,2,3"
+        if (ownership == null) {
+            console.log("Ownership is Empty!");
+            ownership = "1,2,3";
         }
 
         if (finLimit === null) {
@@ -70,7 +70,8 @@ function start() {
         
         console.log("URL: " + url);
 
-       window.location.href = url;
+        // Send to Fields to URL
+        window.location.href = url;
 
     }
 }

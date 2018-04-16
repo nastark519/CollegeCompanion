@@ -62,27 +62,59 @@ namespace collegeCompanionApp.Controllers
         {
 
             return View();
+
+        }   
+        
+        public ActionResult Yelp()
+        {
+            return View();
         }
 
-        /// <summary>
-        /// Searches for Colleges via an API call.
-        /// </summary>
-        /// <returns>
-        /// A JSON result of colleges within the requested confines.
-        /// </returns>
         public JsonResult Search()
         {
             Debug.WriteLine("SearchForm() Method!");
 
-            //Get College Scorecard API
-            //string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
-            schoolName = Request.QueryString["school.name"];
-            state = Request.QueryString["school.state"];
-            city = Request.QueryString["school.city"];
-            accreditor = Request.QueryString["school.accreditor"];
-            ownership = Request.QueryString["school.ownership"];
-            finLimit = Request.QueryString["school.tuition_revenue_per_fte__range"];
-            acceptRate = Request.QueryString["2015.admissions.admission_rate.overall__range"];
+            //Get College Scorecard API Key
+            //string CSC_APIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
+            string schoolName = Request.QueryString["school.name"];
+            string state = Request.QueryString["school.state"];
+            string city = Request.QueryString["school.city"];
+            string accreditor = Request.QueryString["school.accreditor"];
+            string ownership = Request.QueryString["school.ownership"];
+
+            var college = new College();
+            college.CollegeName = schoolName;
+            college.StateName = state;
+            college.CityName = city;
+            college.Accreditor = accreditor;
+            //college.Ownership = ownership;
+
+            var values = "school.state=" + state;
+            if(schoolName != "")
+            {
+                values = values + "&school.name=" + schoolName;
+            }
+            if (city != "")
+            {
+                values = values + "&school.city=" + city;
+            }
+            if (accreditor != "")
+            {
+                values = values + "&school.accreditor=" + accreditor;
+            }
+            values = values + "&school.ownership=" + ownership;
+
+            var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
+            //var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city +
+            //    "&school.accreditor=" + accreditor + "&school.ownership=" + ownership;
+            var APIKey = "&api_key=nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
+            var fields = "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte"; //Fields 
+
+            //URL to College Scorecard
+            string url = source + values + APIKey + fields;
+            //Replace spaces with %20 
+            url = url.Trim();
+            url = url.Replace(" ", "%20");
 
             // build a WebRequest
             WebRequest request = WebRequest.Create(CreateURL(schoolName, state, city, accreditor, ownership, finLimit, acceptRate));
