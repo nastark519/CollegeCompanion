@@ -138,7 +138,7 @@ namespace collegeCompanionApp.Controllers
             //return CollegeSearch(college);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-        
+
         //public ActionResult CollegeSearch()
         //{
         //    var college = new College();
@@ -151,20 +151,66 @@ namespace collegeCompanionApp.Controllers
 
 
 
+        //public JsonResult YelpSearch()
+        //{
+        //    Debug.WriteLine("YelpSearch() Method!");
+
+        //    //Get Yelp API Key
+        //    string YelpAPIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["YelpAPIKey"]; 
+        //    //Get Location
+        //    string location = Request.QueryString["location"];
+        //    //Get Term
+        //    string term = Request.QueryString["term"];
+        //    //Parameters
+        //    string param = "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
+        //    //URL Endpoint
+        //    var url = "https://api.yelp.com/v3/businesses/search?" + param; 
+
+        //    //URL GET Request
+        //    Debug.WriteLine("URL: " + url);
+
+        //    // build a WebRequest
+        //    WebRequest request = WebRequest.Create(url);
+        //    request.Headers.Add("Authorization", "Bearer " + YelpAPIKey);
+        //    WebResponse response = request.GetResponse();
+        //    Stream dataStream = response.GetResponseStream();
+        //    StreamReader reader = new StreamReader(response.GetResponseStream());
+
+        //    // Read the content.  
+        //    string responseFromServer = reader.ReadToEnd();
+
+        //    // Clean up the streams and the response.  
+        //    reader.Close();
+        //    response.Close();
+
+        //    // Create a JObject, using Newtonsoft NuGet package
+        //    JObject json = JObject.Parse(responseFromServer);
+
+        //    // Create a serializer to deserialize the string response (string in JSON format)
+        //    JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        //    // Store JSON results in results to be passed back to client (javascript)
+        //    var data = serializer.DeserializeObject(responseFromServer);
+
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
+
+
         public JsonResult YelpSearch()
         {
             Debug.WriteLine("YelpSearch() Method!");
 
             //Get Yelp API Key
-            string YelpAPIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["YelpAPIKey"]; 
+            string YelpAPIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["YelpAPIKey"];
+            YelpAPIKey = IsAPIKey(YelpAPIKey);
             //Get Location
-            string location = Request.QueryString["location"];
+            string location = GetLocation(Request.QueryString["location"]);
             //Get Term
-            string term = Request.QueryString["term"];
-            //Parameters
-            string param = "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
+            string term = GetTerm(Request.QueryString["term"]);
+            //Set Parameters
+            string param = SetParam(location, term);
             //URL Endpoint
-            var url = "https://api.yelp.com/v3/businesses/search?" + param; 
+            var url = SetURL(param);
 
             //URL GET Request
             Debug.WriteLine("URL: " + url);
@@ -195,5 +241,41 @@ namespace collegeCompanionApp.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        public string IsAPIKey(string key)
+        {
+            if(key.Length <= 5)
+            {
+                key = "NoKey";
+            }
+            return key;
+        }
+
+        public string GetLocation(string location)
+        {
+            if(location == null)
+            {
+                Debug.WriteLine("No Location");
+            }
+            return location;
+        }
+
+        public string GetTerm(string term)
+        {
+            if (term == null)
+            {
+                term = "";
+            }
+            return term;
+        }
+
+        public string SetParam(string location, string term)
+        {
+            return "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
+        }
+
+        public string SetURL(string param)
+        {
+            return "https://api.yelp.com/v3/businesses/search?" + param;
+        }
     }
 }
