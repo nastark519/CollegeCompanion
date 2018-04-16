@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using collegeCompanionApp.Models.ViewModel;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Xml;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -54,7 +55,7 @@ namespace collegeCompanionApp.Controllers
         }
 
         
-
+        
         public JsonResult Search()
         {
             Debug.WriteLine("SearchForm() Method!");
@@ -135,7 +136,13 @@ namespace collegeCompanionApp.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        //working on getting the xml from zillow's api to work.
+        //may end up not needing this code.
+        //public ActionResult CollegeRentsInArea()
+        //{
+        //    XmlDocument xmlDoc = new XmlDocument();
 
+        //}
         
         //public ActionResult CollegeSearch()
         //{
