@@ -54,8 +54,29 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
-        
-        
+        //working on getting the xml from zillow's api to work.
+        //may end up not needing this code.
+        public XmlDocument CollegeRentsInArea()
+        {
+
+
+            //I have put this at the end so I can just append to the div I want to.
+            // a url for the zillow calls.
+            string theZillowApiUrl =
+                "http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id=X1-ZWz18nwpp5vbij_aqadi&state=" + state + "&city=" + city;
+
+            string collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
+
+            WebRequest request = WebRequest.Create(theZillowApiUrl);
+            Stream stream = request.GetResponse().GetResponseStream();
+
+            XmlDocument xmlDoc = new XmlDocument();
+
+            stream.Close();
+
+            return xmlDoc;
+        }
+
         public JsonResult Search()
         {
             Debug.WriteLine("SearchForm() Method!");
@@ -135,14 +156,6 @@ namespace collegeCompanionApp.Controllers
             //return CollegeSearch(college);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-
-        //working on getting the xml from zillow's api to work.
-        //may end up not needing this code.
-        //public ActionResult CollegeRentsInArea()
-        //{
-        //    XmlDocument xmlDoc = new XmlDocument();
-
-        //}
         
         //public ActionResult CollegeSearch()
         //{
