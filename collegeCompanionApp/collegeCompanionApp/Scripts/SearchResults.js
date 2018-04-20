@@ -137,36 +137,36 @@ function successSearch(data) {
 
                 //I have put this at the end so I can just append to the div I want to.
                 // a url for the zillow calls.
-                var theZillowApiUrl =
-                    "http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id=X1-ZWz18nwpp5vbij_aqadi&state=" + state + "&city=" + city;
+                //var theZillowApiUrl =
+                    //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={APIKeyHere}&state=" + state + "&city=" + city;
 
-                var collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
+                //var collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
                 //Adding in an ajax call to zillow to get city and state added
                 //as data comes into successSearch function
-                $.ajax({
-                    type: "GET",
-                    url: CollegeRentsUrl,
-                    dataType: "xml",
-                    success: rentCallCalc
-                });
+                //$.ajax({
+                    //type: "GET",
+                    //url: CollegeRentsUrl,
+                    //dataType: "xml",
+                    //success: rentCallCalc
+                //});
 
-                function rentCallCalc(xml) {
-                    var zdex = 0;
+                //function rentCallCalc(xml) {
+                    //var zdex = 0;
                     //the number of zindexes are returned.
-                    var j = $(xml).find("zindex").length;
-                    $(xml).find("region").each(function () {
-                        var nextZdex = parseInt($(this).find("zindex"));
-                        zdex = zdex + nextZdex;
-                    });
-                    var rent = (zdex / j) * (12 / 1889);
+                    //var j = $(xml).find("zindex").length;
+                    //$(xml).find("region").each(function () {
+                        //var nextZdex = parseInt($(this).find("zindex"));
+                        //zdex = zdex + nextZdex;
+                    //});
+                    //var rent = (zdex / j) * (12 / 1889);
 
-                    $(".panel-body text-primary").append(
-                        '<div class="row">' +
-                        '&emsp; Rent: ' + rent +
-                        ' is the approximate median rent + an average of $200 for a metro area and - $200 for a more rural area.' +
-                        '</div>'
-                    );
-                }
+                    //$(".panel-body text-primary").append(
+                        //'<div class="row">' +
+                        //'&emsp; Rent: ' + rent +
+                        //' is the approximate median rent + an average of $200 for a metro area and - $200 for a more rural area.' +
+                        //'</div>'
+                    //);
+                //}
             }
         }
     } else { //School Not found
