@@ -12,6 +12,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Include all files in NuGet packages directory
+!/packages/**/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

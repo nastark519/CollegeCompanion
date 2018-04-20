@@ -5,12 +5,18 @@ window.onload = start;
 function start() {
 
     var currentURL = window.location.href;
+    console.log("URL: " + currentURL);
 
     var schoolName = getAllUrlParams(currentURL).schoolName;
     var state = getAllUrlParams(currentURL).state;
     var city = getAllUrlParams(currentURL).city;
     var accreditor = getAllUrlParams(currentURL).accreditor;
     var ownership = getAllUrlParams(currentURL).ownership;
+    var cost = getAllUrlParams(currentURL).cost;
+    var upperBound = getAllUrlParams(currentURL).upperBound;
+    var lowerBound = getAllUrlParams(currentURL).lowerBound;
+    var acceptRate = getAllUrlParams(currentURL).acceptanceRate;
+    var schoolTuition = "";
 
     console.log("School Name: " + schoolName);
     console.log("State Name: " + state);
@@ -18,14 +24,33 @@ function start() {
     console.log("Accreditor: " + accreditor);
     console.log("Ownership: " + ownership);
 
+    if (cost !== null && upperBound === "") {
+        schoolTuition = "&school.tuition_revenue_per_fte=" + cost;
+        console.log("Cost: " + cost);
+    }
+
+    if (upperBound !== "" && cost === null || cost === "") {
+        schoolTuition = "&school.tuition_revenue_per_fte=" + lowerBound + ".." + upperBound;
+        console.log("UpperBound: " + upperBound);
+        console.log("LowerBound: " + lowerBound);
+    }
+
+    if (acceptRate === null || acceptRate === "undefined" || acceptRate === "") {
+        console.log("Acceptance Rate is Empty!");
+        acceptRate = "1";
+        console.log("Acceptance Rate: " + acceptRate);
+    } else {
+        acceptRate = acceptRate / 100;
+        console.log("Acceptance Rate: " + acceptRate);
+    }
 
     //var fields = "&_fields=school.name,school.state,school.city";
     var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city
-        + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership;
+        + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership + schoolTuition
+        + "&2015.admissions.admission_rate.overall__range=0.1.." + acceptRate;
     var url = "Search?" + values;
- 
+
     console.log("URL is " + url);
-    
 
     //Requesting JSon through Ajax
     $.ajax({
@@ -51,20 +76,26 @@ function successSearch(data) {
 
                 var accreditor = data.results[i]["school.accreditor"];
                 var ownership = data.results[i]["school.ownership"];
-                var tuition = data.results[i]["school.tuition_revenue_per_fte"]
+                var tuition = data.results[i]["school.tuition_revenue_per_fte"];
+                var acceptRate = data.results[i]["2015.admissions.admission_rate.overall"];
 
                 //setting up these next two vars for my zillow call.
                 var state = data.results[i]["school.state"];
                 var city = data.results[i]["school.city"];
-                
 
-                if (accreditor == null) {
+
+                if (accreditor === null) {
+
                     accreditor = "N/A";
                 }
-                    
-                if (ownership == 1) {
+
+                if (acceptRate === null) {
+                    acceptRate = "N/A";
+                }
+
+                if (ownership === 1) {
                     ownership = "Public";
-                } else if (ownership == 2) {
+                } else if (ownership === 2) {
                     ownership = "Private Non-Profit";
                 } else {
                     ownership = "Private For-Profit";
@@ -76,6 +107,7 @@ function successSearch(data) {
 
                 $("#Results").append(
                     '<div class="col-sm-5">' +
+<<<<<<< HEAD
                         '<div class="panel panel-info">' +
                             '<div class="panel-heading text-center">' +
                                 '<div class="row">' +
@@ -167,12 +199,70 @@ function successSearch(data) {
                         //'</div>'
                     //);
                 //}
+=======
+                    '<div class="panel panel-info">' +
+                    '<div class="panel-heading text-center">' +
+                    '<div class="row">' +
+                    '<div class="col-sm-1">' +
+                    '<h2>' +
+                    '<i class="fa fa-heart-o"></i>' +
+                    '</h2>' +
+                    '</div>' +
+                    '<div class="col-sm-offset-0"></div>' +
+                    '<div class="col-sm-9">' +
+                    '<div class="spaceLeft">' +
+                    '<h5 class="ccheader">' +
+                    data.results[i]["school.name"] +
+                    '</h5>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-sm-pull-1">' +
+                    '<h2>' +
+                    '<i class="fa fa-sticky-note-o"></i> ' +
+                    '</h2>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="panel-body text-primary" style="margin-top:-5%;">' +
+                    '<div class="row">' +
+                    '<h4 class="text-center">' +
+                    '<i class="glyphicon glyphicon-usd"></i>' +
+                    tuition +
+                    '/year' +
+                    '</h4>' +
+                    '<div class="row" style="margin-top:5%;">' +
+                    '<div class="col-sm-6">' +
+                    '&emsp; State: ' + data.results[i]["school.state"] +
+                    '</div>' +
+                    '<div class="col-sm-6">' +
+                    'City: ' + data.results[i]["school.city"] +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '&emsp; Degree Being Saught' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '&emsp; Ownership: ' + ownership +
+                    '</div>' +
+                    '<div class="row">' +
+                    '&emsp; Accreditor: ' + accreditor +
+                    '</div>' +
+                    '<div class="row">' +
+                    '&emsp; Acceptance Rate: ' + (acceptRate * 100) + "%" +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
+                );
+>>>>>>> 6b9f2b9b12803a379651dbbdb993504fb9057e00
             }
         }
     } else { //School Not found
         $("#NotFound").text("No Schools Found!");
     }
-    
+
 }
 
 
