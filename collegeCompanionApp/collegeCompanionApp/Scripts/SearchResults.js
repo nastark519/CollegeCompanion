@@ -79,7 +79,13 @@ function successSearch(data) {
                 var tuition = data.results[i]["school.tuition_revenue_per_fte"];
                 var acceptRate = data.results[i]["2015.admissions.admission_rate.overall"];
 
+                //setting up these next two vars for my zillow call.
+                var state = data.results[i]["school.state"];
+                var city = data.results[i]["school.city"];
+
+
                 if (accreditor === null) {
+
                     accreditor = "N/A";
                 }
 
@@ -101,6 +107,99 @@ function successSearch(data) {
 
                 $("#Results").append(
                     '<div class="col-sm-5">' +
+<<<<<<< HEAD
+                        '<div class="panel panel-info">' +
+                            '<div class="panel-heading text-center">' +
+                                '<div class="row">' +
+                                    '<div class="col-sm-1">' +
+                                        '<h2>' +
+                                            '<i class="fa fa-heart-o"></i>' +
+                                '</h2>' +
+                                    '</div>' +
+                                    '<div class="col-sm-offset-0"></div>' +
+                                    '<div class="col-sm-9">' +
+                                        '<div class="spaceLeft">' +
+                                            '<h5 class="ccheader">' +
+                                                data.results[i]["school.name"] +
+                                    '</h5>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="col-sm-pull-1">' +
+                                        '<h2>' +
+                                            '<i class="fa fa-sticky-note-o"></i> ' +
+                                '</h2>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="panel-body text-primary" style="margin-top:-5%;">' +
+                                '<div class="row">' +
+                                    '<h4 class="text-center">' +
+                                        '<i class="glyphicon glyphicon-usd"></i>' +
+                                        tuition +
+                                '/year' +
+                            '</h4>' +
+                                    '<div class="row" style="margin-top:5%;">' +
+                    '<div class="col-sm-6">' +
+                    '&emsp; State: ' + state +
+                                '</div>' +
+                    '<div class="col-sm-6">' +
+                    'City: ' + city +
+                                '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="row">' +
+                                    '&emsp; Degree Being Saught' +
+                        '</div>' +
+                                '<div class="row">' +
+                                    '&emsp; Ownership: ' + ownership +
+                        '</div>' +
+                                '<div class="row">' +
+                                    '&emsp; Accreditor: ' + accreditor +
+                        '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                );              
+
+                //$("#SearchResults").append("<tr><td>" + data.results[i]["school.name"]
+                //    + "</td><td>" + accreditor
+                //    + "</td><td>" + data.results[i]["school.state"]
+                //    + "</td><td>" + data.results[i]["school.city"]
+                //    + "</td><td>" + ownership + "</td></tr>");
+
+                //I have put this at the end so I can just append to the div I want to.
+                // a url for the zillow calls.
+                //var theZillowApiUrl =
+                    //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={APIKeyHere}&state=" + state + "&city=" + city;
+
+                //var collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
+                //Adding in an ajax call to zillow to get city and state added
+                //as data comes into successSearch function
+                //$.ajax({
+                    //type: "GET",
+                    //url: CollegeRentsUrl,
+                    //dataType: "xml",
+                    //success: rentCallCalc
+                //});
+
+                //function rentCallCalc(xml) {
+                    //var zdex = 0;
+                    //the number of zindexes are returned.
+                    //var j = $(xml).find("zindex").length;
+                    //$(xml).find("region").each(function () {
+                        //var nextZdex = parseInt($(this).find("zindex"));
+                        //zdex = zdex + nextZdex;
+                    //});
+                    //var rent = (zdex / j) * (12 / 1889);
+
+                    //$(".panel-body text-primary").append(
+                        //'<div class="row">' +
+                        //'&emsp; Rent: ' + rent +
+                        //' is the approximate median rent + an average of $200 for a metro area and - $200 for a more rural area.' +
+                        //'</div>'
+                    //);
+                //}
+=======
                     '<div class="panel panel-info">' +
                     '<div class="panel-heading text-center">' +
                     '<div class="row">' +
@@ -157,6 +256,7 @@ function successSearch(data) {
                     '</div>' +
                     '</div>'
                 );
+>>>>>>> 6b9f2b9b12803a379651dbbdb993504fb9057e00
             }
         }
     } else { //School Not found
