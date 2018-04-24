@@ -25,5 +25,8 @@ namespace collegeCompanionApp.Models
         public virtual College College { get; set; }
 
         public virtual User User { get; set; }
+
+        //In the tutorial for 461 we need to add this for fallowing option 3 
+        //public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

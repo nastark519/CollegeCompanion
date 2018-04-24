@@ -107,13 +107,12 @@ function successSearch(data) {
 
                 $("#Results").append(
                     '<div class="col-sm-5">' +
-<<<<<<< HEAD
                         '<div class="panel panel-info">' +
                             '<div class="panel-heading text-center">' +
                                 '<div class="row">' +
                                     '<div class="col-sm-1">' +
                                         '<h2>' +
-                                            '<i class="fa fa-heart-o"></i>' +
+                                            '<i class="fa fa-heart-o"></i>' +      // This this a starting point fot sp4 for fav.
                                 '</h2>' +
                                     '</div>' +
                                     '<div class="col-sm-offset-0"></div>' +
@@ -126,7 +125,7 @@ function successSearch(data) {
                                     '</div>' +
                                     '<div class="col-sm-pull-1">' +
                                         '<h2>' +
-                                            '<i class="fa fa-sticky-note-o"></i> ' +
+                                            '<i class="fa fa-sticky-note-o"></i> ' +     // Needs to be for saving.
                                 '</h2>' +
                                     '</div>' +
                                 '</div>' +

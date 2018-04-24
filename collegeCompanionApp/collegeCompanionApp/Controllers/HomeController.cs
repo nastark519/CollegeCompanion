@@ -202,7 +202,7 @@ namespace collegeCompanionApp.Controllers
                 }
                 else
                 {
-                    //storedLimit = Convert.ToInt32(finLimit);
+                    //storedLimit = Convert.ToInt32(finLimit);  // get substring of val. and convert to integer. sp4 **************
                     values = values + "&school.tuition_revenue_per_fte=" + finLimit;
                     //Debug.WriteLine("Stored Limit: " + storedLimit);
                     Debug.WriteLine("Fin Limit: " + finLimit);
