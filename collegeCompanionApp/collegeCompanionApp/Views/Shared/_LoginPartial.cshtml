@@ -20,7 +20,7 @@
                     @*If user is logged in, display their email in the navigation.*@
                     @if (Request.IsAuthenticated)
                      {
-                        <li>@User.Identity.Name</li>
+                        <li>@User.Identity.Name</li> @*This is an entry piont to the user Identity.*@
                      }
                     <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
                     <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
