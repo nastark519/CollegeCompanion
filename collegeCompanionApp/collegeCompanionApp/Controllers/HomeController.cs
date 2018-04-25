@@ -349,6 +349,63 @@ namespace collegeCompanionApp.Controllers
         //    var serializer = new JavaScriptSerializer();
         //    var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
 
+
+
+        public ActionResult Demographic()
+        {
+            return View();
+        }
+
+        public JsonResult DemographicSearch()
+        {
+            Debug.WriteLine("DemographicSearch() Method!");
+
+            //Get Demographic API Key
+            string DemoAPIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["DemographicAPIKey"];
+            //Get Latitude
+            string latitude = Request.QueryString["latitude"];
+            //Get Longitude
+            string longitude = Request.QueryString["longitude"];
+            //Set Variables
+            string variables = Request.QueryString["variables"];
+            //Set Parameters
+            string param = latitude + "," + longitude + "/" + variables;
+
+            //Endpoint Description Link: https://market.mashape.com/mapfruition/demographicinquiry#inquire-by-point
+            //URL Endpoint
+            var url = "https://mapfruition-demoinquiry.p.mashape.com/inquirebypoint/" + param;
+
+            //URL GET Request
+            Debug.WriteLine("JSon URL Call: " + url);
+
+            // build a WebRequest
+            WebRequest request = WebRequest.Create(url);
+            //Set Header with API Key
+            request.Headers.Add("X-Mashape-Key", DemoAPIKey);
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+
+            // Read the content.  
+            string responseFromServer = reader.ReadToEnd();
+
+            // Clean up the streams and the response.  
+            reader.Close();
+            response.Close();
+
+            // Create a JObject, using Newtonsoft NuGet package
+            JObject json = JObject.Parse(responseFromServer);
+
+            // Create a serializer to deserialize the string response (string in JSON format)
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+            // Store JSON results in results to be passed back to client (javascript)
+            var data = serializer.DeserializeObject(responseFromServer);
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        /// NUnit Testing
         public string IsAPIKey(string key)
         {
             if (key.Length <= 5)
