@@ -17,6 +17,8 @@ var longitude = '';
 var address = '';
 //Array of Ages
 var ages = [];
+//Array of Age Percentage
+var agePercent = [];
 
 function start() {
     //Empty Everything for New Request
@@ -24,6 +26,8 @@ function start() {
     $("#SearchResults").empty();
     $("#NoResults").empty();
     $("#Error").empty();
+    ages = [];
+    agePercent = [];
 
     //Get User Input Zipcode
     var zipcode = $('#Zipcode').val();
@@ -31,13 +35,21 @@ function start() {
     console.log("Zipcode: " + zipcode);
     console.log("Zip Length: " + zipcode.length);
 
-    //Check to see if Zipcode is a 5-digit zipcode
+
+    //Check to see if Zipcode is a 5-digit zipcode & Numeric
     if (zipcode.length != 5) {
-        console.log("Zipcode length is not 5-digit long");
+        console.log("Zipcode Length is not 5-Digit long");
         //Not a 5-digit zipcode
-        $("#NoResults").text("Please Enter a 5-digit Zipcode");
+        $("#Error").text("Please Enter a 5-Digit Zipcode");
+        return false;
+    } else if (Number.isInteger(parseInt(zipcode)) == false) { //Checks if Zipcode is Numeric
+        console.log("Zipcode Not Numeric");
+        //Not a numeric input
+        $("#Error").text("Only enter a 5-Digit Zipcode");
         return false;
     }
+
+    console.log("Good Zipcode!"); //Passed as a Good Zipcode
 
     //Credit: https://stackoverflow.com/questions/6100264/google-maps-get-latitude-and-longitude-from-zip-code
     //Get Latidude and Longitude 
@@ -130,24 +142,11 @@ function secondAjaxCall(url) {
         type: "GET",
         dataType: "json",
         url: url,
-        success: getSecondAges,
+        success: successSearch,
         error: errorOnAjax
     });
 }
 
-
-function getSecondAges(data) {
-
-    //Create First URL
-    var fields = "latitude=" + latitude + "&longitude=" + longitude;
-    var variables = "&variables=spop0_4,spop5_9,spop10_14,spop15_19,spop20_24,spop25_29,spop30_34,spop35_39,spop40_44,spop45_49"
-    var url = "DemographicSearch?" + fields + variables;
-    url = url.replace(/ /g, "%20"); //replace spaces with '%20'
-    //Max of 10 variables per call
-    //Second Ajax Call
-    secondAjaxCall(url);
-
-}
 
 function successSearch(data) {
 
@@ -158,6 +157,23 @@ function successSearch(data) {
         //Properties Data
         var prop = data.properties;
 
+        //Push Second Set Ages into Array
+        ages.push(prop.pspop50_54, prop.pspop55_59, prop.pspop60_64, prop.pspop65_69,
+            prop.pspop70_74, prop.pspop75_79, prop.pspop80_84, prop.pspop85p);
+
+        //Find Percentage of Ages
+        for (i = 0; i < ages.length; i++) {
+
+            var num = ages[i] / prop.pstotpop;
+            num = (num * 100).toFixed(2); //Round 
+            agePercent.push(num);
+
+        }
+
+
+        //Check All Ages
+        console.log("All Ages: " + ages);
+
         //Sets Address Header
         $("#Address").text(address);
 
@@ -166,15 +182,36 @@ function successSearch(data) {
         console.log("Projection Population: " + prop.pstotpop);
 
         //Display Data onto List
-        $("#SearchResults").append('<li class="list-group-item"><b>Total Population</b>: ' + prop.pstotpop + '</li>' +
-            '<li class="list-group-item"><b>Median Age</b>: ' + prop.psmedage + '</li>' +
-            '<li class="list-group-item">Third item</li>');
+        $("#SearchResults").append('<li class="list-group-item"><b>Total Population</b>: ' + prop.pstotpop + '</li>' + //Total Population
+            '<li class="list-group-item"><b>Median Age</b>: ' + prop.psmedage + '</li>'); //Median Age 
+
+        setAges(); //Adds Ages & percentage to List
+
+        console.log("Ages.Length: " + ages.length + ", agePercent.length: " + agePercent.length)
 
 
     } else { //No Results Found
         $("#NoResults").text("No Results Found!");
     }
 
+}
+
+function setAges() {
+    var lowAge = 0; //Lower Bound Age
+    var highAge = 4; //Upper Bound Age
+
+    // Display Ages onto List with percentage
+    for (i = 0; i < ages.length - 1; i++) {
+        $("#SearchResults").append('<li class="list-group-item"><b>Ages ' + lowAge + '-' + highAge +
+            '</b>: ' + ages[i] + ',  <i>' + agePercent[i] + '%</i></li>');
+        lowAge += 5;
+        highAge += 5;
+    }
+
+    //Age > 85 add to List
+    $("#SearchResults").append('<li class="list-group-item"><b>Age > 85</b>: ' +
+        ages[i] + ',  <i>' + agePercent[i] + '%</i></li>');
+    
 }
 
 
