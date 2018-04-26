@@ -288,27 +288,67 @@ namespace collegeCompanionApp.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        /// Yelp NUnit Testing
+        public string IsAPIKey(string key)
+        {
+            if (key.Length <= 5)
+            {
+                key = "NoKey";
+            }
+            return key;
+        }
+
+        public string GetLocation(string location)
+        {
+            if (location == null)
+            {
+                Debug.WriteLine("No Location");
+            }
+            return location;
+        }
+
+        public string GetTerm(string term)
+        {
+            if (term == null)
+            {
+                term = "";
+            }
+            return term;
+        }
+
+        public string SetParam(string location, string term)
+        {
+            return "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
+        }
+
+        public string SetURL(string param)
+        {
+            return "https://api.yelp.com/v3/businesses/search?" + param;
+        }
+
+
+
         //working on getting the xml from zillow's api to work.
         //may end up not needing this code.
         //public XmlDocument CollegeRentsInArea()
         //{
 
 
-            //I have put this at the end so I can just append to the div I want to.
-            // a url for the zillow calls.
-            //string theZillowApiUrl =
-                //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={theAPIKeyHere}&state=" + state + "&city=" + city;
+        //I have put this at the end so I can just append to the div I want to.
+        // a url for the zillow calls.
+        //string theZillowApiUrl =
+        //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={theAPIKeyHere}&state=" + state + "&city=" + city;
 
-            //string collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
+        //string collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
 
-            //WebRequest request = WebRequest.Create(theZillowApiUrl);
-            //Stream stream = request.GetResponse().GetResponseStream();
+        //WebRequest request = WebRequest.Create(theZillowApiUrl);
+        //Stream stream = request.GetResponse().GetResponseStream();
 
-            //XmlDocument xmlDoc = new XmlDocument();
+        //XmlDocument xmlDoc = new XmlDocument();
 
-            //stream.Close();
+        //stream.Close();
 
-            //return xmlDoc;
+        //return xmlDoc;
         //}
 
         //public ActionResult CollegeSearch()
@@ -362,25 +402,20 @@ namespace collegeCompanionApp.Controllers
 
             //Get Demographic API Key
             string DemoAPIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["DemographicAPIKey"];
-            //Get Latitude
-            string latitude = Request.QueryString["latitude"];
-            //Get Longitude
-            string longitude = Request.QueryString["longitude"];
-            //Set Variables
-            string variables = Request.QueryString["variables"];
-            //Set Parameters
-            string param = latitude + "," + longitude + "/" + variables;
-
+            //Gets the latitude & longitude
+            string coordinates = GetCoordinates(Request.QueryString["latitude"], Request.QueryString["longitude"]);
+            //Set parameters with coordinates & variables
+            string param = SetDemoParams(coordinates, Request.QueryString["variables"]);// + "/" + variables);
             //Endpoint Description Link: https://market.mashape.com/mapfruition/demographicinquiry#inquire-by-point
-            //URL Endpoint
-            var url = "https://mapfruition-demoinquiry.p.mashape.com/inquirebypoint/" + param;
+            //Set up url endpoint with parameters
+            var url = SetDemoURL(param);
 
             //URL GET Request
             Debug.WriteLine("JSon URL Call: " + url);
 
             // build a WebRequest
             WebRequest request = WebRequest.Create(url);
-            //Set Header with API Key
+            //Add Header with API Key
             request.Headers.Add("X-Mashape-Key", DemoAPIKey);
             WebResponse response = request.GetResponse();
             Stream dataStream = response.GetResponseStream();
@@ -405,42 +440,27 @@ namespace collegeCompanionApp.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        /// NUnit Testing
-        public string IsAPIKey(string key)
+
+        //Demographic NUnit Tests
+        public string SetDemoURL(string param)
         {
-            if (key.Length <= 5)
-            {
-                key = "NoKey";
-            }
-            return key;
+            string url = "https://mapfruition-demoinquiry.p.mashape.com/inquirebypoint/" + param;
+
+            return url;
         }
 
-        public string GetLocation(string location)
+        public string SetDemoParams(string coordinates, string variables)
         {
-            if (location == null)
-            {
-                Debug.WriteLine("No Location");
-            }
-            return location;
+            string param = coordinates + "/" + variables;
+
+            return param;
         }
 
-        public string GetTerm(string term)
+        public string GetCoordinates(string lat, string lon)
         {
-            if (term == null)
-            {
-                term = "";
-            }
-            return term;
-        }
+            string cord = lat + "," + lon;
 
-        public string SetParam(string location, string term)
-        {
-            return "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
-        }
-
-        public string SetURL(string param)
-        {
-            return "https://api.yelp.com/v3/businesses/search?" + param;
+            return cord;
         }
     }
 }
