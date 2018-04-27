@@ -10,7 +10,9 @@ using System.Web.Script.Serialization;
 using collegeCompanionApp.Models.ViewModel;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Xml;
 using System.Data.Linq;
+
 
 namespace collegeCompanionApp.Controllers
 {
@@ -285,6 +287,67 @@ namespace collegeCompanionApp.Controllers
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        //working on getting the xml from zillow's api to work.
+        //may end up not needing this code.
+        //public XmlDocument CollegeRentsInArea()
+        //{
+
+
+            //I have put this at the end so I can just append to the div I want to.
+            // a url for the zillow calls.
+            //string theZillowApiUrl =
+                //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={theAPIKeyHere}&state=" + state + "&city=" + city;
+
+            //string collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
+
+            //WebRequest request = WebRequest.Create(theZillowApiUrl);
+            //Stream stream = request.GetResponse().GetResponseStream();
+
+            //XmlDocument xmlDoc = new XmlDocument();
+
+            //stream.Close();
+
+            //return xmlDoc;
+        //}
+
+        //public ActionResult CollegeSearch()
+        //{
+        //    var college = new College();
+        //    college.CollegeName = Request.QueryString["school.name"];
+        //    college.StateName = Request.QueryString["state.name"];
+
+        //    return View(college);
+        //}
+
+        //[Route("Home/Search")]
+        //public JsonResult Search()
+        //{
+        //    Console.WriteLine("In the Search method in Home Controller");
+
+        //    //Get College Scorecard API
+        //    string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
+        //    //School Name
+        //    string schoolName = Request.QueryString["schoolName"];
+        //    HttpUtility.UrlPathEncode(schoolName);//Adds %20 to spaces
+
+
+        //    //URL to College Scorecard
+        //    string url = "https://api.data.gov/ed/collegescorecard/v1/schools?api_key=" + 
+        //        key + "&school.name=" + schoolName + "&_fields=school.name,id";
+
+
+        //    //Sends request to College Scorecard to get JSon
+        //    WebRequest request = WebRequest.Create(url);
+        //    request.Credentials = CredentialCache.DefaultCredentials;
+        //    WebResponse response = request.GetResponse(); //The Response            
+        //    Stream dataStream = response.GetResponseStream(); //Start Data Stream from Server.            
+        //    string reader = new StreamReader(dataStream).ReadToEnd(); //Data Stream to a reader string
+
+
+        //    //JSon string to a JSon object             
+        //    var serializer = new JavaScriptSerializer();
+        //    var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
 
         public string IsAPIKey(string key)
         {
