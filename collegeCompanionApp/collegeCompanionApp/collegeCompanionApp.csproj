@@ -207,6 +207,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JSTestController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -235,6 +236,7 @@
     <Content Include="Content\colorful.jpg" />
     <Content Include="Content\companion.css" />
     <Content Include="Content\padnPlant.jpg" />
+    <Content Include="Content\qunit.css" />
     <Content Include="Content\streetChalk.jpg" />
     <Content Include="Content\streetChalk.png" />
     <Content Include="Content\studentsBlue.jpg" />
@@ -269,6 +271,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\SchoolSearch.js" />
@@ -276,6 +279,10 @@
     <Content Include="Scripts\StateSearch.js" />
     <Content Include="Scripts\YelpSearch.js" />
     <Content Include="Views\Home\SchoolSearch.cshtml" />
+    <Content Include="Views\JSTest\qunit-2.6.0.css" />
+    <Content Include="Views\JSTest\qunit-2.6.0.js" />
+    <None Include="Views\JSTest\JSTest.cshtml" />
+    <Content Include="Views\JSTest\tests.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
