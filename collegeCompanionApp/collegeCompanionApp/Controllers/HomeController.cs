@@ -11,6 +11,7 @@ using collegeCompanionApp.Models.ViewModel;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Data.Linq;
+using System.Text;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -31,6 +32,16 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
+        public ActionResult Travel()
+        {
+            return View();
+        }
+
+        public ActionResult SearchesMenu()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             return View();
@@ -41,14 +52,55 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
-        public ActionResult SchoolSearch()
+        public ActionResult Test()
         {
             return View();
         }
 
-        public ActionResult StateSearch()
+        /// <summary>
+        /// Searches for ratings of Walking, Transit & Bike for a given city using Walk Score API.
+        /// </summary>
+        /// <param name="location">A string from the user provided variable "locationInput" in TravelSearch.js</param>
+        /// <returns>
+        /// A "Content" result of JSON String with ratings within the requested city.
+        /// </returns>
+        public ActionResult WalkScoreSearch()
         {
-            return View();
+            //Get user input data from Javascript file "TravelSearch.js"
+            var street = Request.QueryString["addressInput"];
+            var city = Request.QueryString["cityInput"];
+            var state = Request.QueryString["stateInput"];
+            var zipcode = Request.QueryString["zipInput"];
+            var lat = Request.QueryString["latitude"];
+            var lon = Request.QueryString["longitude"];
+            var location = street + city + state + zipcode;
+
+            location = location.Replace(" ", "%20");
+
+            //User Stringbuilder to make a URL for the request.
+            StringBuilder sb = new StringBuilder();
+            sb.Append("http://api.walkscore.com/score?format=json&");
+            sb.Append("&address=" + location);
+            sb.Append("&lon=" + lon);
+            sb.Append("&lat=" + lat);
+            sb.Append("&transit=1&bike=1");
+            sb.Append("&wsapikey=");
+            sb.Append(System.Web.Configuration.WebConfigurationManager.AppSettings["WalkScoreAPIKey"]);
+            Debug.WriteLine(sb.ToString());
+
+            // Make a web request to get the list of classes.
+            WebRequest request = HttpWebRequest.Create(sb.ToString()); //Takes an arguement of the URL of the webserver being targeted.
+            // Using a web response process the file returned from the API.
+            WebResponse response = request.GetResponse();
+
+            string resultString;
+            using (var reader = new StreamReader(response.GetResponseStream()))
+            {
+                // Get the data from the stream reader to parse data into usable format
+                resultString = reader.ReadToEnd();
+            }
+            //Note: This is completed without a JSON parse action so don't treat it like the other methods! lol
+            return Content(resultString, "application/json");
         }
 
         public ActionResult SearchForm()

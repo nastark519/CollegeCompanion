@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "SearchesMenu";
+}
+
+<img class="img_small" src="~/Content/travel.png" data-toggle="toggle" data-target="#demo">
+
+<div class ="slider in" id="demo">
+    <h4 id="titleText">Travel Search</h4>
+    <p>
+        By providing your full address, or that of a college your interested in, you can learn the travel ratings of the area.
+        This information is provided though 
+        <a href="https://www.walkscore.com/professional/"> Walk Score </a>
+        and will tell you the ratings (0-100) of the areas walkability, biking and local transit. This will help prospective
+        college students learn what their tranportation options are for cities of interest.
+    </p>
+    <button type="button" id="searchButton" class="btn btn-info" onclick="@("window.location.href='" + @Url.Action("Travel", "Home") + "'");">Try It!</button>
+</div>
+
+<img class="img_small" src="~/Content/food.png" data-toggle="toggle" data-target="#demo2">
+
+<div class="slider" id="demo2">
+    <h4 id="titleText">Food Search</h4>
+    <p>
+        By utilizing
+        <a href="https://www.yelp.com/"> Yelp! </a>
+        we provide you a comprehensive search of any city of interest, be it a random whim or a
+        college city of interest, to find food option in that area. You can either run a search for Grocery options or a search for
+        Delivery in the area - allowing students to find food that accomidates their lifestyle needs. Results include a link to the
+        locations so you can further investigate them on your own.
+    </p>
+    <button type="button" id="searchButton" class="btn btn-info" onclick="@("window.location.href='" + @Url.Action("Yelp", "Home") + "'");">Try It!</button>
+</div>
+
+<img class="img_small" src="~/Content/people.png" data-toggle="toggle" data-target="#demo3">
+
+<div class="slider" id="demo3">
+    <h4 id="titleText">People Search</h4>
+    <p>
+        A major component to any new lifestyle is finding people you can enjoy it with. This search, which uses census data gathered by
+        <a href="https://market.mashape.com/mapfruition/demographicinquiry/overview"> Demographic Inquiry, </a>
+        to tell you all about who lives in the city of interest. From this search you can learn about what types of people, by age,
+        race and gender. This, we hope, will enable you to find you friends and a good community to start your new college life right!
+    </p>
+    <button type="button" id="searchButton" class="btn btn-info" onclick="@("window.location.href='" + @Url.Action("actionName", "controllerName") + "'");">Try It!</button>
+</div>
