@@ -83,6 +83,8 @@ function successSearch(data) {
                 var state = data.results[i]["school.state"];
                 var city = data.results[i]["school.city"];
 
+                var collegeName = data.results[i]["school.name"];
+
 
                 if (accreditor === null) {
 
@@ -107,26 +109,26 @@ function successSearch(data) {
 
                 $("#Results").append(
                     '<div class="col-sm-5">' +
-<<<<<<< HEAD
                         '<div class="panel panel-info">' +
                             '<div class="panel-heading text-center">' +
                                 '<div class="row">' +
                                     '<div class="col-sm-1">' +
-                                        '<h2>' +
-                                            '<i class="fa fa-heart-o"></i>' +
+                                        '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
+                    '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + City +
+                    ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
                                 '</h2>' +
                                     '</div>' +
                                     '<div class="col-sm-offset-0"></div>' +
                                     '<div class="col-sm-9">' +
                                         '<div class="spaceLeft">' +
                                             '<h5 class="ccheader">' +
-                                                data.results[i]["school.name"] +
+                                                collegeName +
                                     '</h5>' +
                                         '</div>' +
                                     '</div>' +
                                     '<div class="col-sm-pull-1">' +
                                         '<h2>' +
-                                            '<i class="fa fa-sticky-note-o"></i> ' +
+                                            '<i class="fa fa-sticky-note-o"></i> ' +     // Needs to be for saving.
                                 '</h2>' +
                                     '</div>' +
                                 '</div>' +
