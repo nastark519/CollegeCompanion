@@ -8,10 +8,9 @@ namespace collegeCompanionApp.Models
 
     public partial class College_User_Relations
     {
-        [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int UserID { get; set; }
+        public string CompanionID { get; set; }
 
         [Key]
         [Column(Order = 1)]
@@ -24,7 +23,7 @@ namespace collegeCompanionApp.Models
 
         public virtual College College { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual CompanionUser CompanionUser { get; set; }
 
         //In the tutorial for 461 we need to add this for fallowing option 3 
         //public virtual ApplicationUser ApplicationUser { get; set; }

@@ -27,6 +27,8 @@ namespace collegeCompanionApp.Controllers
         string finLimit = "";
         string acceptRate = "";
         int storedLimit = 0;
+        //Adding in the context for the Colleges&CompanionUsers&College_User_Relations
+        CompanionContext companiondb = new CompanionContext();
 
         public ActionResult Index()
         {
@@ -43,21 +45,11 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
-        public ActionResult SchoolSearch()
-        {
-            return View();
-        }
-
-        public ActionResult StateSearch()
-        {
-            return View();
-        }
-
         public ActionResult SearchForm()
         {
-            FormdataDB db = new FormdataDB();
-            Debug.Assert(db != null, "Database has the wrong connection.");
-            return View(db);
+            FormdataDB formdb = new FormdataDB();
+            Debug.Assert(formdb != null, "Database has the wrong connection.");
+            return View(formdb);
         }
 
         public ActionResult SearchResults()
@@ -126,32 +118,33 @@ namespace collegeCompanionApp.Controllers
         /// <param name="accreditor">A string from the dataset of API results.</param>
         /// <param name="ownership">An integer from the dataset of API results.</param>
         /// <param name="finLimit">An integer from the dataset of API results.</param>
-        public Boolean SaveData(string schoolName, string stateName, string cityName, string accreditor, int ownership, int cost, int acceptRate)
+        public ActionResult SaveData([Bind(Include = "CollegeID,Name,StateName,City,Accreditor,Ownership,Cost")]College college)
         {
             Debug.WriteLine("saveData() Method!");
 
             if (ModelState.IsValid)
             {
-                College db = new College
-                {
-                    Name = schoolName,
-                    StateName = stateName,
-                    City = cityName,
-                    Accreditor = accreditor,
-                    Focus = Request.QueryString["degreeInput"],
-                    Ownership = ownership,
-                    Cost = cost,
-                    AdmissionRate = acceptRate
-                };
-
-                //db.SaveChanges();
-                return true;
+                companiondb.Colleges.Add(college);
+                
+                companiondb.SaveChanges();
+                return View();
             }
             else
             {
                 Debug.WriteLine("Error for SaveData() method.");
-                return false;
+                return View();
             }
+            //College db = new College
+            //{
+                   // Name = schoolName,
+                    //StateName = stateName,
+                    //City = cityName,
+                    //Accreditor = accreditor,
+                    //Focus = Request.QueryString["degreeInput"],
+                    //Ownership = ownership,
+                    //Cost = cost,
+                    //AdmissionRate = acceptRate
+                //};
         }
 
         /// <summary>
@@ -288,27 +281,64 @@ namespace collegeCompanionApp.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        public string IsAPIKey(string key)
+        {
+            if (key.Length <= 5)
+            {
+                key = "NoKey";
+            }
+            return key;
+        }
+
+        public string GetLocation(string location)
+        {
+            if (location == null)
+            {
+                Debug.WriteLine("No Location");
+            }
+            return location;
+        }
+
+        public string GetTerm(string term)
+        {
+            if (term == null)
+            {
+                term = "";
+            }
+            return term;
+        }
+
+        public string SetParam(string location, string term)
+        {
+            return "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
+        }
+
+        public string SetURL(string param)
+        {
+            return "https://api.yelp.com/v3/businesses/search?" + param;
+        }
+
         //working on getting the xml from zillow's api to work.
         //may end up not needing this code.
         //public XmlDocument CollegeRentsInArea()
         //{
 
 
-            //I have put this at the end so I can just append to the div I want to.
-            // a url for the zillow calls.
-            //string theZillowApiUrl =
-                //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={theAPIKeyHere}&state=" + state + "&city=" + city;
+        //I have put this at the end so I can just append to the div I want to.
+        // a url for the zillow calls.
+        //string theZillowApiUrl =
+        //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={theAPIKeyHere}&state=" + state + "&city=" + city;
 
-            //string collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
+        //string collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
 
-            //WebRequest request = WebRequest.Create(theZillowApiUrl);
-            //Stream stream = request.GetResponse().GetResponseStream();
+        //WebRequest request = WebRequest.Create(theZillowApiUrl);
+        //Stream stream = request.GetResponse().GetResponseStream();
 
-            //XmlDocument xmlDoc = new XmlDocument();
+        //XmlDocument xmlDoc = new XmlDocument();
 
-            //stream.Close();
+        //stream.Close();
 
-            //return xmlDoc;
+        //return xmlDoc;
         //}
 
         //public ActionResult CollegeSearch()
@@ -348,42 +378,5 @@ namespace collegeCompanionApp.Controllers
         //    //JSon string to a JSon object             
         //    var serializer = new JavaScriptSerializer();
         //    var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
-
-        public string IsAPIKey(string key)
-        {
-            if (key.Length <= 5)
-            {
-                key = "NoKey";
-            }
-            return key;
-        }
-
-        public string GetLocation(string location)
-        {
-            if (location == null)
-            {
-                Debug.WriteLine("No Location");
-            }
-            return location;
-        }
-
-        public string GetTerm(string term)
-        {
-            if (term == null)
-            {
-                term = "";
-            }
-            return term;
-        }
-
-        public string SetParam(string location, string term)
-        {
-            return "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
-        }
-
-        public string SetURL(string param)
-        {
-            return "https://api.yelp.com/v3/businesses/search?" + param;
-        }
     }
 }

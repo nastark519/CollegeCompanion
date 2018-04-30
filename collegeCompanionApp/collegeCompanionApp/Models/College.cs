@@ -31,14 +31,9 @@ namespace collegeCompanionApp.Models
         [StringLength(25)]
         public string Accreditor { get; set; }
 
-        [StringLength(50)]
-        public string Focus { get; set; }
-
-        public int Ownership { get; set; }
+        public string Ownership { get; set; }
 
         public int Cost { get; set; }
-
-        public int? AdmissionRate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<College_User_Relations> College_User_Relations { get; set; }

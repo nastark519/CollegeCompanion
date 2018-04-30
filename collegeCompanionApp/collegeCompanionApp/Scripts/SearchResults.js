@@ -83,6 +83,8 @@ function successSearch(data) {
                 var state = data.results[i]["school.state"];
                 var city = data.results[i]["school.city"];
 
+                var collegeName = data.results[i]["school.name"];
+
 
                 if (accreditor === null) {
 
@@ -111,15 +113,16 @@ function successSearch(data) {
                             '<div class="panel-heading text-center">' +
                                 '<div class="row">' +
                                     '<div class="col-sm-1">' +
-                                        '<h2>' +
-                                            '<i class="fa fa-heart-o"></i>' +      // This this a starting point fot sp4 for fav.
+                                        '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
+                    '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + City +
+                    ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
                                 '</h2>' +
                                     '</div>' +
                                     '<div class="col-sm-offset-0"></div>' +
                                     '<div class="col-sm-9">' +
                                         '<div class="spaceLeft">' +
                                             '<h5 class="ccheader">' +
-                                                data.results[i]["school.name"] +
+                                                collegeName +
                                     '</h5>' +
                                         '</div>' +
                                     '</div>' +

@@ -222,7 +222,7 @@
     <Compile Include="Models\FormDataViewModel.cs" />
     <Compile Include="Models\PrivacyList.cs" />
     <Compile Include="Models\StateList.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\CompanionUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -274,7 +274,6 @@
     <Content Include="Scripts\SearchResults.js" />
     <Content Include="Scripts\StateSearch.js" />
     <Content Include="Scripts\YelpSearch.js" />
-    <Content Include="Views\Home\SchoolSearch.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -314,6 +313,7 @@
     <Content Include="Views\Home\SearchForm.cshtml" />
     <Content Include="Views\Home\SearchResults.cshtml" />
     <Content Include="Views\Home\Yelp.cshtml" />
+    <Content Include="Views\Home\SaveData.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
