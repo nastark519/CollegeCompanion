@@ -21,9 +21,21 @@ namespace collegeCompanionApp
             );
 
             routes.MapRoute(
+                name: "DemographicSearch",
+                url: "Home/{action}/{page}",
+                defaults: new { controller = "Home", action = "DemographicSearch", page = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "YelpSearch",
                 url: "Home/{action}/{page}",
                 defaults: new { controller = "Home", action = "YelpSearch", page = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "WalkScoreSearch",
+                url: "Home/{action}/{page}",
+                defaults: new { controller = "Home", action = "WalkScoreSearch", page = UrlParameter.Optional }
             );
 
             routes.MapRoute(

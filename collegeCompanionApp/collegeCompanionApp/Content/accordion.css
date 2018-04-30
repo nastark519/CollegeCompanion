@@ -1,0 +1,81 @@
+﻿#demo {
+    -webkit-transition: width 2s ease;
+    -moz-transition: width 2s ease;
+    -o-transition: width 2s ease;
+    transition: width 2s ease;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+    line-height: 30px;
+    height: 30px;
+    width: 0px;
+}
+p {
+    font-size:medium;
+}
+
+#titleText {
+    padding-top:20px;
+    padding-bottom:20px;
+    color: dimgrey;
+    font-size:60px;
+    font-weight: 500;
+    text-align: center;
+}
+
+#searchButton{
+    margin-top:20px;
+    margin-left:150px;
+}
+
+#demo2 {
+    -webkit-transition: width 2s ease;
+    -moz-transition: width 2s ease;
+    -o-transition: width 2s ease;
+    transition: width 2s ease;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+    line-height: 30px;
+    height: 30px;
+    width: 0px;
+}
+
+#demo3 {
+    -webkit-transition: width 2s ease;
+    -moz-transition: width 2s ease;
+    -o-transition: width 2s ease;
+    transition: width 2s ease;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+    line-height: 30px;
+    height: 30px;
+    width: 0px;
+}
+
+.white * {
+    color:white;
+}
+
+#demo.in {
+    width: 400px;
+    height:800px;
+}
+
+#demo2.in {
+    width: 400px;
+    height: 800px;
+}
+
+#demo3.in {
+    width: 400px;
+    height: 800px;
+}
+
+  #textbox {
+      height:831px;
+      min-height:831px;
+      width:200px;
+      max-width:200px;
+  }

@@ -11,7 +11,7 @@ namespace collegeCompanionApp.Models
     public partial class FormdataDB : DbContext
     {
         public FormdataDB()
-            : base("name=formdataDB_Context")
+            : base("name=CompanionContextDB")
         {
         }
 

@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Demographic";
+}
+
+<div class="container">
+
+    &nbsp
+
+    <h2>Demographics</h2>
+
+    <hr />
+
+    <div class="form-group text-center">
+        @*Zipcode Text*@
+        <label>Zipcode:</label>
+        @*Zipcode User Input*@
+        <input class="well-sm" type="text" id="Zipcode" name="Zipcode" placeholder="EX: 97361" />
+        @*Search Button*@
+        <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg" />
+    </div>
+</div>
+
+<hr />
+
+@*Display Results here*@
+<div id="Results" style="display: none">
+    @*Address Header*@
+    <h3 class="text-center" id="Address"></h3>
+    <div class="container">
+        <ul class="list-group" id="SearchResults">
+            @*List of Results here*@
+        </ul>
+    </div>
+
+</div>
+
+
+@*No Search Found Or Error Message*@
+<div class="text-center">
+    <h3 id="NoResults"></h3>
+    <h3 id="Error"></h3>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/DemographicSearch.js"></script>
+}

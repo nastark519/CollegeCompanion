@@ -14,7 +14,7 @@ namespace collegeCompanionApp.Models
 
         public virtual DbSet<College_User_Relations> College_User_Relations { get; set; }
         public virtual DbSet<College> Colleges { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<CompanionUser> CompanionUsers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

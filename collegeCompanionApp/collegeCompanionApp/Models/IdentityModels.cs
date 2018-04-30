@@ -21,7 +21,7 @@ namespace collegeCompanionApp.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("CompanionContextDB", throwIfV1Schema: false) //what ever the name config in the web config.
         {
         }
 
