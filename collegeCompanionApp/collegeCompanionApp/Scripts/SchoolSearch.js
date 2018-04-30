@@ -32,10 +32,22 @@ function prevPage() {
     }
 }
 
+//Global Variables
+var upperBound;
+var lowerBound;
+
+//Get the Financial Limits from the SearchForm
+//Parse the data into an upper and lower limit for searching
+function getLimits() {
+    var finLimit = $('#finLimitInput').val();
+    var findBounds = finLimit.split("");
+    upperBound = finBounds[0];
+    lowerBound = findBounds[1];
+}
 
 function start() {
     var schoolName = $("#UserSchoolInput").val(); //Get User Input
-    if (schoolName != oldSchoolName) {
+    if (schoolName !== oldSchoolName) {
         page = 0; //Reset Page
     }
     schoolName = schoolName.replace(/ /g, "%20"); //replace spaces with '%20'
@@ -43,10 +55,11 @@ function start() {
 
     console.log("School Name: " + schoolName);
 
+    getLimits();
 
     //URL
     var APIKey = "nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
-    var fields = "school.name,school.state,school.city,school.accreditor,school.ownership"; //Fields
+    var fields = "school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte=" + lowerBound + ".." + upperBound+ ",2015.admissions.admission_rate.overall"; //Fields
     var source = "https://api.data.gov/ed/collegescorecard/v1/schools?school.name="; //Source
 
     var url = source + schoolName + "&api_key=" + APIKey + "&_fields=" + fields + "&per_page=10&page=" + page;
@@ -69,7 +82,7 @@ function displaySearch(data) {
     console.log("Total Results: " + schools);
 
     //Pages
-    if (schools % 10 == 0) {
+    if (schools % 10 === 0) {
         pages = (schools / 10) - 1;
     } else {
         pages = Math.floor(schools / 10);
@@ -92,13 +105,13 @@ function displaySearch(data) {
                 var accreditor = data.results[i]["school.accreditor"];
                 var ownership = data.results[i]["school.ownership"];
 
-                if (accreditor == null){
+                if (accreditor === null){
                     accreditor = "N/A";
                 }
 
-                if (ownership == 1){
+                if (ownership === 1){
                     ownership = "Public";
-                } else if (ownership == 2){
+                } else if (ownership === 2){
                     ownership = "Private Non-Profit";
                 } else {
                     ownership = "Private For-Profit";

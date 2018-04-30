@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - College Companion</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/companion.css")
+    @if (ViewBag.Title != "SearchesMenu") {
+        @Styles.Render("~/Content/companion.css")
+    } else
+    {
+        @Styles.Render("~/Content/accordion.css")
+    }
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
-    <div class="navbar navbar navbar-fixed-top">
+    <div class="navbar nav-tabs navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -27,10 +32,8 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("School Search", "SchoolSearch", "Home")</li>
-                    <li>@Html.ActionLink("State Search", "StateSearch", "Home")</li>
-                    <li>@Html.ActionLink("DBinfo", "Index", "CollegeFavorites")</li>
-                    <li>@Html.ActionLink("Form", "SearchForm", "Home")</li>
+                    <li>@Html.ActionLink("College Search", "SearchForm", "Home")</li>
+                    <li>@Html.ActionLink("Lifestyle", "SearchesMenu", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -46,6 +49,10 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @if(ViewBag.Title == "SearchesMenu")
+    {
+        @Scripts.Render("~/Scripts/accordion.js")
+    }
     @RenderSection("scripts", required: false)
 </body>
 </html>

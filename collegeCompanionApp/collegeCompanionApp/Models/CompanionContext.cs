@@ -8,19 +8,16 @@ namespace collegeCompanionApp.Models
     public partial class CompanionContext : DbContext
     {
         public CompanionContext()
-            : base("name=CompanionContext")
+            : base("name=CompanionContextDB")
         {
         }
 
+        public virtual DbSet<College_User_Relations> College_User_Relations { get; set; }
         public virtual DbSet<College> Colleges { get; set; }
-        public virtual DbSet<CollegeFavorite> CollegeFavorites { get; set; }
-        public virtual DbSet<Party> Parties { get; set; }
+        public virtual DbSet<CompanionUser> CompanionUsers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Party>()
-                .Property(e => e.PartyEmail)
-                .IsUnicode(false);
         }
     }
 }

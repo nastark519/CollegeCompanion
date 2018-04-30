@@ -25,6 +25,17 @@ body, img {
     min-height: 1000px;
 }
 
+.travelResults{
+    float:left;
+}
+
+.img_small {
+    width: unset;
+    height: unset;
+    min-width: unset;
+    min-height: unset;
+}
+
 .img-fullpage {
     font-size: 16px;
     height: 2em;
@@ -36,6 +47,36 @@ body, img {
     width: 100%;
     height: auto;
     background-image: url(../Content/colorful.jpg);
+    background-size: cover;
+}
+
+#img-searchForm {
+    width: 100%;
+    height: auto;
+    min-height: 100px;
+    background-image: url(../Content/blackboard.jpg);
+    background-size: cover;
+}
+
+#img-searchPeople {
+    width: 100%;
+    height: auto;
+    min-height: 831px;
+    background-image: url(../Content/people.png);
+    background-size: cover;
+}
+
+#img-searchFood {
+    width: 100%;
+    height: auto;
+    background-image: url(../Content/food.png);
+    background-size: cover;
+}
+
+#img-searchTravel {
+    width: 100%;
+    height: auto;
+    background-image: url(../Content/travel.png);
     background-size: cover;
 }
 
@@ -52,14 +93,6 @@ body, img {
     height: auto;
     min-height: 100px;
     background-image: url(../Content/padnPlant.jpg);
-    background-size: cover;
-}
-
-#img-searchForm {
-    width: 100%;
-    height: auto;
-    min-height: 100px;
-    background-image: url(../Content/blackboard.jpg);
     background-size: cover;
 }
 
@@ -84,7 +117,7 @@ body, img {
     min-height: 600px;
     padding: 10px;
     font-size-adjust: inherit;
-    color:darkblue;
+    color: dimgrey;
 }
 
 .aboutBox {
@@ -95,9 +128,9 @@ body, img {
     max-height: 800px;
     padding: 10px;
     font-size-adjust: inherit;
-    color: darkblue;
-    margin-left:30px;
-    overflow:auto;
+    color: dimgrey;
+    margin-left: 30px;
+    overflow: auto;
 }
 
 .contactBox {
@@ -108,7 +141,7 @@ body, img {
     max-height: 800px;
     padding: 10px;
     font-size-adjust: inherit;
-    color: darkblue;
+    color: dimgrey;
     margin-left: 10%;
 }
 
@@ -116,12 +149,12 @@ body, img {
     clear: both;
     width: 90%;
     height: auto;
-    min-height: 600px;
-    max-height: 800px;
-    padding: 10px;
+    min-height: 900px;
+    max-height: 900px;
     font-size-adjust: inherit;
     color:aliceblue;
     margin-left: 2%;
+    overflow-y:auto;
 }
 
 .shiftDiv-down {
@@ -167,3 +200,4 @@ body, img {
     width: 100%;
     text-align: center;
 }
+
