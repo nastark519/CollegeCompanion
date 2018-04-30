@@ -183,31 +183,38 @@ namespace collegeCompanionApp.Controllers
         /// <param name="finLimit">An integer from the dataset of API results.</param>
         public ActionResult SaveData([Bind(Include = "CollegeID,Name,StateName,City,Accreditor,Ownership,Cost")]College college)
         {
-            Debug.WriteLine("saveData() Method!");
-
-            if (ModelState.IsValid)
+            if (User.Identity.IsAuthenticated)
             {
-                companiondb.Colleges.Add(college);
-                
-                companiondb.SaveChanges();
-                return View();
+                Debug.WriteLine("saveData() Method!");
+
+                if (ModelState.IsValid)
+                {
+                    companiondb.Colleges.Add(college);
+
+                    companiondb.SaveChanges();
+                    return View();
+                }
+                else
+                {
+                    Debug.WriteLine("Error for SaveData() method.");
+                    return View();
+                }
             }
             else
             {
-                Debug.WriteLine("Error for SaveData() method.");
-                return View();
+                return RedirectToAction("Register","Account");
             }
             //College db = new College
             //{
-                   // Name = schoolName,
-                    //StateName = stateName,
-                    //City = cityName,
-                    //Accreditor = accreditor,
-                    //Focus = Request.QueryString["degreeInput"],
-                    //Ownership = ownership,
-                    //Cost = cost,
-                    //AdmissionRate = acceptRate
-                //};
+            // Name = schoolName,
+            //StateName = stateName,
+            //City = cityName,
+            //Accreditor = accreditor,
+            //Focus = Request.QueryString["degreeInput"],
+            //Ownership = ownership,
+            //Cost = cost,
+            //AdmissionRate = acceptRate
+            //};
         }
 
         /// <summary>
