@@ -208,6 +208,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -229,20 +230,27 @@
   <ItemGroup>
     <Content Include="App_Data\DOWN.sql" />
     <Content Include="App_Data\UP.sql" />
+    <Content Include="Content\accordion.css" />
     <Content Include="Content\blackboard.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\colorful.jpg" />
     <Content Include="Content\companion.css" />
+    <Content Include="Content\food.png" />
     <Content Include="Content\padnPlant.jpg" />
+    <Content Include="Content\people.png" />
+    <Content Include="Content\qunit.css" />
     <Content Include="Content\streetChalk.jpg" />
     <Content Include="Content\streetChalk.png" />
     <Content Include="Content\studentsBlue.jpg" />
     <Content Include="Content\teachersDesk.jpg" />
+    <Content Include="Content\textureBG.jpg" />
+    <Content Include="Content\travel.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\accordion.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -268,12 +276,18 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\SchoolSearch.js" />
     <Content Include="Scripts\SearchResults.js" />
     <Content Include="Scripts\StateSearch.js" />
+    <Content Include="Scripts\TravelSearch.js" />
     <Content Include="Scripts\YelpSearch.js" />
+    <Content Include="Views\Home\SchoolSearch.cshtml" />
+    <Content Include="Views\Test\qunit-2.6.0.css" />
+    <Content Include="Views\Test\qunit-2.6.0.js" />
+    <Content Include="Views\Test\test.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -314,6 +328,9 @@
     <Content Include="Views\Home\SearchResults.cshtml" />
     <Content Include="Views\Home\Yelp.cshtml" />
     <Content Include="Views\Home\SaveData.cshtml" />
+    <Content Include="Views\Home\SearchesMenu.cshtml" />
+    <Content Include="Views\Home\Travel.cshtml" />
+    <Content Include="Views\Test\QUnit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
