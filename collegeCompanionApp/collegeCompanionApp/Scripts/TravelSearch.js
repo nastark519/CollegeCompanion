@@ -23,11 +23,13 @@ $("#submit").click(function () {
 
     zipInput = $("#zipInput").val(); //Get zipcode information from user.
     console.log(zipInput); //Verify we're getting back the data we expect.
+    console.log("URL before ajax: " + "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityInput + "&components=postal_code:" + zipInput + "&sensor=false&key= AIzaSyCS8ZI4cCMMVdu1SWSSFJ1wnX4ZZniB8zU");
 
-    $.ajax({
-        url: "http://maps.googleapis.com/maps/api/geocode/json?address=" + cityInput + "&components=postal_code:" + zipInput + "&sensor=false",
+    $.ajax({ 
+        url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityInput + "&components=postal_code:" + zipInput + "&sensor=false",
         method: "POST",
-        success: getCoords
+        success: getCoords,
+        error: errorOnAjax
     });
 });
 
