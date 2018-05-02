@@ -114,8 +114,8 @@ function successSearch(data) {
                                 '<div class="row">' +
                                     '<div class="col-sm-1">' +
                                         '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-                    '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + City +
-                    ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
+                    '<a class="fa fa-heart-o" href="SaveData?Name=' + collegeName + '&StateName=' + state + '&City=' + City +
+                    '&Accreditor' + accreditor + '&Ownership=' + ownership + '&Cost=' + tuition + '"></a>' +      // This this a starting point fot sp4 for fav.
                                 '</h2>' +
                                     '</div>' +
                                     '<div class="col-sm-offset-0"></div>' +
