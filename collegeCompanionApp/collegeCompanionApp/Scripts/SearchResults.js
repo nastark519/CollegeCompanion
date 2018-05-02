@@ -201,64 +201,62 @@ function successSearch(data) {
                         //'</div>'
                     //);
                 //}
-=======
-                    '<div class="panel panel-info">' +
-                    '<div class="panel-heading text-center">' +
-                    '<div class="row">' +
-                    '<div class="col-sm-1">' +
-                    '<h2>' +
-                    '<i class="fa fa-heart-o"></i>' +
-                    '</h2>' +
-                    '</div>' +
-                    '<div class="col-sm-offset-0"></div>' +
-                    '<div class="col-sm-9">' +
-                    '<div class="spaceLeft">' +
-                    '<h5 class="ccheader">' +
-                    data.results[i]["school.name"] +
-                    '</h5>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-sm-pull-1">' +
-                    '<h2>' +
-                    '<i class="fa fa-sticky-note-o"></i> ' +
-                    '</h2>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="panel-body text-primary" style="margin-top:-5%;">' +
-                    '<div class="row">' +
-                    '<h4 class="text-center">' +
-                    '<i class="glyphicon glyphicon-usd"></i>' +
-                    tuition +
-                    '/year' +
-                    '</h4>' +
-                    '<div class="row" style="margin-top:5%;">' +
-                    '<div class="col-sm-6">' +
-                    '&emsp; State: ' + data.results[i]["school.state"] +
-                    '</div>' +
-                    '<div class="col-sm-6">' +
-                    'City: ' + data.results[i]["school.city"] +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="row">' +
-                    '&emsp; Degree Being Saught' +
-                    '</div>' +
-                    '<div class="row">' +
-                    '&emsp; Ownership: ' + ownership +
-                    '</div>' +
-                    '<div class="row">' +
-                    '&emsp; Accreditor: ' + accreditor +
-                    '</div>' +
-                    '<div class="row">' +
-                    '&emsp; Acceptance Rate: ' + (acceptRate * 100) + "%" +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
-                );
->>>>>>> 6b9f2b9b12803a379651dbbdb993504fb9057e00
+
+                    //'<div class="panel panel-info">' +
+                    //'<div class="panel-heading text-center">' +
+                    //'<div class="row">' +
+                    //'<div class="col-sm-1">' +
+                    //'<h2>' +
+                    //'<i class="fa fa-heart-o"></i>' +
+                    //'</h2>' +
+                    //'</div>' +
+                    //'<div class="col-sm-offset-0"></div>' +
+                    //'<div class="col-sm-9">' +
+                    //'<div class="spaceLeft">' +
+                    //'<h5 class="ccheader">' +
+                    //data.results[i]["school.name"] +
+                    //'</h5>' +
+                    //'</div>' +
+                    //'</div>' +
+                    //'<div class="col-sm-pull-1">' +
+                    //'<h2>' +
+                    //'<i class="fa fa-sticky-note-o"></i> ' +
+                    //'</h2>' +
+                    //'</div>' +
+                    //'</div>' +
+                    //'</div>' +
+                    //'<div class="panel-body text-primary" style="margin-top:-5%;">' +
+                    //'<div class="row">' +
+                    //'<h4 class="text-center">' +
+                    //'<i class="glyphicon glyphicon-usd"></i>' +
+                    //tuition +
+                    //'/year' +
+                    //'</h4>' +
+                    //'<div class="row" style="margin-top:5%;">' +
+                    //'<div class="col-sm-6">' +
+                    //'&emsp; State: ' + data.results[i]["school.state"] +
+                    //'</div>' +
+                    //'<div class="col-sm-6">' +
+                    //'City: ' + data.results[i]["school.city"] +
+                    //'</div>' +
+                    //'</div>' +
+                    //'</div>' +
+                    //'<div class="row">' +
+                    //'&emsp; Degree Being Saught' +
+                    //'</div>' +
+                    //'<div class="row">' +
+                    //'&emsp; Ownership: ' + ownership +
+                    //'</div>' +
+                    //'<div class="row">' +
+                    //'&emsp; Accreditor: ' + accreditor +
+                    //'</div>' +
+                    //'<div class="row">' +
+                    //'&emsp; Acceptance Rate: ' + (acceptRate * 100) + "%" +
+                    //'</div>' +
+                    //'</div>' +
+                    //'</div>' +
+                    //'</div>' +
+                    //'</div>');
             }
         }
     } else { //School Not found

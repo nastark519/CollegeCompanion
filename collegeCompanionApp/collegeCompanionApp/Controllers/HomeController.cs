@@ -131,7 +131,6 @@ namespace collegeCompanionApp.Controllers
             Debug.WriteLine("SearchForm() Method!");
 
             //Get College Scorecard API
-            //string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
             schoolName = Request.QueryString["school.name"];
             state = Request.QueryString["school.state"];
             city = Request.QueryString["school.city"];
@@ -275,7 +274,7 @@ namespace collegeCompanionApp.Controllers
             values = values + "&school.ownership=" + ownership;
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
-            var APIKey = "&api_key=nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
+            var APIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"]; //API Key
             var fields = "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall";
             //Fields 
             //URL to College Scorecard
@@ -351,6 +350,8 @@ namespace collegeCompanionApp.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+		
+        /// Yelp NUnit Testing
         public string IsAPIKey(string key)
         {
             if (key.Length <= 5)
@@ -387,6 +388,7 @@ namespace collegeCompanionApp.Controllers
         {
             return "https://api.yelp.com/v3/businesses/search?" + param;
         }
+
 
         //working on getting the xml from zillow's api to work.
         //may end up not needing this code.
@@ -448,5 +450,79 @@ namespace collegeCompanionApp.Controllers
         //    //JSon string to a JSon object             
         //    var serializer = new JavaScriptSerializer();
         //    var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
+
+
+
+        public ActionResult Demographic()
+        {
+            return View();
+        }
+
+        public JsonResult DemographicSearch()
+        {
+            Debug.WriteLine("DemographicSearch() Method!");
+
+            //Get Demographic API Key
+            string DemoAPIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["DemographicAPIKey"];
+            //Gets the latitude & longitude
+            string coordinates = GetCoordinates(Request.QueryString["latitude"], Request.QueryString["longitude"]);
+            //Set parameters with coordinates & variables
+            string param = SetDemoParams(coordinates, Request.QueryString["variables"]);// + "/" + variables);
+            //Endpoint Description Link: https://market.mashape.com/mapfruition/demographicinquiry#inquire-by-point
+            //Set up url endpoint with parameters
+            var url = SetDemoURL(param);
+
+            //URL GET Request
+            Debug.WriteLine("JSon URL Call: " + url);
+
+            // build a WebRequest
+            WebRequest request = WebRequest.Create(url);
+            //Add Header with API Key
+            request.Headers.Add("X-Mashape-Key", DemoAPIKey);
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+
+            // Read the content.  
+            string responseFromServer = reader.ReadToEnd();
+
+            // Clean up the streams and the response.  
+            reader.Close();
+            response.Close();
+
+            // Create a JObject, using Newtonsoft NuGet package
+            JObject json = JObject.Parse(responseFromServer);
+
+            // Create a serializer to deserialize the string response (string in JSON format)
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+            // Store JSON results in results to be passed back to client (javascript)
+            var data = serializer.DeserializeObject(responseFromServer);
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //Demographic NUnit Tests
+        public string SetDemoURL(string param)
+        {
+            string url = "https://mapfruition-demoinquiry.p.mashape.com/inquirebypoint/" + param;
+
+            return url;
+        }
+
+        public string SetDemoParams(string coordinates, string variables)
+        {
+            string param = coordinates + "/" + variables;
+
+            return param;
+        }
+
+        public string GetCoordinates(string lat, string lon)
+        {
+            string cord = lat + "," + lon;
+
+            return cord;
+        }
     }
 }

@@ -207,6 +207,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JSTestController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
@@ -262,6 +263,7 @@
     <None Include="Properties\PublishProfiles\collegeCompanionApp20180311104300 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\CollegeSearch.js" />
+    <Content Include="Scripts\DemographicSearch.js" />
     <Content Include="Scripts\FormSearch.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -284,10 +286,13 @@
     <Content Include="Scripts\StateSearch.js" />
     <Content Include="Scripts\TravelSearch.js" />
     <Content Include="Scripts\YelpSearch.js" />
-    <Content Include="Views\Home\SchoolSearch.cshtml" />
     <Content Include="Views\Test\qunit-2.6.0.css" />
     <Content Include="Views\Test\qunit-2.6.0.js" />
     <Content Include="Views\Test\test.js" />
+    <Content Include="Views\JSTest\qunit-2.6.0.css" />
+    <Content Include="Views\JSTest\qunit-2.6.0.js" />
+    <None Include="Views\JSTest\JSTest.cshtml" />
+    <Content Include="Views\JSTest\tests.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -331,6 +336,7 @@
     <Content Include="Views\Home\SearchesMenu.cshtml" />
     <Content Include="Views\Home\Travel.cshtml" />
     <Content Include="Views\Test\QUnit.cshtml" />
+    <Content Include="Views\Home\Demographic.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
