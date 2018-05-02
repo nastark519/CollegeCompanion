@@ -114,7 +114,7 @@ function successSearch(data) {
                                 '<div class="row">' +
                                     '<div class="col-sm-1">' +
                                         '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-                    '<a class="fa fa-heart-o" href="SaveData?Name=' + collegeName + '&StateName=' + state + '&City=' + City +
+                    '<a class="fa fa-heart-o" href="SaveData?Name=' + collegeName + '&StateName=' + state + '&City=' + city +
                     '&Accreditor' + accreditor + '&Ownership=' + ownership + '&Cost=' + tuition + '"></a>' +      // This this a starting point fot sp4 for fav.
                                 '</h2>' +
                                     '</div>' +
