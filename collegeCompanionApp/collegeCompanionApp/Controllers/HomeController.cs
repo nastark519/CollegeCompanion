@@ -131,7 +131,6 @@ namespace collegeCompanionApp.Controllers
             Debug.WriteLine("SearchForm() Method!");
 
             //Get College Scorecard API
-            //string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
             schoolName = Request.QueryString["school.name"];
             state = Request.QueryString["school.state"];
             city = Request.QueryString["school.city"];
@@ -275,7 +274,7 @@ namespace collegeCompanionApp.Controllers
             values = values + "&school.ownership=" + ownership;
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
-            var APIKey = "&api_key=nKOePpukW43MVyeCch1t7xAFZxR2g0EFS3sHNkQ4"; //API Key
+            var APIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"]; //API Key
             var fields = "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall";
             //Fields 
             //URL to College Scorecard
