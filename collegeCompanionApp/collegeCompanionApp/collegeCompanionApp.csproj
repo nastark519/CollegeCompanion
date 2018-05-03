@@ -217,6 +217,8 @@
     <Compile Include="Models\College.cs" />
     <Compile Include="Models\College_User_Relations.cs" />
     <Compile Include="Models\CompanionContext.cs" />
+    <Compile Include="Models\DegreeList.cs" />
+    <Compile Include="Models\DegreeType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\FinLimitList.cs" />
@@ -229,6 +231,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\CompanionDB.mdf" />
+    <Content Include="App_Data\CompanionDB_log.ldf">
+      <DependentUpon>CompanionDB.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\DOWN.sql" />
     <Content Include="App_Data\UP.sql" />
     <Content Include="Content\accordion.css" />
