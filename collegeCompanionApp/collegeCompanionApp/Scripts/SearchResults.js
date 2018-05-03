@@ -4,9 +4,11 @@ window.onload = start;
 
 function start() {
 
+    // Gets the Current URL
     var currentURL = window.location.href;
     console.log("URL: " + currentURL);
 
+    // Get vaules from current URL
     var schoolName = getAllUrlParams(currentURL).schoolName;
     var state = getAllUrlParams(currentURL).state;
     var city = getAllUrlParams(currentURL).city;
@@ -16,7 +18,7 @@ function start() {
     var upperBound = getAllUrlParams(currentURL).upperBound;
     var lowerBound = getAllUrlParams(currentURL).lowerBound;
     var acceptRate = getAllUrlParams(currentURL).acceptanceRate;
-    var schoolTuition = "";
+    var schoolTuition;
 
     console.log("School Name: " + schoolName);
     console.log("State Name: " + state);
@@ -44,15 +46,16 @@ function start() {
         console.log("Acceptance Rate: " + acceptRate);
     }
 
-    //var fields = "&_fields=school.name,school.state,school.city";
+    // Set vaules for JSON request
     var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city
         + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership + schoolTuition
         + "&2015.admissions.admission_rate.overall__range=0.1.." + acceptRate;
+    // URL JSON request
     var url = "Search?" + values;
 
     console.log("URL is " + url);
 
-    //Requesting JSon through Ajax
+    // Requesting JSon through Ajax
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -93,6 +96,8 @@ function successSearch(data) {
 
                 if (acceptRate === null) {
                     acceptRate = "N/A";
+                } else {
+                    acceptRate = (acceptRate * 100).toFixed(2); // Round to second decimal place
                 }
 
                 if (ownership === 1) {
@@ -105,7 +110,6 @@ function successSearch(data) {
 
                 tuition = tuition.toLocaleString();
 
-                console.log("Tuition: " + tuition);
 
                 $("#Results").append(
                     '<div class="col-sm-5">' +
@@ -154,9 +158,13 @@ function successSearch(data) {
                         '</div>' +
                                 '<div class="row">' +
                                     '&emsp; Ownership: ' + ownership +
+                        //'</div>' +
+                        //        '<div class="row">' +
+                        //            '&emsp; Accreditor: ' + accreditor +
+                        //'</div>' +
                         '</div>' +
                                 '<div class="row">' +
-                                    '&emsp; Accreditor: ' + accreditor +
+                                    '&emsp; Acceptance Rate: ' + acceptRate + "%" +
                         '</div>' +
                             '</div>' +
                         '</div>' +

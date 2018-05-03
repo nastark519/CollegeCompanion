@@ -51,6 +51,20 @@ CREATE TABLE PrivacyList (
 	PRIMARY KEY (PrivacyID)
 );
 
+CREATE TABLE DegreeList (
+	DegreeID	INT	IDENTITY(1,1)	NOT NULL,
+	DegreeName	NVARCHAR(100)	NOT NULL,
+	DegreeValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(DegreeID)
+);
+
+CREATE TABLE DegreeType (
+	DegreeTypeID	INT	IDENTITY(1,1)	NOT NULL,
+	DegreeTypeName	NVARCHAR(100)	NOT NULL,
+	DegreeTypeValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(DegreeTypeID)
+);
+
 /*Data for Tables*/
 INSERT INTO StateList (QueryName, Name, StateAbbr)
 VALUES ('Alabama AL', 'Alabama', 'AL'),
@@ -124,6 +138,55 @@ INSERT INTO PrivacyList (PrivacyNumber, PrivacyType)
 VALUES (1, 'Public'),
 	   (2, 'Private, Non-Profit'),
 	   (3, 'Private, For-Profit');
+
+INSERT INTO DegreeList (DegreeName, DegreeValue)
+VALUES	('Agriculture, Agriculture Operations, And Related Sciences', 'agriculture'),
+		('Natural Resources And Conservation', 'resources'),
+		('Architecture And Related Services', 'architecture'),
+		('Area, Ethnic, Cultural, Gender, And Group Studies', 'ethnic_cultural_gender'),
+		('Communication, Journalism, And Related Programs', 'communication'),
+		('Communications Technologies/Technicians And Support Services', 'communications_technology'),
+		('Computer And Information Sciences And Support Services', 'computer'),
+		('Personal And Culinary Services', 'personal_culinary'),
+		('Education', 'education'),
+		('Engineering', 'engineering'),
+		('Engineering Technologies And Engineering-Related Fields', 'engineering_technology'),
+		('Foreign Languages, Literatures, And Linguistics', 'language'),
+		('Family And Consumer Sciences/Human Sciences', 'family_consumer_science'),
+		('Legal Professions And Studies', 'legal'),
+		('English Language And Literature/Letters', 'english'),
+		('Liberal Arts And Sciences, General Studies And Humanities', 'humanities'),
+		('Library Science', 'library'),
+		('Biological And Biomedical Sciences', 'biological'),
+		('Mathematics And Statistics', 'mathematics'),
+		('Military Technologies And Applied Sciences', 'military'),
+		('Multi/Interdisciplinary Studies', 'multidiscipline'),
+		('Parks, Recreation, Leisure, And Fitness Studies', 'parks_recreation_fitness'),
+		('Philosophy And Religious Studies', 'philosophy_religious'),
+		('Theology And Religious Vocations', 'theology_religious_vocation'),
+		('Physical Sciences', 'physical_science'),
+		('Science Technologies/Technicians', 'science_technology'),
+		('Psychology', 'psychology'),
+		('Homeland Security, Law Enforcement, Firefighting And Related Protective Services', 'security_law_enforcement'),
+		('Public Administration And Social Service Professions', 'public_administration_social_service'),
+		('Social Sciences', 'social_science'),
+		('Construction Trades', 'construction'),
+		('Mechanic And Repair Technologies/Technicians', 'mechanic_repair_technology'),
+		('Precision Production', 'precision_production'),
+		('Transportation And Materials Moving', 'transportation'),
+		('Visual And Performing Arts', 'visual_performing'),
+		('Health Professions And Related Programs', 'health'),
+		('Business, Management, Marketing, And Related Support Services', 'business_marketing'),
+		('History', 'history');
+
+
+INSERT INTO DegreeType (DegreeTypeName, DegreeTypeValue)
+VALUES	('Certificate of less than one academic year', 'certificate_lt_1_yr'),
+		('Certificate of at least one but less than two academic years', 'certificate_lt_2_yr'),
+		('Associate degree', 'assoc'),
+		('Awards of at least two but less than four academic years', 'certificate_lt_4_yr'),
+		('Bachelor degree', 'bachelors');
+
 
 /*
 College_User_Relations Table
