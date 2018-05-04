@@ -18,6 +18,9 @@ namespace collegeCompanionApp.Models
         public virtual DbSet<FinLimitList> FinLimitLists { get; set; }
         public virtual DbSet<PrivacyList> PrivacyLists { get; set; }
         public virtual DbSet<StateList> StateLists { get; set; }
+        public virtual DbSet<DegreeList> DegreeLists { get; set; }
+        public virtual DbSet<DegreeType> DegreeTypes { get; set; }
+        public virtual DbSet<AcceptanceRate> AcceptanceRates { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -21,11 +21,11 @@
                         <div class="form-group">
                             <label for="stateInput" class="ccheader">Please Select a State</label>
                             <select class="form-control" id="stateInput" name="stateInput">
-                                <option disabled selected> -- select an option -- </option>
+                                <option selected> Any </option>
                                 @foreach (var item in Model.StateLists)
-                        {
-                            <option value="@item.QueryName">@item.Name</option>
-                }
+                                {
+                                    <option value="@item.QueryName">@item.Name</option>
+                                }
                             </select>
                         </div>
                         @*Input Field for City*@
@@ -40,33 +40,54 @@
                         @*Note: This data is saved but not used in search criteria.*@
                         <div class="form-group">
                             <label for="degreeInput" class="ccheader">Desired Degree Focus</label>
-                            <input type="text" class="form-control" id="degreeInput" name="degreeInput" placeholder="Enter Degree Name...">
+                            <select class="form-control" id="degreeInput" name="degreeInput">
+                                <option disabled selected> -- select an option -- </option>
+                                @foreach (var item in Model.DegreeLists)
+                                {
+                                    <option value="@item.DegreeValue">@item.DegreeName</option>
+                                }
+                            </select>
+                        </div>
+                        @*Input Type of Degree*@
+                        <div class="form-group">
+                            <label for="degreeType" class="ccheader">Degree Type</label>
+                            <select class="form-control" id="degreeType" name="degreeType">
+                                <option disabled selected> -- select an option -- </option>
+                                @foreach (var item in Model.DegreeTypes)
+                                {
+                                    <option value="@item.DegreeTypeValue">@item.DegreeTypeName</option>
+                                }
+                            </select>
+                            <small id="degreeTypeHelp" class="form-text text-muted">Select a Degree Type if you selected a Degree Focus.</small>
                         </div>
                     </div>
+
 
                     <div class="col-sm-4">
                         @*Input for Financial Limit*@
                         <div class="form-group">
                             <label for="finLimitInput" class="ccheader">Financial Limits</label>
                             <select class="form-control" id="finLimitInput" name="finLimitInput">
-                                <option disabled selected> -- select an option -- </option>
+                                <option selected> Any </option>
+                                <option>&lt;1000</option>
                                 @foreach (var item in Model.FinLimitLists)
-                        {
-                            <option value="@item.LowerLimit @item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
-                }
+                                {
+                                    <option value="@item.LowerLimit @item.UpperLimit">@item.LowerLimit - @item.UpperLimit</option>
+                                }
+                                <option>&gt;60000</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <label for="costInput" class="ccheader">Or, Enter Your Amount!</label>
                             <input contextmenu="text" pattern="[0-9]" class="form-control" id="costInput" name="costInput" aria-describedby="costHelp" placeholder="EX: 10000">
                             <small id="costHelp" class="form-text text-muted">No dollar sign or comma required.</small>
-                        </div>
+                        </div>*@
                         @*Input for Accreditor*@
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <label for="accreditorInput" class="ccheader">Accreditor</label>
                             <input type="text" pattern="[a-zA-Z0-9]+" class="form-control" id="accreditorInput" name="accreditorInput" aria-describedby="accredHelp" placeholder="Enter Accreditor Name...">
                             <small id="accredHelp" class="form-text text-muted">Enter a full or a partial value.</small>
-                        </div>
+                        </div>*@
                         @*Error Msg for School Name*@
                         <div class="invalid-feedback">
                         </div>
@@ -74,11 +95,11 @@
                         <div class="form-group">
                             <label for="ownershipInput" class="ccheader">Please Select Ownership Type</label>
                             <select class="form-control" id="ownershipInput" name="ownershipInput">
-                                <option disabled selected> -- select an option -- </option>
+                                <option selected> Any </option>
                                 @foreach (var item in Model.PrivacyLists)
-                        {
-                            <option value="@item.PrivacyNumber">@item.PrivacyType</option>
-                }
+                                {
+                                    <option value="@item.PrivacyNumber">@item.PrivacyType</option>
+                                }
                             </select>
                         </div>
                     </div>
@@ -86,8 +107,14 @@
                         @*Input for Student Loan Acceptance Rate*@
                         <div class="form-group">
                             <label for="acceptRateInput" class="ccheader">Acceptance Rate</label>
-                            <input type="text" pattern="[0-9]{2}" class="form-control" id="acceptRateInput" name="acceptRateInput" aria-describedby="acceptHelp" placeholder="Ex: 70">
-                            <small id="acceptHelp" class="form-text text-muted">No percent sign required.</small>
+                            <select class="form-control" id="acceptRateInput" name="acceptRateInput">
+                                <option selected> Any </option>
+                                <option>&lt;10&#37;</option>
+                                @foreach (var item in Model.AcceptanceRates)
+                                {
+                                    <option>&gt;@item.AcceptanceRateValue&#37;</option>
+                                }
+                            </select>
                         </div>
                         @**Submit Button*@
                         <div class="ccheader">
