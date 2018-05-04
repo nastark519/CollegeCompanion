@@ -65,6 +65,12 @@ CREATE TABLE DegreeType (
 	PRIMARY KEY(DegreeTypeID)
 );
 
+CREATE TABLE AcceptanceRate (
+	AcceptanceRateID	INT	IDENTITY(1,1)	NOT NULL,
+	AcceptanceRateValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(AcceptanceRateID)
+);
+
 /*Data for Tables*/
 INSERT INTO StateList (QueryName, Name, StateAbbr)
 VALUES ('Alabama AL', 'Alabama', 'AL'),
@@ -188,6 +194,18 @@ VALUES	('Certificate of less than one academic year', 'certificate_lt_1_yr'),
 		('Bachelor degree', 'bachelors');
 
 
+INSERT INTO AcceptanceRate (AcceptanceRateValue)
+VALUES	('10'),
+		('20'),
+		('30'),
+		('40'),
+		('50'),
+		('60'), 
+		('70'),
+		('80'),
+		('90');
+
+
 /*
 College_User_Relations Table
 Feilds: UserID, CollegeID
@@ -212,9 +230,9 @@ INSERT INTO Users(ASPIdentityID) VALUES (
 	'221b'
 );
 */
-INSERT INTO Colleges(Name, StateName, City, Accreditor, Focus, Ownership, Cost, AdmissionRate) VALUES (
-	'Hyrule University', 'Hyrule', 'Kakariko', 'Malon Foundation', 'Business', 1, 20000, 80
-);
+--INSERT INTO Colleges(Name, StateName, City, Accreditor, Focus, Ownership, Cost, AdmissionRate) VALUES (
+--	'Hyrule University', 'Hyrule', 'Kakariko', 'Malon Foundation', 'Business', 1, 20000, 80
+--);
 /* commented out because an erro was being thrown and it doesn't apear to be needed.
 INSERT INTO College_User_Relations (UserID, CollegeID, Favorite, Saved) VALUES (
 	1, 1, 0, 0

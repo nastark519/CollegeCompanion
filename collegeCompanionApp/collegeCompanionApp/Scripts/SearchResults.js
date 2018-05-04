@@ -6,7 +6,7 @@ function start() {
 
     // Gets the Current URL
     var currentURL = window.location.href;
-    console.log("URL: " + currentURL);
+    console.log("Current URL: " + currentURL);
 
     // Get vaules from current URL
     var schoolName = getAllUrlParams(currentURL).schoolName;
@@ -18,13 +18,23 @@ function start() {
     var upperBound = getAllUrlParams(currentURL).upperBound;
     var lowerBound = getAllUrlParams(currentURL).lowerBound;
     var acceptRate = getAllUrlParams(currentURL).acceptanceRate;
+    var degree = getAllUrlParams(currentURL).degree;
+    var degreeType = getAllUrlParams(currentURL).degreeType;
     var schoolTuition;
 
+    // Console Check
     console.log("School Name: " + schoolName);
-    console.log("State Name: " + state);
+    console.log("State: " + state);
     console.log("City: " + city);
-    console.log("Accreditor: " + accreditor);
     console.log("Ownership: " + ownership);
+    console.log("LowerBound: " + lowerBound);
+    console.log("UpperBound: " + upperBound);
+    console.log("Acceptance Rate:" + acceptRate);
+    console.log("Degree: " + degree);
+    console.log("Degree Type: " + degreeType);
+
+    // Add lower and upper bound to tuition
+    schoolTuition = "&school.tuition=" + lowerBound + ".." + upperBound;
 
     if (cost !== null && upperBound === "") {
         schoolTuition = "&school.tuition_revenue_per_fte=" + cost;
@@ -32,7 +42,7 @@ function start() {
     }
 
     if (upperBound !== "" && cost === null || cost === "") {
-        schoolTuition = "&school.tuition_revenue_per_fte=" + lowerBound + ".." + upperBound;
+        
         console.log("UpperBound: " + upperBound);
         console.log("LowerBound: " + lowerBound);
     }
@@ -48,21 +58,21 @@ function start() {
 
     // Set vaules for JSON request
     var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city
-        + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership + schoolTuition
+        + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership + "&school.tuition=" + lowerBound + ".." + upperBound
         + "&2015.admissions.admission_rate.overall__range=0.1.." + acceptRate;
     // URL JSON request
     var url = "Search?" + values;
 
-    console.log("URL is " + url);
+    console.log("Ajax URL: " + url);
 
     // Requesting JSon through Ajax
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: url,
-        success: successSearch,
-        error: errorOnAjax
-    });
+    //$.ajax({
+    //    type: "GET",
+    //    dataType: "json",
+    //    url: url,
+    //    success: successSearch,
+    //    error: errorOnAjax
+    //});
 }
 
 function successSearch(data) {
@@ -118,8 +128,8 @@ function successSearch(data) {
                                 '<div class="row">' +
                                     '<div class="col-sm-1">' +
                                         '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-                    '<a class="fa fa-heart-o" href="SaveData?Name=' + collegeName + '&StateName=' + state + '&City=' + city +
-                    '&Accreditor' + accreditor + '&Ownership=' + ownership + '&Cost=' + tuition + '"></a>' +      // This this a starting point fot sp4 for fav.
+                    '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + city +
+                    ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
                                 '</h2>' +
                                     '</div>' +
                                     '<div class="col-sm-offset-0"></div>' +
