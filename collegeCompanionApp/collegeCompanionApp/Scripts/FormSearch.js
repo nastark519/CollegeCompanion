@@ -20,6 +20,16 @@ function start() {
     var degree = $('#degreeInput').val();
     var degreeType = $('#degreeType').val();
 
+    // Console Check
+    console.log("School Name: " + schoolName);
+    console.log("State: " + state);
+    console.log("City: " + city);
+    console.log("Ownership: " + ownership);
+    console.log("FinLimit: " + finLimit);
+    console.log("Acceptance Rate:" + acceptRate);
+    console.log("Degree: " + degree);
+    console.log("Degree Type: " + degreeType);
+    
     if (accreditor === undefined) {
         accreditor = '';
     }
@@ -33,49 +43,64 @@ function start() {
     var lowerBound;
     var upperBound;
     if (finLimit !== null) {
-        finBounds = finLimit.split(" ");
-        lowerBound = finBounds[0];
-        upperBound = finBounds[1];
-        console.log("FinLimit Given, UpperBound:" + upperBound);
+        if (finLimit === 'Any') {
+            //console.log("Fin Limit Any! ");
+            lowerBound = '0';
+            upperBound = '';
+        } else if (finLimit === '<1000') {
+            //console.log("Fin Limit <1000 ");
+            lowerBound = '';
+            upperBound = '1000';
+        } else if (finLimit == '>60000') {
+            //console.log("Fin Limit >60000 ");
+            lowerBound = '60000';
+            upperBound = '';
+        } else {
+            //console.log("Fin Limit Selected!");
+            finBounds = finLimit.split(" ");
+            lowerBound = finBounds[0];
+            upperBound = finBounds[1];
+        }
+        console.log("FinLimit LowerBound-UpperBound:" + lowerBound + ".." + upperBound);
     }
 
-
     // Error Message if no state selected
-    if (state === null) {
-        $('#feedbackNoInput').html("Please select a State!");
+    if (state === 'Any' && degree === null) {
+        if (degreeType !== null) {
+            $('#feedbackNoInput').html("Please select a Degree!");
+            return false;
+        } else {
+            $('#feedbackNoInput').html("Please select a State or select a Degree!");
+            return false;
+        }
+    } else if (degree !== null && degreeType === null || state !== 'Any' && degree === null && degreeType !== null) {
+        $('#feedbackNoInput').html("Please select a Degree Type!");
+        return false;
     } else {
-
-        // If no ownership selected, defualt all options
-        if (ownership === null) {
-            console.log("Ownership is Empty!");
+        // If any Ownership
+        if (ownership === 'Any') {
+            console.log("Any Ownership!");
             ownership = "1,2,3";
         }
 
-        // If finlimit null, default output 
-        if (finLimit === null) {
-            console.log("Null FinLimit:" + finLimit);
-            finLimit = "";
-            upperBound = "";
-            lowerBound = "";
+        if (schoolName === 'Any') {
+            schoolName = '';
         }
 
-        if (upperBound !== "" && cost !== null) {
-            $('#feedbackNoInput').html("Please enter your cost per year or select it, not both.");
+        if (degree === null) {
+            degree = '';
+            degreeType = '';
         }
 
-        // Console Check
-        console.log("School Name: " + schoolName);
-        console.log("Ownership: " + ownership);
-        console.log("City: " + city);
-        console.log("Accreditor: " + accreditor);
-        console.log("Ownership: " + ownership);
-        console.log("Cost:" + cost);
-        console.log("Acceptance Rate:" + acceptRate);
+        if (acceptRate == '') {
+            console.log("no Rate");
+        }
+
 
         // Add all values into fields
         var fields = "&schoolName=" + schoolName + "&state=" + state + "&city=" + city +
-            "&accreditor=" + accreditor + "&ownership=" + ownership + "&lowerBound=" + lowerBound + "&upperBound=" + upperBound + "&cost=" + cost
-            + "&acceptanceRate=" + acceptRate;
+            "&accreditor=" + accreditor + "&ownership=" + ownership + "&lowerBound=" + lowerBound + "&upperBound=" + upperBound
+            + "&cost=" + cost + "&acceptanceRate=" + acceptRate + "&degree=" + degree + "&degreeType=" + degreeType;
 
         // url to Search Results 
         var url = "SearchResults?" + fields;
