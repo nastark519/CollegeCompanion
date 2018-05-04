@@ -65,6 +65,12 @@ CREATE TABLE DegreeType (
 	PRIMARY KEY(DegreeTypeID)
 );
 
+CREATE TABLE AcceptanceRate (
+	AcceptanceRateID	INT	IDENTITY(1,1)	NOT NULL,
+	AcceptanceRateValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(AcceptanceRateID)
+);
+
 /*Data for Tables*/
 INSERT INTO StateList (QueryName, Name, StateAbbr)
 VALUES ('Alabama AL', 'Alabama', 'AL'),
@@ -186,6 +192,18 @@ VALUES	('Certificate of less than one academic year', 'certificate_lt_1_yr'),
 		('Associate degree', 'assoc'),
 		('Awards of at least two but less than four academic years', 'certificate_lt_4_yr'),
 		('Bachelor degree', 'bachelors');
+
+
+INSERT INTO AcceptanceRate (AcceptanceRateValue)
+VALUES	('10'),
+		('20'),
+		('30'),
+		('40'),
+		('50'),
+		('60'), 
+		('70'),
+		('80'),
+		('90');
 
 
 /*
