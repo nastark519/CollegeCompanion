@@ -15,25 +15,19 @@ namespace collegeCompanionApp.Repository.Tests
     public class RepositoryTests
     {
         [Test()]
-        public void AddCollegeTest_SuccessfullyAddsCollege()
+        public string GetCity_SuccessfullyReturnsCity(College college, string expectedResult)
         {
             //Arrange
-            College newCollege = new College
-            {
-                Name = "Stuff",
-                StateName = "OR",
-                City = "Place",
-                Ownership = "1",
-                Accreditor = "Them",
-                Cost = 1000
-            };
             Mock<IRepository> mockRepo = new Mock<IRepository>(MockBehavior.Strict);
+            IRepository repo = mockRepo.Object;
 
             //Act
-            mockRepo.AddCollege(newCollege);
+            mockRepo.Setup(m => m.GetCity(college)).Returns(expectedResult);
+
             //Assert
+            Assert.AreEqual(expectedResult, college.City); // Verify it is the right city
 
-
+            return college.City;
         }
     }
 }
