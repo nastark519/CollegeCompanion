@@ -37,10 +37,7 @@ namespace collegeCompanionApp.Controllers
             _repository = repo;
         }
 
-        public HomeController()
-        {
-
-        }
+        public HomeController(){}
 
         public ActionResult Index()
         {
@@ -156,7 +153,6 @@ namespace collegeCompanionApp.Controllers
             accreditor = Request.QueryString["school.accreditor"];
             ownership = Request.QueryString["school.ownership"];
             finLimit = Request.QueryString["school.tuition_revenue_per_fte"];
-            Debug.WriteLine("FinLimit: " + finLimit);
             acceptRate = Request.QueryString["2015.admissions.admission_rate.overall__range"];
 
             // build a WebRequest
@@ -265,7 +261,7 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.accreditor=" + accreditor;
             }
-            if (finLimit != null && finLimit != "")
+            if (finLimit != null && finLimit != "" && finLimit != "..")
             {
                 if (finLimit.Length == 12)
                 {
@@ -293,7 +289,7 @@ namespace collegeCompanionApp.Controllers
             values = values + "&school.ownership=" + ownership;
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
-            var APIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"]; //API Key
+            var APIKey = "&api_key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"]; //API Key
             var fields = "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall";
             //Fields 
             //URL to College Scorecard
