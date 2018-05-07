@@ -6,7 +6,7 @@
 
     // Create a map and center it on Manhattan.
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 13,
+        zoom: 8,
         center: { lat: 40.771, lng: -73.974 }
     });
 

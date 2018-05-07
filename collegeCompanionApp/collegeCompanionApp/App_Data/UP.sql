@@ -149,8 +149,8 @@ INSERT INTO Users(ASPIdentityID) VALUES (
 	'221b'
 );
 */
-INSERT INTO Colleges(Name, StateName, City, Accreditor, Focus, Ownership, Cost, AdmissionRate) VALUES (
-	'Hyrule University', 'Hyrule', 'Kakariko', 'Malon Foundation', 'Business', 1, 20000, 80
+--INSERT INTO Colleges(Name, StateName, City, Accreditor, Focus, Ownership, Cost, AdmissionRate) VALUES (
+--	'Hyrule University', 'Hyrule', 'Kakariko', 'Malon Foundation', 'Business', 1, 20000, 80
 );
 /* commented out because an erro was being thrown and it doesn't apear to be needed.
 INSERT INTO College_User_Relations (UserID, CollegeID, Favorite, Saved) VALUES (
