@@ -11,7 +11,20 @@
                     enviroment, that is right for them. Many sites like this worry about your GPA or credentials, meanwhile we're
                     concerned making sure your happy in the enviroment of your future learning!
                 </p>
+                <div class="searchform">
+                    @*Search Box*@
+                    <div class="search" style="margin-bottom:10px">
+                        <span class="fa fa-search"></span>
+                        <input type="text" placeholder="Enter a State..." name="stateInput" id="stateInput">
+                    </div>
+                    <input type="submit" class="btn btn-warning" name="submit" id="submit" value="Search">
+                    <button type="button" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("SearchForm", "Home") + "'");"> Advanced Search </button>
+                </div>
             </div>
         </div>
     </div>
 </body>
+
+@section scripts{
+    <script type="text/javascript" src="~/Scripts/FormSearch.js"></script>
+}

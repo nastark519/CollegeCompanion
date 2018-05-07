@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Travel";
 }
-
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+</head>
 <h2>Travel</h2>
 <div class="container">
     <div class="col-lg-3">
@@ -14,10 +16,10 @@
             <input type="text" class="form-control" name="cityInput" id="cityInput" placeholder="City Name" />
 
             <label for="stateInput">State</label>
-            <input type="text" class="form-control" name="stateInput" id="stateInput" placeholder="Full or Abbreviation"/>
+            <input type="text" class="form-control" name="stateInput" id="stateInput" placeholder="Full or Abbreviation" />
 
             <label for="zipInput">Zip Code</label>
-            <input type="text" class="form-control" name="zipInput" id="zipInput" placeholder="US Only" pattern="[0-9]{5}"  />
+            <input type="text" class="form-control" name="zipInput" id="zipInput" placeholder="US Only" pattern="[0-9]{5}" />
             <br />
             <button type="submit" id="submit" class="btn btn-default">Submit</button>
         </div>
@@ -25,9 +27,27 @@
     <div class="col-lg-3" style="float:left">
         <div class="travelResults"></div>
     </div>
+    <div id="clear-div">
+        <div class="col-lg-3" id="map-div">
+            <div id="floating-panel">
+                <b>Start: </b>
+                <input id="start" name="start" type="text" placeholder="Enter starting location..." />
+                <b>End: </b>
+                <input id="end" name="end" type="text" placeholder="Enter starting location..." />
+            </div>
+            <div id="map"></div>
+            &nbsp;
+            <div id="warnings-panel"></div>
+        </div>
+    </div>
 </div>
 
+@*<script async defer src=@Html.Action("GoogleAPIKey", "HomeController")></script>*@
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCP168UjPI0kwp82kzcdm4Hpd6iB5FNKUY&callback=initMap"></script>
+
+
 @section scripts{
-    <script src="~/Scripts/TravelSearch.js"></script>
-    }
+    <script  type="text/javascript" src="~/Scripts/TravelSearch.js"></script>
+    <script  type="text/javascript" src="~/Scripts/googleSearch.js"></script>
+}
 

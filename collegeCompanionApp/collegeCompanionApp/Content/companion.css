@@ -201,3 +201,73 @@ body, img {
     text-align: center;
 }
 
+/* Search Field Styles*/
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+
+body {
+    margin: 30px;
+}
+
+.search {
+    position: relative;
+    color: #aaa;
+    font-size: 16px;
+}
+
+    .search input {
+        width: 250px;
+        height: 32px;
+        background: #fcfcfc;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
+    }
+
+    .search input {
+        text-indent: 32px;
+    }
+
+    .search .fa-search {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+.searchform {
+    align-content:center;
+    text-align:center;
+}
+/** Google Maps Styles**/
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+#clear-div {
+    width: unset;
+    height: unset;
+    min-width: unset;
+    min-height: unset;
+}
+#map {
+    height: 400px;
+}
+
+#map-div {
+    height: 400px;
+    width: 400px;
+    margin: 0;
+    padding: 0;
+}
+
+#floating-panel {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
