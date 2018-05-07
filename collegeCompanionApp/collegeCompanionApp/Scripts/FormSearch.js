@@ -109,7 +109,7 @@ function start() {
         console.log("URL: " + url);
 
         // Returns the URL of the current page
-        //window.location.href = url;
+        window.location.href = url;
 
     }
 }
