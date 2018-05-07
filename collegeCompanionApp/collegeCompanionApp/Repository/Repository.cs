@@ -116,18 +116,18 @@ namespace collegeCompanionApp.Repository
         /// <returns>
         /// Returns the specificed college's zipcode field.
         /// </returns>
-        public int GetZipCode(College college)
-        {
-            if (college == null)
-            {
-                throw new ArgumentNullException(nameof(college));
-            }
-            var zipCode = companiondb.Colleges.Where(n => n.CollegeID == college.CollegeID)
-                                           .Select(n => n.ZipCode) //Requires Database Updated for ZipCode Field!
-                                           .SingleOrDefault()
-                                           .ToString();
-            return zipCode;
-        }
+        //public int GetZipCode(College college)
+        //{
+        //    if (college == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(college));
+        //    }
+        //    var zipCode = companiondb.Colleges.Where(n => n.CollegeID == college.CollegeID)
+        //                                   .Select(n => n.ZipCode) //Requires Database Updated for ZipCode Field!
+        //                                   .SingleOrDefault()
+        //                                   .ToString();
+        //    return zipCode;
+        //}
 
         /// <summary>
         /// Gets a list of all the users saved colleges based on log in.

@@ -19,7 +19,7 @@ namespace collegeCompanionApp.Repository
 
         IEnumerable<College> GetSavedColleges(string logIn);
 
-        int GetZipCode(College college);
+        //int GetZipCode(College college);
 
         string GetState(College college);
 

@@ -65,14 +65,14 @@ function start() {
 
     console.log("Ajax URL: " + url);
 
-    // Requesting JSon through Ajax
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: url,
-    //    success: successSearch,
-    //    error: errorOnAjax
-    //});
+     //Requesting JSon through Ajax
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: url,
+        success: successSearch,
+        error: errorOnAjax
+    });
 }
 
 function successSearch(data) {

@@ -38,6 +38,8 @@ namespace collegeCompanionApp.Controllers
             _repository = repo;
         }
 
+        public HomeController(){}
+
         public ActionResult Index()
         {
             return View();
@@ -275,7 +277,7 @@ namespace collegeCompanionApp.Controllers
                     Debug.WriteLine("Fin Limit: " + finLimit);
                 }
             }
-            values = values + "&2015.admissions.admission_rate.overall__range=" + acceptRate;
+            //values = values + "&2015.admissions.admission_rate.overall__range=" + acceptRate;
             values = values + "&school.ownership=" + ownership;
 
             var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
