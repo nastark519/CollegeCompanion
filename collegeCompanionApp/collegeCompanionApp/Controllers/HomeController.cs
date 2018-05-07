@@ -13,8 +13,8 @@ using Newtonsoft.Json.Linq;
 using System.Xml;
 using System.Data.Linq;
 using System.Text;
-
-
+using collegeCompanionApp.Repository;
+using Ninject;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -29,8 +29,14 @@ namespace collegeCompanionApp.Controllers
         string finLimit = "";
         string acceptRate = "";
         int storedLimit = 0;
-        //Adding in the context for the Colleges&CompanionUsers&College_User_Relations
-        CompanionContext companiondb = new CompanionContext();
+
+        //Adding in the repository pattern connection
+        private IRepository _repository;
+
+        public HomeController(IRepository repo)
+        {
+            _repository = repo;
+        }
 
         public ActionResult Index()
         {
@@ -187,9 +193,9 @@ namespace collegeCompanionApp.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    companiondb.Colleges.Add(college);
+                    _repository.AddCollege(college);
 
-                    companiondb.SaveChanges();
+                    _repository.SaveCollege(college);
                     return View();
                 }
                 else
