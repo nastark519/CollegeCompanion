@@ -2,6 +2,10 @@
 
 window.onload = start;
 
+// Global Variables
+var degree;
+var degreeType;
+
 function start() {
 
     // Gets the Current URL
@@ -18,8 +22,8 @@ function start() {
     var upperBound = getAllUrlParams(currentURL).upperBound;
     var lowerBound = getAllUrlParams(currentURL).lowerBound;
     var acceptRate = getAllUrlParams(currentURL).acceptanceRate;
-    var degree = getAllUrlParams(currentURL).degree;
-    var degreeType = getAllUrlParams(currentURL).degreeType;
+    degree = getAllUrlParams(currentURL).degree;
+    degreeType = getAllUrlParams(currentURL).degreeType;
     var schoolTuition;
 
     // Console Check
@@ -34,38 +38,40 @@ function start() {
     console.log("Degree Type: " + degreeType);
 
     // Add lower and upper bound to tuition
-    schoolTuition = "&school.tuition=" + lowerBound + ".." + upperBound;
+    schoolTuition = lowerBound + ".." + upperBound;
 
-    if (cost !== null && upperBound === "") {
-        schoolTuition = "&school.tuition_revenue_per_fte=" + cost;
-        console.log("Cost: " + cost);
-    }
+    //if (cost !== null && upperBound === "") {
+    //    schoolTuition = "&school.tuition_revenue_per_fte=" + cost;
+    //    console.log("Cost: " + cost);
+    //}
 
-    if (upperBound !== "" && cost === null || cost === "") {
+    //if (upperBound !== "" && cost === null || cost === "") {
         
-        console.log("UpperBound: " + upperBound);
-        console.log("LowerBound: " + lowerBound);
-    }
+    //    console.log("UpperBound: " + upperBound);
+    //    console.log("LowerBound: " + lowerBound);
+    //}
 
-    if (acceptRate === null || acceptRate === "undefined" || acceptRate === "") {
-        console.log("Acceptance Rate is Empty!");
-        acceptRate = "1";
-        console.log("Acceptance Rate: " + acceptRate);
-    } else {
-        acceptRate = acceptRate / 100;
-        console.log("Acceptance Rate: " + acceptRate);
-    }
+    //if (acceptRate === null || acceptRate === "undefined" || acceptRate === "") {
+    //    console.log("Acceptance Rate is Empty!");
+    //    acceptRate = "1";
+    //    console.log("Acceptance Rate: " + acceptRate);
+    //} else {
+    //    acceptRate = acceptRate / 100;
+    //    console.log("Acceptance Rate: " + acceptRate);
+    //}
 
     // Set vaules for JSON request
     var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city
-        + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership + "&school.tuition=" + lowerBound + ".." + upperBound
-        + "&2015.admissions.admission_rate.overall__range=0.1.." + acceptRate;
+        + "&school.accreditor=" + accreditor + "&school.ownership=" + ownership
+        + "&school.tuition=" + schoolTuition + "&school.admission_rate=" + acceptRate
+        + "&school.degree=" + degree + "&school.degreeType=" + degreeType;
+
     // URL JSON request
     var url = "Search?" + values;
 
     console.log("Ajax URL: " + url);
 
-     //Requesting JSon through Ajax
+    // Requesting JSon through Ajax
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -84,6 +90,8 @@ function successSearch(data) {
         $("#NotFound").empty();
         $("#Results").empty();
 
+        var schoolDegreeType = "2015.academics.program." + degreeType + "." + degree;
+
         for (i = 0; i <= schools; i++) {
             if (data.results[i]) {
 
@@ -91,6 +99,8 @@ function successSearch(data) {
                 var ownership = data.results[i]["school.ownership"];
                 var tuition = data.results[i]["school.tuition_revenue_per_fte"];
                 var acceptRate = data.results[i]["2015.admissions.admission_rate.overall"];
+                var schoolDegree = data.results[i][schoolDegreeType];
+                var schoolURL = data.results[i]["school.school_url"];
 
                 //setting up these next two vars for my zillow call.
                 var state = data.results[i]["school.state"];
@@ -116,6 +126,18 @@ function successSearch(data) {
                     ownership = "Private Non-Profit";
                 } else {
                     ownership = "Private For-Profit";
+                }
+
+                if (schoolDegree === 2) {
+                    schoolDegree = "Program Offered through an Exclusively Distance-Education Program";
+                } else if (schoolDegree === 1) {
+                    schoolDegree = "Program Offered!";
+                } else {
+                    schoolDegree = "No Degree Selected";
+                }
+
+                if (schoolURL[0] === 'w') {
+                    schoolURL = "https://" + schoolURL;
                 }
 
                 tuition = tuition.toLocaleString();
@@ -164,7 +186,7 @@ function successSearch(data) {
                                     '</div>' +
                                 '</div>' +
                                 '<div class="row">' +
-                                    '&emsp; Degree Being Saught' +
+                                    '&emsp; Degree Selected: ' + schoolDegree +
                         '</div>' +
                                 '<div class="row">' +
                                     '&emsp; Ownership: ' + ownership +
@@ -175,6 +197,9 @@ function successSearch(data) {
                         '</div>' +
                                 '<div class="row">' +
                                     '&emsp; Acceptance Rate: ' + acceptRate + "%" +
+                    '</div>' +
+                    '<div class="row">' +
+                                    '&emsp; College Website: ' + '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
                         '</div>' +
                             '</div>' +
                         '</div>' +
@@ -286,6 +311,7 @@ function successSearch(data) {
 
 function errorOnAjax() {
     console.log("error on Ajax");
+    $("#NotFound").text("Error on Ajax!");
     return false;
 }
 
