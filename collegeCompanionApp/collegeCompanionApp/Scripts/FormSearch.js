@@ -51,7 +51,7 @@ function start() {
             //console.log("Fin Limit <1000 ");
             lowerBound = '';
             upperBound = '1000';
-        } else if (finLimit == '>60000') {
+        } else if (finLimit === '>60000') {
             //console.log("Fin Limit >60000 ");
             lowerBound = '60000';
             upperBound = '';
@@ -62,6 +62,18 @@ function start() {
             upperBound = finBounds[1];
         }
         console.log("FinLimit LowerBound-UpperBound:" + lowerBound + ".." + upperBound);
+    }
+
+    // Get the acceptance rate
+    if (acceptRate === 'Any') {
+        acceptRate = '0..';
+    } else if (acceptRate === '10') {
+        acceptRate = '..0.1';
+    } else {
+        var num = parseInt(acceptRate);
+        num = num / 100;
+        var aRate = num.toString();
+        acceptRate = aRate + '..';
     }
 
     // Error Message if no state selected
@@ -82,20 +94,15 @@ function start() {
             console.log("Any Ownership!");
             ownership = "1,2,3";
         }
-
+        // If Any School Name
         if (schoolName === 'Any') {
             schoolName = '';
         }
-
+        // If degree is NULL
         if (degree === null) {
             degree = '';
             degreeType = '';
         }
-
-        if (acceptRate == '') {
-            console.log("no Rate");
-        }
-
 
         // Add all values into fields
         var fields = "&schoolName=" + schoolName + "&state=" + state + "&city=" + city +
