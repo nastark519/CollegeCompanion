@@ -140,7 +140,7 @@ namespace collegeCompanionApp.Controllers
         {
             Debug.WriteLine("SearchForm() Method!");
 
-            //Get College Scorecard API
+            //Get Data from Current URL
             schoolName = Request.QueryString["school.name"];
             state = Request.QueryString["school.state"];
             city = Request.QueryString["school.city"];
@@ -248,13 +248,13 @@ namespace collegeCompanionApp.Controllers
         {
             Debug.WriteLine("createURL() Method!");
 
-            var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; // Source
-            var APIKey = "&api_key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"]; // API Key           
+            var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; // Source, Endpoint
+            var APIKey = "&api_key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"]; // CollegeScoreCard API Key           
             var fields = SetCollegeFields(); // Set Fields
-            var values = SetCollegeValues(ownership, acceptRate, finLimit); // Set Values/Parameters
+            var values = SetCollegeValues(ownership, acceptRate, finLimit); // Set Values, Parameters
 
             // Checks for Empty Values
-            // If not empty, add to the values
+            // If not empty, add to parameters
             if (schoolName != "")
             {
                 values = values + "&school.name=" + schoolName;
@@ -274,12 +274,11 @@ namespace collegeCompanionApp.Controllers
             if (degree != "")
             {
                 string theDegree = SetDegree(degreeType, degree); // Set up Degree value
-                values = values + AddDegreeValue(theDegree); // Adds Degree to Parameters
-                fields = fields + AddDegreeField(theDegree); // Adds Degree to Fields
+                values = values + AddDegreeValue(theDegree); // Add Degree to Parameters
+                fields = fields + AddDegreeField(theDegree); // Add Degree to Fields
             }
 
-  
-            //URL to College Scorecard
+            //Set up GET URL to College Scorecard
             string url = source + values + APIKey + fields;
             //Replace spaces with %20 
             url = url.Trim();
@@ -291,25 +290,26 @@ namespace collegeCompanionApp.Controllers
 
         public string SetCollegeFields()
         {
+            // Default Fields to get
             return "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall,school.school_url";
         }
 
         public string SetCollegeValues(string ownership, string acceptRate, string finLimit)
         {
             string collegeValues = "school.ownership=" + ownership + "&2015.admissions.admission_rate.overall__range=" + acceptRate
-                + "&school.tuition_revenue_per_fte__range=" + finLimit + "&_sort=school.tuition_revenue_per_fte:desc";
+                + "&school.tuition_revenue_per_fte__range=" + finLimit + "&_sort=school.tuition_revenue_per_fte:desc"; // Default Parameters
             return collegeValues;
         }
 
         public string AddDegreeField(string theDegree)
         {
-            string field = "," + theDegree; // Add to fields to get value
+            string field = "," + theDegree; // Add Degree to fields
             return field;
         }
 
         public string AddDegreeValue(string theDegree)
         {
-            string val = "&" + theDegree + "__range=1.."; // Add to parameters
+            string val = "&" + theDegree + "__range=1.."; // Add Degree to parameters
             return val;
         }
 
@@ -319,13 +319,11 @@ namespace collegeCompanionApp.Controllers
             return aDegree;
         }
 
+
         public ActionResult Yelp()
         {
-
             return View();
-
         }
-
 
         public JsonResult YelpSearch()
         {
@@ -477,7 +475,9 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult Demographic()
         {
-            return View();
+            FormdataDB formdb = new FormdataDB();
+            Debug.Assert(formdb != null, "Database has the wrong connection.");
+            return View(formdb);
         }
 
         public JsonResult DemographicSearch()

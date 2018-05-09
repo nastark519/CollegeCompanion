@@ -1,5 +1,6 @@
 ﻿console.log("You're in the SearchResults.js script");
 
+// Load start() when page starts
 window.onload = start;
 
 // Global Variables
@@ -10,6 +11,7 @@ function start() {
 
     // Gets the Current URL
     var currentURL = window.location.href;
+    // Console Check URL
     console.log("Current URL: " + currentURL);
 
     // Get vaules from current URL
@@ -24,7 +26,8 @@ function start() {
     var acceptRate = getAllUrlParams(currentURL).acceptanceRate;
     degree = getAllUrlParams(currentURL).degree;
     degreeType = getAllUrlParams(currentURL).degreeType;
-    var schoolTuition;
+    // Add lower and upper bound to school tuition
+    var schoolTuition = lowerBound + ".." + upperBound;
 
     // Console Check
     console.log("School Name: " + schoolName);
@@ -33,32 +36,10 @@ function start() {
     console.log("Ownership: " + ownership);
     console.log("LowerBound: " + lowerBound);
     console.log("UpperBound: " + upperBound);
+    console.log("School Tuition: " + schoolTuition);
     console.log("Acceptance Rate:" + acceptRate);
     console.log("Degree: " + degree);
-    console.log("Degree Type: " + degreeType);
-
-    // Add lower and upper bound to tuition
-    schoolTuition = lowerBound + ".." + upperBound;
-
-    //if (cost !== null && upperBound === "") {
-    //    schoolTuition = "&school.tuition_revenue_per_fte=" + cost;
-    //    console.log("Cost: " + cost);
-    //}
-
-    //if (upperBound !== "" && cost === null || cost === "") {
-        
-    //    console.log("UpperBound: " + upperBound);
-    //    console.log("LowerBound: " + lowerBound);
-    //}
-
-    //if (acceptRate === null || acceptRate === "undefined" || acceptRate === "") {
-    //    console.log("Acceptance Rate is Empty!");
-    //    acceptRate = "1";
-    //    console.log("Acceptance Rate: " + acceptRate);
-    //} else {
-    //    acceptRate = acceptRate / 100;
-    //    console.log("Acceptance Rate: " + acceptRate);
-    //}
+    console.log("Degree Type: " + degreeType);  
 
     // Set vaules for JSON request
     var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city
@@ -66,9 +47,9 @@ function start() {
         + "&school.tuition=" + schoolTuition + "&school.admission_rate=" + acceptRate
         + "&school.degree=" + degree + "&school.degreeType=" + degreeType;
 
-    // URL JSON request
+    // Search in HomeController
     var url = "Search?" + values;
-
+    // Console Check Ajax Call URL
     console.log("Ajax URL: " + url);
 
     // Requesting JSon through Ajax
@@ -82,67 +63,62 @@ function start() {
 }
 
 function successSearch(data) {
-    var schools = data.metadata.total;//Total number of schools
-    console.log("Total Results: " + schools);
+    var schools = data.metadata.total; // Total number of schools found
+    console.log("Total Results: " + schools); // Display Total Results
 
-    if (schools > 0) {
-
+    if (schools > 0) { // If Schools Found...
+        // Clear Error message & Past Results
         $("#NotFound").empty();
         $("#Results").empty();
 
-        var schoolDegreeType = "2015.academics.program." + degreeType + "." + degree;
+        var schoolDegreeType = "2015.academics.program." + degreeType + "." + degree; // Degree to look for
 
         for (i = 0; i <= schools; i++) {
             if (data.results[i]) {
-
+                // Get data into variables
                 var accreditor = data.results[i]["school.accreditor"];
                 var ownership = data.results[i]["school.ownership"];
                 var tuition = data.results[i]["school.tuition_revenue_per_fte"];
+                tuition = tuition.toLocaleString(); // Convert Object to String
                 var acceptRate = data.results[i]["2015.admissions.admission_rate.overall"];
                 var schoolDegree = data.results[i][schoolDegreeType];
                 var schoolURL = data.results[i]["school.school_url"];
-
+                var collegeName = data.results[i]["school.name"];
                 //setting up these next two vars for my zillow call.
                 var state = data.results[i]["school.state"];
                 var city = data.results[i]["school.city"];
 
-                var collegeName = data.results[i]["school.name"];
-
-
-                if (accreditor === null) {
-
+                if (accreditor === null) { // If accreditor is NULL than display 'N/A'
                     accreditor = "N/A";
                 }
 
-                if (acceptRate === null) {
+                if (acceptRate === null) { // If acceptance rate is NULL than display 'N/A'
                     acceptRate = "N/A";
-                } else {
+                } else { // Else get acceptance rate percentage
                     acceptRate = (acceptRate * 100).toFixed(2); // Round to second decimal place
                 }
 
-                if (ownership === 1) {
+                if (ownership === 1) { // If ownership is 1, it's public
                     ownership = "Public";
-                } else if (ownership === 2) {
+                } else if (ownership === 2) { // If ownership is 2, it's Private Non-Profit
                     ownership = "Private Non-Profit";
-                } else {
+                } else { // Else it's Private For-Profit
                     ownership = "Private For-Profit";
                 }
 
-                if (schoolDegree === 2) {
+                if (schoolDegree === 2) { // If School Degree is 2, Program Offered with exclusibely education
                     schoolDegree = "Program Offered through an Exclusively Distance-Education Program";
-                } else if (schoolDegree === 1) {
+                } else if (schoolDegree === 1) { // If School Degree is 1, Program Offered
                     schoolDegree = "Program Offered!";
-                } else {
+                } else { // User did not select a Degree
                     schoolDegree = "No Degree Selected";
                 }
 
-                if (schoolURL[0] === 'w') {
-                    schoolURL = "https://" + schoolURL;
+                if (schoolURL[0] === 'w') { // If School URL starts with 'w' for 'www'
+                    schoolURL = "https://" + schoolURL; // Add 'https://' to the School URL
                 }
 
-                tuition = tuition.toLocaleString();
-
-
+               
                 $("#Results").append(
                     '<div class="col-sm-5">' +
                         '<div class="panel panel-info">' +
@@ -155,7 +131,7 @@ function successSearch(data) {
                                 '</h2>' +
                                     '</div>' +
                                     '<div class="col-sm-offset-0"></div>' +
-                                    '<div class="col-sm-9">' +
+                                    '<div class="col-sm-9">' + // College Name
                                         '<div class="spaceLeft">' +
                                             '<h5 class="ccheader">' +
                                                 collegeName +
@@ -169,7 +145,7 @@ function successSearch(data) {
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="panel-body text-primary" style="margin-top:-5%;">' +
+                            '<div class="panel-body text-primary" style="margin-top:-5%;">' + // Tuition
                                 '<div class="row">' +
                                     '<h4 class="text-center">' +
                                         '<i class="glyphicon glyphicon-usd"></i>' +
@@ -177,28 +153,28 @@ function successSearch(data) {
                                 '/year' +
                             '</h4>' +
                                     '<div class="row" style="margin-top:5%;">' +
-                    '<div class="col-sm-6">' +
+                    '<div class="col-sm-6">' + // State
                     '&emsp; State: ' + state +
                                 '</div>' +
-                    '<div class="col-sm-6">' +
+                    '<div class="col-sm-6">' + // City
                     'City: ' + city +
                                 '</div>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div class="row">' +
+                                '<div class="row">' + // Degree Selected?
                                     '&emsp; Degree Selected: ' + schoolDegree +
                         '</div>' +
-                                '<div class="row">' +
+                                '<div class="row">' + // Ownership
                                     '&emsp; Ownership: ' + ownership +
                         //'</div>' +
                         //        '<div class="row">' +
                         //            '&emsp; Accreditor: ' + accreditor +
                         //'</div>' +
                         '</div>' +
-                                '<div class="row">' +
+                                '<div class="row">' + // Acceptance Rate
                                     '&emsp; Acceptance Rate: ' + acceptRate + "%" +
                     '</div>' +
-                    '<div class="row">' +
+                    '<div class="row">' + // School URL
                                     '&emsp; College Website: ' + '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
                         '</div>' +
                             '</div>' +
@@ -311,12 +287,12 @@ function successSearch(data) {
 
 function errorOnAjax() {
     console.log("error on Ajax");
-    $("#NotFound").text("Error on Ajax!");
+    $("#NotFound").text("Error on Ajax!"); // Display Error if ajax error
     return false;
 }
 
 
-//Get data from URL
+//Get data from Current URL
 //Credit: https://www.sitepoint.com/get-url-parameters-with-javascript/
 function getAllUrlParams(url) {
 
