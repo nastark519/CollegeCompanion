@@ -14,6 +14,12 @@ $("#Search").click(start); // On Submit Clicked begin start()
 var latitude = '';
 var longitude = '';
 var address = '';
+// Array of Age Range Variables, EX: waf30_34
+var ageRangeVar = []; 
+//Array of Age Range, EX: 30_34
+var ageRange = [];
+//Selected Age Range with 'p' to get data, EX: pwaf30_34
+var selectedRange = [];
 //Array of Ages
 var ages = [];
 //Array of Age Percentage
@@ -25,6 +31,9 @@ function start() {
     $("#SearchResults").empty();
     $("#NoResults").empty();
     $("#Error").empty();
+    ageRangeVar = [];
+    ageRange = [];
+    selectedRange = [];
     ages = [];
     agePercent = [];
 
@@ -50,6 +59,15 @@ function start() {
 
     console.log("Good Zipcode!"); //Passed as a Good Zipcode
 
+    // Get Selected Age Range Variables
+    getAgeRange();
+    console.log("Array Variable Check[0]: " + ageRangeVar[0]);
+    if (ageRangeVar[0] === undefined) {
+        return false;
+    }
+
+    //************************ Get Latitude & Longitude *********************************//
+
     //Credit: https://stackoverflow.com/questions/6100264/google-maps-get-latitude-and-longitude-from-zip-code
     //Get Latidude and Longitude 
     $.ajax({
@@ -60,8 +78,56 @@ function start() {
     });
 }
 
+function getAgeRange() {
+    // Get Race, Gender, Age Range
+    var race = $('#raceInput').val();
+    var gender = $('#genderInput').val();
+    // Array of Age Range
+    ageRange = (function () { // Credit: https://stackoverflow.com/questions/2834350/get-checkbox-value-in-jquery
+        var a = []; // Array
+        $("#ageRangeInput:checked").each(function () {
+            a.push(this.value); // Push each checked box into array
+        });
+        return a;
+    })()
+
+    //Console Check Input Values
+    console.log("Race: " + race);
+    console.log("Gender: " + gender);
+    console.log("Age Range Length: " + ageRange.length);
+    //for (i = 0; i < ageRange.length; i++) {
+    //    console.log("Age Range[" + i + "]: " + ageRange[i]);
+    //}
+
+    // Check if 10 or less are checked
+    if (ageRange.length > 10) {
+        console.log("Over 10 checked boxes!");
+        // Over 10 Selected
+        $("#Error").text("Please only Select up to 10 Checkboxs");
+        return false;
+    } else if (ageRange.length < 1) {
+        console.log("No checked boxes!");
+        // Over 10 Selected
+        $("#Error").text("Please Select an Age Range!");
+        return false;
+    } else {
+        console.log("Up to 10 Checked boxes!");
+
+        // Start Age Range Variables
+        ageRangeVar.push(race + gender + ageRange[0]);
+        // First Age Variable Check
+        console.log("First Age Range Variable[0]: " + ageRangeVar[0]);
+
+        // Set Variables
+        for (i = 1; i < ageRange.length; i++) {
+            ageRangeVar.push(race + gender + ageRange[i]);
+        }
+        // Console Check
+        console.log("Variable List.toString(): " + ageRangeVar.toString());
+    }
+}
+
 function getCoordinates(data) {
-    console.log("Is Data " + data.success)
     if (data.status === "OK") { //Results Found
         //Get Latitude
         latitude = data.results[0].geometry.location.lat;
@@ -86,11 +152,14 @@ function getCoordinates(data) {
 
     } else { //No Results Found
         $("#NoResults").text("No Results Found!");
+        return false;
     }
 }
 
 function firstAjaxCall(url) {
     console.log("First Ajax Call: " + url);
+
+    //************************ Get First Set of Ages 0-49 *********************************//
 
     //Requesting JSon through Ajax
     $.ajax({
@@ -125,6 +194,7 @@ function getFirstAges(data) {
 
     } else { //No Results Found
         $("#NoResults").text("No Results Found!");
+        return false;
     }
 }
 
@@ -132,6 +202,8 @@ function getFirstAges(data) {
 function secondAjaxCall(url) {
     // Check Second Ajax URL Call
     console.log("Second Ajax Call: " + url);
+
+    //************************ Get Second Set of Ages 50-85 and Over *********************************//
 
     //Requesting JSon through Ajax
     $.ajax({
@@ -180,6 +252,7 @@ function successSearch(data) {
 
     } else { //No Results Found
         $("#NoResults").text("No Results Found!");
+        return false;
     }
 
 }
@@ -227,15 +300,70 @@ function displayData() {
         data.addRow(['Ages: ' + lowAge + '-' + highAge, ages[i]]);
 
         // Optional; add a title and set the width and height of the chart
-        var options = { 'title': 'Population Pie Chart', 'width': 950, 'height': 800 };
+        var options = { 'title': 'Total Population', 'width': 850, 'height': 700 };
 
         // Display the chart inside the <div> element with id="piechart"
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
     }
-    
+
+    //Create Third URL
+    var fields = "latitude=" + latitude + "&longitude=" + longitude;
+    var variables = "&variables=" + ageRangeVar.toString();
+    var url = "DemographicSearch?" + fields + variables;
+    url = url.replace(/ /g, "%20"); //replace spaces with '%20'
+
+    console.log("Variable Length: " + ageRangeVar.length);
+    console.log("URL: " + url);
+
+    thirdAjaxCall(url);
 }
 
+
+function thirdAjaxCall(url) {
+    // Check Third Ajax URL Call
+    console.log("Third Ajax Call: " + url);
+
+    //************************ Get Age Range based on Race and Gender *********************************//
+
+    //Requesting JSon through Ajax
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: url,
+        success: displayResult,
+        error: errorOnAjax
+    });
+}
+
+function displayResult(data) { // Display Selected Age Ranges
+    console.log("In the Display Results!");
+    if (data.success == true) { //Results Found
+        console.log("Success Result!");
+        //Properties Data
+        var prop = data.properties;
+
+        for (i = 0; i < ageRangeVar.length - 1; i++) { // Adds 'p' to every variable to get data back
+            selectedRange.push('p' + ageRangeVar[i]); //SelectedAges
+        }
+
+        console.log("Data SelectedRange[0]: " + prop[selectedRange[0]]);
+        console.log("SelectedRange[1]: " + selectedRange[1]);
+        console.log("ageRange[0]: " + ageRange[0]);
+
+        $("#SelectedAges").append('<li class="list-group-item"><b><u>Selected Ages</u></b></li>');
+
+        for (i = 0; i < ageRangeVar.length - 1; i++) {
+            $("#SelectedAges").append('<li class="list-group-item"><b>Ages ' + ageRange[i]
+                + '</b>: <i>' + prop[selectedRange[i]] + '</i></li>');
+        }
+        
+
+    } else { //No Results Found
+        $("#NoResults").text("No Results Found!");
+        return false;
+    }
+}
 
 // Ajax Error 
 function errorOnAjax(e) {
