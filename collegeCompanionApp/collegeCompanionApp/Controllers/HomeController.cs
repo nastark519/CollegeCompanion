@@ -191,8 +191,19 @@ namespace collegeCompanionApp.Controllers
         /// <param name="accreditor">A string from the dataset of API results.</param>
         /// <param name="ownership">An integer from the dataset of API results.</param>
         /// <param name="finLimit">An integer from the dataset of API results.</param>
-        public ActionResult SaveData([Bind(Include = "CollegeID,Name,StateName,City,Accreditor,Ownership,Cost")]College college)
+        public ActionResult SaveData(object sender, EventArgs e)
         {
+            string name = Request.QueryString["Name"];
+            string stateName = Request.QueryString["StateName"];
+            string city = Request.QueryString["City"];
+            string accreditor = Request.QueryString["Accreditor"];
+            string ownership = Request.QueryString["Ownership"];
+            int cost;
+
+            int.TryParse(Request.QueryString["Cost"], out cost);
+
+            College college = new College { Name = name, StateName = stateName, City = city, Accreditor = accreditor, Ownership = ownership, Cost = cost };
+
             if (User.Identity.IsAuthenticated)
             {
                 Debug.WriteLine("saveData() Method!");
