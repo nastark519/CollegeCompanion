@@ -29,7 +29,8 @@ function start() {
     console.log("Acceptance Rate:" + acceptRate);
     console.log("Degree: " + degree);
     console.log("Degree Type: " + degreeType);
-    
+
+    // Check for undefined
     if (accreditor === undefined) {
         accreditor = '';
     }
@@ -42,41 +43,38 @@ function start() {
     var finBounds;
     var lowerBound;
     var upperBound;
-    if (finLimit !== null) {
-        if (finLimit === 'Any') {
-            //console.log("Fin Limit Any! ");
+    if (finLimit !== null) { // If finLimit not null
+        if (finLimit === 'Any') { // Chose any range 
             lowerBound = '0';
             upperBound = '';
-        } else if (finLimit === '<1000') {
-            //console.log("Fin Limit <1000 ");
+        } else if (finLimit === '<1000') { // Finance under $1,000
             lowerBound = '';
             upperBound = '1000';
-        } else if (finLimit === '>60000') {
-            //console.log("Fin Limit >60000 ");
+        } else if (finLimit === '>60000') { // Finance over $60,000
             lowerBound = '60000';
             upperBound = '';
-        } else {
-            //console.log("Fin Limit Selected!");
+        } else { // Finance User Range
             finBounds = finLimit.split(" ");
             lowerBound = finBounds[0];
             upperBound = finBounds[1];
         }
+        // Console Check FinLimit Lower & Upper Bound
         console.log("FinLimit LowerBound-UpperBound:" + lowerBound + ".." + upperBound);
     }
 
     // Get the acceptance rate
-    if (acceptRate === 'Any') {
+    if (acceptRate === 'Any') { // Any Acceptance Rate
         acceptRate = '0..';
-    } else if (acceptRate === '10') {
+    } else if (acceptRate === '10') { // Acceptance Rate under 10%
         acceptRate = '..0.1';
-    } else {
-        var num = parseInt(acceptRate);
-        num = num / 100;
-        var aRate = num.toString();
-        acceptRate = aRate + '..';
+    } else { // User selection Acceptance Rate 
+        var num = parseInt(acceptRate); // Converts string into int
+        num = num / 100; // Get percentage of Acceptance Rate
+        var aRate = num.toString(); // Convert int into string
+        acceptRate = aRate + '..'; // Acceptance Rate and Greater
     }
 
-    // Error Message if no state selected
+    // Error Message if no State selected or Degree with Degree Type is selected
     if (state === 'Any' && degree === null) {
         if (degreeType !== null) {
             $('#feedbackNoInput').html("Please select a Degree!");
@@ -115,7 +113,7 @@ function start() {
 
         console.log("URL: " + url);
 
-        // Returns the URL of the current page
+        // Returns the URL of the next page
         window.location.href = url;
 
     }

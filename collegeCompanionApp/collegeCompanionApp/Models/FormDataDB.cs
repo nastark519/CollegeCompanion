@@ -21,6 +21,8 @@ namespace collegeCompanionApp.Models
         public virtual DbSet<DegreeList> DegreeLists { get; set; }
         public virtual DbSet<DegreeType> DegreeTypes { get; set; }
         public virtual DbSet<AcceptanceRate> AcceptanceRates { get; set; }
+        public virtual DbSet<DemoRace> DemoRaces { get; set; }
+        public virtual DbSet<DemoAge> DemoAges { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
