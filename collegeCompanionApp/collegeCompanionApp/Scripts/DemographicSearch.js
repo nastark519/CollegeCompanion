@@ -8,8 +8,7 @@ $("#Zipcode").keypress(function (e) {
     }
 });
 
-
-$("#Search").click(start);
+$("#Search").click(start); // On Submit Clicked begin start()
 
 //Global Variables
 var latitude = '';
@@ -54,7 +53,7 @@ function start() {
     //Credit: https://stackoverflow.com/questions/6100264/google-maps-get-latitude-and-longitude-from-zip-code
     //Get Latidude and Longitude 
     $.ajax({
-        url: "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" + zipcode + "&sensor=false",
+        url: "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" + zipcode + "&sensor=false&key= AIzaSyCS8ZI4cCMMVdu1SWSSFJ1wnX4ZZniB8zU",
         method: "GET",
         success: getCoordinates,
         error: errorOnAjax
@@ -62,34 +61,32 @@ function start() {
 }
 
 function getCoordinates(data) {
-    //Get Latitude
-    latitude = data.results[0].geometry.location.lat;
-    //Get Longitude
-    longitude = data.results[0].geometry.location.lng;
-    //Get Formatted Address
-    address = data.results[0].formatted_address;
-    //Checks if Lat/long is found
-    console.log("Latitude= " + latitude + " - Longitude= " + longitude);
-    //Address Output
-    console.log("Address: " + address);
+    console.log("Is Data " + data.success)
+    if (data.status === "OK") { //Results Found
+        //Get Latitude
+        latitude = data.results[0].geometry.location.lat;
+        //Get Longitude
+        longitude = data.results[0].geometry.location.lng;
+        //Get Formatted Address
+        address = data.results[0].formatted_address;
+        //Checks if Lat/long is found
+        console.log("Latitude= " + latitude + " - Longitude= " + longitude);
+        //Address Output
+        console.log("Address: " + address);
 
-    //Create First URL
-    var fields = "latitude=" + latitude + "&longitude=" + longitude;
-    var variables = "&variables=spop0_4,spop5_9,spop10_14,spop15_19,spop20_24,spop25_29,spop30_34,spop35_39,spop40_44,spop45_49"
-    var url = "DemographicSearch?" + fields + variables;
-    url = url.replace(/ /g, "%20"); //replace spaces with '%20'
-    //Max of 10 variables per call
-    //First Ajax Call
-    firstAjaxCall(url);
+        //Create First URL
+        var fields = "latitude=" + latitude + "&longitude=" + longitude;
+        var variables = "&variables=spop0_4,spop5_9,spop10_14,spop15_19,spop20_24,spop25_29,spop30_34,spop35_39,spop40_44,spop45_49"
+        var url = "DemographicSearch?" + fields + variables;
+        url = url.replace(/ /g, "%20"); //replace spaces with '%20'
 
-    //Requesting JSon through Ajax
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: url,
-    //    success: successSearch,
-    //    error: errorOnAjax
-    //});
+        //Max of 10 variables per call
+        //First Ajax Call
+        firstAjaxCall(url);
+
+    } else { //No Results Found
+        $("#NoResults").text("No Results Found!");
+    }
 }
 
 function firstAjaxCall(url) {
@@ -107,7 +104,6 @@ function firstAjaxCall(url) {
 
 function getFirstAges(data) {
     if (data.success == true) { //Results Found
-
         //Age Properties Data
         var age = data.properties;
 
@@ -122,19 +118,19 @@ function getFirstAges(data) {
         var variables = "&variables=spop50_54,spop55_59,spop60_64,spop65_69,spop70_74,spop75_79,spop80_84,spop85p,stotpop,smedage"
         var url = "DemographicSearch?" + fields + variables;
         url = url.replace(/ /g, "%20"); //replace spaces with '%20'
+
         //Max of 10 variables per call
         //Second Ajax Call
         secondAjaxCall(url);
 
-
     } else { //No Results Found
         $("#NoResults").text("No Results Found!");
     }
-
 }
 
 
 function secondAjaxCall(url) {
+    // Check Second Ajax URL Call
     console.log("Second Ajax Call: " + url);
 
     //Requesting JSon through Ajax
@@ -149,11 +145,9 @@ function secondAjaxCall(url) {
 
 
 function successSearch(data) {
-
     console.log("Successful Search!"); 
 
     if (data.success == true) { //Results Found
-
         //Properties Data
         var prop = data.properties;
 
@@ -163,32 +157,26 @@ function successSearch(data) {
 
         //Find Percentage of Ages
         for (i = 0; i < ages.length; i++) {
-
-            var num = ages[i] / prop.pstotpop;
-            num = (num * 100).toFixed(2); //Round 
-            agePercent.push(num);
-
+            var num = ages[i] / prop.pstotpop; //  Age / Total Population 
+            num = (num * 100).toFixed(2); // Round to the second decimal
+            agePercent.push(num); // Add to agePercent Array
         }
-
 
         //Check All Ages
         console.log("All Ages: " + ages);
 
-        //Sets Address Header
-        $("#Address").text(address);
-
-        $("#Results").css("display", "Block"); //Enable Display 
-
+        $("#Address").text(address); // Sets Address Header
+        $("#Results").css("display", "Block"); // Enable Display 
+        // Total Population
         console.log("Projection Population: " + prop.pstotpop);
 
         //Display Data onto List
         $("#SearchResults").append('<li class="list-group-item"><b>Total Population</b>: ' + prop.pstotpop + '</li>' + //Total Population
             '<li class="list-group-item"><b>Median Age</b>: ' + prop.psmedage + '</li>'); //Median Age 
 
-        setAges(); //Adds Ages & percentage to List
-
+        displayData(); //Adds Ages & percentage to List -- Display Results
+        // Console Check
         console.log("Ages.Length: " + ages.length + ", agePercent.length: " + agePercent.length)
-
 
     } else { //No Results Found
         $("#NoResults").text("No Results Found!");
@@ -196,7 +184,7 @@ function successSearch(data) {
 
 }
 
-function setAges() {
+function displayData() {
     var lowAge = 0; //Lower Bound Age
     var highAge = 4; //Upper Bound Age
 
@@ -211,6 +199,40 @@ function setAges() {
     //Age > 85 add to List
     $("#SearchResults").append('<li class="list-group-item"><b>Age > 85</b>: ' +
         ages[i] + ',  <i>' + agePercent[i] + '%</i></li>');
+
+    // Reset Age Limits
+    lowAge = 0;
+    highAge = 4;
+
+    //************************ Create Pie Chart *********************************//
+    // Credit: https://www.w3schools.com/howto/howto_google_charts.asp
+    // Load google charts
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([['Ages', 'Number of People'], ['Ages: ' + lowAge + '-' + highAge, ages[0]]]);
+        lowAge += 5;
+        highAge += 5;
+        
+
+        for (i = 1; i < ages.length - 1; i++) {
+            data.addRow(['Ages: ' + lowAge + '-' + highAge, ages[i]]);
+            lowAge += 5;
+            highAge += 5;
+        }
+
+        data.addRow(['Ages: ' + lowAge + '-' + highAge, ages[i]]);
+
+        // Optional; add a title and set the width and height of the chart
+        var options = { 'title': 'Population Pie Chart', 'width': 950, 'height': 800 };
+
+        // Display the chart inside the <div> element with id="piechart"
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
     
 }
 

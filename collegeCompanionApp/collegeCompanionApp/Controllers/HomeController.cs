@@ -308,13 +308,11 @@ namespace collegeCompanionApp.Controllers
             return aDegree;
         }
 
+
         public ActionResult Yelp()
         {
-
             return View();
-
         }
-
 
         public JsonResult YelpSearch()
         {
@@ -466,7 +464,9 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult Demographic()
         {
-            return View();
+            FormdataDB formdb = new FormdataDB();
+            Debug.Assert(formdb != null, "Database has the wrong connection.");
+            return View(formdb);
         }
 
         public JsonResult DemographicSearch()

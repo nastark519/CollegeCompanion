@@ -244,6 +244,8 @@
     <Compile Include="Models\CompanionContext.cs" />
     <Compile Include="Models\DegreeList.cs" />
     <Compile Include="Models\DegreeType.cs" />
+    <Compile Include="Models\DemoAge.cs" />
+    <Compile Include="Models\DemoRace.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
