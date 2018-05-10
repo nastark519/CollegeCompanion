@@ -1,5 +1,8 @@
 ﻿console.log("You're in the Demographic Search JavaScript file");
 
+//global.window = window;
+//global.$ = require('jquery');
+
 $("#Zipcode").keypress(function (e) {
     //If 'Enter' Key Pressed
     if (e.keyCode === 13) {
@@ -7,6 +10,8 @@ $("#Zipcode").keypress(function (e) {
         e.preventDefault;
     }
 });
+
+
 
 $("#Search").click(start); // On Submit Clicked begin start()
 
@@ -25,10 +30,12 @@ var ages = [];
 //Array of Age Percentage
 var agePercent = [];
 
+
 function start() {
     //Empty Everything for New Request
     $("#Results").css("display", "none");
     $("#SearchResults").empty();
+    $("#SelectedAges").empty();
     $("#NoResults").empty();
     $("#Error").empty();
     ageRangeVar = [];
@@ -43,28 +50,31 @@ function start() {
     console.log("Zipcode: " + zipcode);
     console.log("Zip Length: " + zipcode.length);
 
-
-    //Check to see if Zipcode is a 5-digit zipcode & Numeric
-    if (zipcode.length != 5) {
-        console.log("Zipcode Length is not 5-Digit long");
-        //Not a 5-digit zipcode
-        $("#Error").text("Please Enter a 5-Digit Zipcode");
-        return false;
-    } else if (Number.isInteger(parseInt(zipcode)) == false) { //Checks if Zipcode is Numeric
-        console.log("Zipcode Not Numeric");
-        //Not a numeric input
-        $("#Error").text("Only enter a 5-Digit Zipcode");
+    if (checkZipcode(zipcode) == false) {
         return false;
     }
+
+    ////Check to see if Zipcode is a 5-digit zipcode & Numeric
+    //if (zipcode.length != 5) {
+    //    console.log("Zipcode Length is not 5-Digit long");
+    //    //Not a 5-digit zipcode
+    //    $("#Error").text("Please Enter a 5-Digit Zipcode");
+    //    return false;
+    //} else if (Number.isInteger(parseInt(zipcode)) == false) { //Checks if Zipcode is Numeric
+    //    console.log("Zipcode Not Numeric");
+    //    //Not a numeric input
+    //    $("#Error").text("Only enter a 5-Digit Zipcode");
+    //    return false;
+    //}
 
     console.log("Good Zipcode!"); //Passed as a Good Zipcode
 
     // Get Selected Age Range Variables
-    getAgeRange();
-    console.log("Array Variable Check[0]: " + ageRangeVar[0]);
-    if (ageRangeVar[0] === undefined) {
+    if (getAgeRange() === false) {
         return false;
     }
+    console.log("Array Variable Check[0]: " + ageRangeVar[0]);
+
 
     //************************ Get Latitude & Longitude *********************************//
 
@@ -76,6 +86,23 @@ function start() {
         success: getCoordinates,
         error: errorOnAjax
     });
+}
+
+function checkZipcode(zipcode) {
+    //Check to see if Zipcode is a 5-digit zipcode & Numeric
+    if (zipcode.length != 5) {
+        console.log("Zipcode Length is not 5-Digit long");
+        //Not a 5-digit zipcode
+        $("#Error").text("Please Enter a 5-Digit Zipcode");
+        return false;
+    } else if (Number.isInteger(parseInt(zipcode)) == false) { //Checks if Zipcode is Numeric
+        console.log("Zipcode Not Numeric");
+        //Not a numeric input
+        $("#Error").text("Only enter a 5-Digit Zipcode");
+        return false;
+    } else {
+        return true;
+    }
 }
 
 function getAgeRange() {
@@ -95,20 +122,9 @@ function getAgeRange() {
     console.log("Race: " + race);
     console.log("Gender: " + gender);
     console.log("Age Range Length: " + ageRange.length);
-    //for (i = 0; i < ageRange.length; i++) {
-    //    console.log("Age Range[" + i + "]: " + ageRange[i]);
-    //}
 
-    // Check if 10 or less are checked
-    if (ageRange.length > 10) {
-        console.log("Over 10 checked boxes!");
-        // Over 10 Selected
-        $("#Error").text("Please only Select up to 10 Checkboxs");
-        return false;
-    } else if (ageRange.length < 1) {
-        console.log("No checked boxes!");
-        // Over 10 Selected
-        $("#Error").text("Please Select an Age Range!");
+    // Test Checked Boxes
+    if (boxCheck(race, gender, ageRange) === false) {
         return false;
     } else {
         console.log("Up to 10 Checked boxes!");
@@ -124,6 +140,49 @@ function getAgeRange() {
         }
         // Console Check
         console.log("Variable List.toString(): " + ageRangeVar.toString());
+    }
+    //// Check if 10 or less are checked
+    //if (ageRange.length > 10) {
+    //    console.log("Over 10 checked boxes!");
+    //    // Over 10 Selected
+    //    $("#Error").text("Please only Select up to 10 Checkboxs");
+    //    return false;
+    //} else if (ageRange.length < 1) {
+    //    console.log("No checked boxes!");
+    //    // Over 10 Selected
+    //    $("#Error").text("Please Select an Age Range!");
+    //    return false;
+    //} else {
+    //    console.log("Up to 10 Checked boxes!");
+
+    //    // Start Age Range Variables
+    //    ageRangeVar.push(race + gender + ageRange[0]);
+    //    // First Age Variable Check
+    //    console.log("First Age Range Variable[0]: " + ageRangeVar[0]);
+
+    //    // Set Variables
+    //    for (i = 1; i < ageRange.length; i++) {
+    //        ageRangeVar.push(race + gender + ageRange[i]);
+    //    }
+    //    // Console Check
+    //    console.log("Variable List.toString(): " + ageRangeVar.toString());
+    //}
+}
+
+function boxCheck(race, gender, ageRange) {
+    // Check if 10 or less are checked
+    if (ageRange.length > 10) {
+        console.log("Over 10 checked boxes!");
+        // Over 10 Selected
+        $("#Error").text("Please only Select up to 10 Checkboxs");
+        return false;
+    } else if (ageRange.length < 1) {
+        console.log("No checked boxes!");
+        // Over 10 Selected
+        $("#Error").text("Please Select an Age Range!");
+        return false;
+    } else {
+        return true;
     }
 }
 
@@ -343,17 +402,17 @@ function displayResult(data) { // Display Selected Age Ranges
         //Properties Data
         var prop = data.properties;
 
-        for (i = 0; i < ageRangeVar.length - 1; i++) { // Adds 'p' to every variable to get data back
+        for (i = 0; i < ageRangeVar.length; i++) { // Adds 'p' to every variable to get data back
             selectedRange.push('p' + ageRangeVar[i]); //SelectedAges
         }
 
         console.log("Data SelectedRange[0]: " + prop[selectedRange[0]]);
-        console.log("SelectedRange[1]: " + selectedRange[1]);
+        console.log("SelectedRange[0]: " + selectedRange[0]);
         console.log("ageRange[0]: " + ageRange[0]);
 
         $("#SelectedAges").append('<li class="list-group-item"><b><u>Selected Ages</u></b></li>');
 
-        for (i = 0; i < ageRangeVar.length - 1; i++) {
+        for (i = 0; i < ageRangeVar.length; i++) {
             $("#SelectedAges").append('<li class="list-group-item"><b>Ages ' + ageRange[i]
                 + '</b>: <i>' + prop[selectedRange[i]] + '</i></li>');
         }
