@@ -50,22 +50,10 @@ function start() {
     console.log("Zipcode: " + zipcode);
     console.log("Zip Length: " + zipcode.length);
 
+    // Test Zipcode validation
     if (checkZipcode(zipcode) == false) {
         return false;
     }
-
-    ////Check to see if Zipcode is a 5-digit zipcode & Numeric
-    //if (zipcode.length != 5) {
-    //    console.log("Zipcode Length is not 5-Digit long");
-    //    //Not a 5-digit zipcode
-    //    $("#Error").text("Please Enter a 5-Digit Zipcode");
-    //    return false;
-    //} else if (Number.isInteger(parseInt(zipcode)) == false) { //Checks if Zipcode is Numeric
-    //    console.log("Zipcode Not Numeric");
-    //    //Not a numeric input
-    //    $("#Error").text("Only enter a 5-Digit Zipcode");
-    //    return false;
-    //}
 
     console.log("Good Zipcode!"); //Passed as a Good Zipcode
 
@@ -140,33 +128,8 @@ function getAgeRange() {
         }
         // Console Check
         console.log("Variable List.toString(): " + ageRangeVar.toString());
+        return true;
     }
-    //// Check if 10 or less are checked
-    //if (ageRange.length > 10) {
-    //    console.log("Over 10 checked boxes!");
-    //    // Over 10 Selected
-    //    $("#Error").text("Please only Select up to 10 Checkboxs");
-    //    return false;
-    //} else if (ageRange.length < 1) {
-    //    console.log("No checked boxes!");
-    //    // Over 10 Selected
-    //    $("#Error").text("Please Select an Age Range!");
-    //    return false;
-    //} else {
-    //    console.log("Up to 10 Checked boxes!");
-
-    //    // Start Age Range Variables
-    //    ageRangeVar.push(race + gender + ageRange[0]);
-    //    // First Age Variable Check
-    //    console.log("First Age Range Variable[0]: " + ageRangeVar[0]);
-
-    //    // Set Variables
-    //    for (i = 1; i < ageRange.length; i++) {
-    //        ageRangeVar.push(race + gender + ageRange[i]);
-    //    }
-    //    // Console Check
-    //    console.log("Variable List.toString(): " + ageRangeVar.toString());
-    //}
 }
 
 function boxCheck(race, gender, ageRange) {
@@ -199,15 +162,11 @@ function getCoordinates(data) {
         //Address Output
         console.log("Address: " + address);
 
-        //Create First URL
-        var fields = "latitude=" + latitude + "&longitude=" + longitude;
-        var variables = "&variables=spop0_4,spop5_9,spop10_14,spop15_19,spop20_24,spop25_29,spop30_34,spop35_39,spop40_44,spop45_49"
-        var url = "DemographicSearch?" + fields + variables;
-        url = url.replace(/ /g, "%20"); //replace spaces with '%20'
+        // Set up variables for ages 0 - 49 -- no more than 10 variables
+        var variables = "&variables=spop0_4,spop5_9,spop10_14,spop15_19,spop20_24,spop25_29,spop30_34,spop35_39,spop40_44,spop45_49";
 
-        //Max of 10 variables per call
-        //First Ajax Call
-        firstAjaxCall(url);
+        //************************ Create First Ajax Call  *********************************//
+        ajaxCall(createURL(variables), getFirstAges);
 
     } else { //No Results Found
         $("#NoResults").text("No Results Found!");
@@ -215,17 +174,21 @@ function getCoordinates(data) {
     }
 }
 
-function firstAjaxCall(url) {
-    console.log("First Ajax Call: " + url);
+function createURL(variables) {
+    var fields = "latitude=" + latitude + "&longitude=" + longitude;
+    var url = "DemographicSearch?" + fields + variables;
+    url = url.replace(/ /g, "%20"); //replace spaces with '%20'
+    console.log("Created URL: " + url);
+    return url;
+}
 
-    //************************ Get First Set of Ages 0-49 *********************************//
-
+function ajaxCall(url, proceed) {
     //Requesting JSon through Ajax
     $.ajax({
         type: "GET",
         dataType: "json",
         url: url,
-        success: getFirstAges,
+        success: proceed,
         error: errorOnAjax
     });
 }
@@ -241,15 +204,11 @@ function getFirstAges(data) {
         //Check First set of Ages
         console.log("First Set of Ages: " + ages);
 
-        //Create Second URL
-        var fields = "latitude=" + latitude + "&longitude=" + longitude;
-        var variables = "&variables=spop50_54,spop55_59,spop60_64,spop65_69,spop70_74,spop75_79,spop80_84,spop85p,stotpop,smedage"
-        var url = "DemographicSearch?" + fields + variables;
-        url = url.replace(/ /g, "%20"); //replace spaces with '%20'
+        // Set up variables for ages 50 - 0ver 85
+        var variables = "&variables=spop50_54,spop55_59,spop60_64,spop65_69,spop70_74,spop75_79,spop80_84,spop85p,stotpop,smedage";
 
-        //Max of 10 variables per call
-        //Second Ajax Call
-        secondAjaxCall(url);
+        //************************ Create Second Ajax Call *********************************//
+        ajaxCall(createURL(variables), successSearch);
 
     } else { //No Results Found
         $("#NoResults").text("No Results Found!");
@@ -257,27 +216,7 @@ function getFirstAges(data) {
     }
 }
 
-
-function secondAjaxCall(url) {
-    // Check Second Ajax URL Call
-    console.log("Second Ajax Call: " + url);
-
-    //************************ Get Second Set of Ages 50-85 and Over *********************************//
-
-    //Requesting JSon through Ajax
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: url,
-        success: successSearch,
-        error: errorOnAjax
-    });
-}
-
-
 function successSearch(data) {
-    console.log("Successful Search!"); 
-
     if (data.success == true) { //Results Found
         //Properties Data
         var prop = data.properties;
@@ -344,11 +283,9 @@ function displayData() {
 
     // Draw the chart and set the chart values
     function drawChart() {
-
         var data = google.visualization.arrayToDataTable([['Ages', 'Number of People'], ['Ages: ' + lowAge + '-' + highAge, ages[0]]]);
         lowAge += 5;
-        highAge += 5;
-        
+        highAge += 5;    
 
         for (i = 1; i < ages.length - 1; i++) {
             data.addRow(['Ages: ' + lowAge + '-' + highAge, ages[i]]);
@@ -366,33 +303,12 @@ function displayData() {
         chart.draw(data, options);
     }
 
-    //Create Third URL
-    var fields = "latitude=" + latitude + "&longitude=" + longitude;
+    //Variables -- Selected Age Ranges
     var variables = "&variables=" + ageRangeVar.toString();
-    var url = "DemographicSearch?" + fields + variables;
-    url = url.replace(/ /g, "%20"); //replace spaces with '%20'
-
     console.log("Variable Length: " + ageRangeVar.length);
-    console.log("URL: " + url);
-
-    thirdAjaxCall(url);
-}
-
-
-function thirdAjaxCall(url) {
-    // Check Third Ajax URL Call
-    console.log("Third Ajax Call: " + url);
 
     //************************ Get Age Range based on Race and Gender *********************************//
-
-    //Requesting JSon through Ajax
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: url,
-        success: displayResult,
-        error: errorOnAjax
-    });
+    ajaxCall(createURL(variables), displayResult);
 }
 
 function displayResult(data) { // Display Selected Age Ranges

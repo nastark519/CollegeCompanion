@@ -13,3 +13,12 @@ QUnit.test("Box Checked Test", function (assert) {
     var result = boxCheck(race, gender, ageRanges);
     assert.equal(result, true, "Expected to be true, but was " + result);
 });
+
+QUnit.test("Create URL Test", function (assert) {
+    latitude = '64.93492';
+    longitude = '-123.97833';
+    var variables = "&variables=10_14,20_24";
+    var result = createURL(variables);
+    var expected = "DemographicSearch?latitude=64.93492&longitude=-123.97833&variables=10_14,20_24";
+    assert.equal(result, expected, "Expected to be the same, but was " + result);
+});
