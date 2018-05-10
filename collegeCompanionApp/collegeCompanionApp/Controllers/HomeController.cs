@@ -191,7 +191,7 @@ namespace collegeCompanionApp.Controllers
         /// <param name="accreditor">A string from the dataset of API results.</param>
         /// <param name="ownership">An integer from the dataset of API results.</param>
         /// <param name="finLimit">An integer from the dataset of API results.</param>
-        public ActionResult SaveData(object sender, EventArgs e)
+        public ActionResult SaveData()
         {
             string name = Request.QueryString["Name"];
             string stateName = Request.QueryString["StateName"];
