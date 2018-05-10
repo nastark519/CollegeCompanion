@@ -7,12 +7,12 @@ using Moq;
 
 namespace collegeCompanionApp.Repository
 {
-    public class Repository : IRepository
+    public class CollegeRepository : IRepository
     {
         public IEnumerable<College> Colleges => companiondb.Colleges;
         private CompanionContext companiondb = new CompanionContext();
 
-        public Repository( CompanionContext context)
+        public CollegeRepository(CompanionContext context)
         {
             this.companiondb = context;
         }

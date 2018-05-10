@@ -253,7 +253,7 @@
     <Compile Include="Models\FormdataDB.cs" />
     <Compile Include="Models\FormDataViewModel.cs" />
     <Compile Include="Models\PrivacyList.cs" />
-    <Compile Include="Repository\Repository.cs" />
+    <Compile Include="Repository\CollegeRepository.cs" />
     <Compile Include="Models\StateList.cs" />
     <Compile Include="Models\CompanionUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

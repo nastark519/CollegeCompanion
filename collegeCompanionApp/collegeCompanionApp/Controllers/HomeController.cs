@@ -33,14 +33,14 @@ namespace collegeCompanionApp.Controllers
         int storedLimit = 0;
 
         //Adding in the repository pattern connection
-        private IRepository _repository;
+        private CollegeRepository _repository;
 
-        public HomeController(IRepository repo)
+        public HomeController()
         {
-            _repository = repo;
+            this._repository = new CollegeRepository(new CompanionContext());
         }
 
-        public HomeController(){}
+        //public HomeController(){}
 
         public ActionResult Index()
         {
@@ -182,15 +182,6 @@ namespace collegeCompanionApp.Controllers
         /// <summary>
         /// Saves selected data into the College Database
         /// </summary>
-        /// <returns>
-        /// True if data is successfully saved, False if it is not.
-        /// </returns>
-        /// <param name="schoolName">A string from the dataset of API results.</param>
-        /// <param name="stateName">A string from the dataset of API results.</param>
-        /// <param name="cityName">A string from the dataset of API results.</param>
-        /// <param name="accreditor">A string from the dataset of API results.</param>
-        /// <param name="ownership">An integer from the dataset of API results.</param>
-        /// <param name="finLimit">An integer from the dataset of API results.</param>
         public ActionResult SaveData()
         {
             string name = Request.QueryString["Name"];
