@@ -11,8 +11,6 @@ $("#Zipcode").keypress(function (e) {
     }
 });
 
-
-
 $("#Search").click(start); // On Submit Clicked begin start()
 
 //Global Variables

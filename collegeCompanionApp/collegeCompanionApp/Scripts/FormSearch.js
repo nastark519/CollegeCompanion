@@ -2,6 +2,10 @@
 
 $('#submit').click(start);
 
+//Global Variables
+var lowerBound;
+var upperBound;
+
 function start() {
     //Clear Message
     $('#feedbackNoInput').empty();
@@ -40,51 +44,13 @@ function start() {
 
     //Get the Financial Limits from the SearchForm
     //Parse the data into an upper and lower limit for searching
-    var finBounds;
-    var lowerBound;
-    var upperBound;
-    if (finLimit !== null) { // If finLimit not null
-        if (finLimit === 'Any') { // Chose any range 
-            lowerBound = '0';
-            upperBound = '';
-        } else if (finLimit === '<1000') { // Finance under $1,000
-            lowerBound = '';
-            upperBound = '1000';
-        } else if (finLimit === '>60000') { // Finance over $60,000
-            lowerBound = '60000';
-            upperBound = '';
-        } else { // Finance User Range
-            finBounds = finLimit.split(" ");
-            lowerBound = finBounds[0];
-            upperBound = finBounds[1];
-        }
-        // Console Check FinLimit Lower & Upper Bound
-        console.log("FinLimit LowerBound-UpperBound:" + lowerBound + ".." + upperBound);
-    }
+    getBounds(finLimit);
 
-    // Get the acceptance rate
-    if (acceptRate === 'Any') { // Any Acceptance Rate
-        acceptRate = '0..';
-    } else if (acceptRate === '10') { // Acceptance Rate under 10%
-        acceptRate = '..0.1';
-    } else { // User selection Acceptance Rate 
-        var num = parseInt(acceptRate); // Converts string into int
-        num = num / 100; // Get percentage of Acceptance Rate
-        var aRate = num.toString(); // Convert int into string
-        acceptRate = aRate + '..'; // Acceptance Rate and Greater
-    }
+    // Get the acceptance rate percentage
+    acceptRate = getAcceptRate(acceptRate);
 
     // Error Message if no State selected or Degree with Degree Type is selected
-    if (state === 'Any' && degree === null) {
-        if (degreeType !== null) {
-            $('#feedbackNoInput').html("Please select a Degree!");
-            return false;
-        } else {
-            $('#feedbackNoInput').html("Please select a State or select a Degree!");
-            return false;
-        }
-    } else if (degree !== null && degreeType === null || state !== 'Any' && degree === null && degreeType !== null) {
-        $('#feedbackNoInput').html("Please select a Degree Type!");
+    if (checkStateDegree(state, degree, degreeType) === false) {
         return false;
     } else {
         // If any Ownership
@@ -115,7 +81,58 @@ function start() {
 
         // Returns the URL of the next page
         window.location.href = url;
+    }
+}
 
+function getBounds(finLimit) {
+    if (finLimit !== null) { // If finLimit not null
+        if (finLimit === 'Any') { // Chose any range 
+            lowerBound = '0';
+            upperBound = '';
+        } else if (finLimit === '<1000') { // Finance under $1,000
+            lowerBound = '';
+            upperBound = '1000';
+        } else if (finLimit === '>60000') { // Finance over $60,000
+            lowerBound = '60000';
+            upperBound = '';
+        } else { // Finance User Range
+            finBounds = finLimit.split(" ");
+            lowerBound = finBounds[0];
+            upperBound = finBounds[1];
+        }
+        // Console Check FinLimit Lower & Upper Bound
+        console.log("FinLimit LowerBound-UpperBound:" + lowerBound + ".." + upperBound);
+    }
+}
+
+function getAcceptRate(acceptRate) {
+    if (acceptRate === 'Any') { // Any Acceptance Rate
+        acceptRate = '0..';
+    } else if (acceptRate === '10') { // Acceptance Rate under 10%
+        acceptRate = '..0.1';
+    } else { // User selection Acceptance Rate 
+        var num = parseInt(acceptRate); // Converts string into int
+        num = num / 100; // Get percentage of Acceptance Rate
+        var aRate = num.toString(); // Convert int into string
+        acceptRate = aRate + '..'; // Acceptance Rate and Greater
+    }
+    return acceptRate;
+}
+
+function checkStateDegree(state, degree, degreeType) {
+    if (state === 'Any' && degree === null) {
+        if (degreeType !== null) {
+            $('#feedbackNoInput').html("Please select a Degree!");
+            return false;
+        } else {
+            $('#feedbackNoInput').html("Please select a State or select a Degree!");
+            return false;
+        }
+    } else if (degree !== null && degreeType === null || state !== 'Any' && degree === null && degreeType !== null) {
+        $('#feedbackNoInput').html("Please select a Degree Type!");
+        return false;
+    } else {
+        return true;
     }
 }
 
