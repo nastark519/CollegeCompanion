@@ -9,6 +9,8 @@ DROP TABLE dbo.PrivacyList;
 DROP TABLE dbo.DegreeList;
 DROP TABLE dbo.DegreeType;
 DROP TABLE dbo.AcceptanceRate;
+DROP TABLE dbo.DemoRate;
+DROP TABLE dbo.DemoAge;
 
 
 DROP TABLE [dbo].[AspNetUserClaims];

@@ -71,6 +71,20 @@ CREATE TABLE AcceptanceRate (
 	PRIMARY KEY(AcceptanceRateID)
 );
 
+CREATE TABLE DemoRace (
+	DemoRaceID	INT	IDENTITY(1,1)	NOT NULL,
+	DemoRaceName	NVARCHAR(50)	NOT NULL,
+	DemoRaceValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(DemoRaceID)
+);
+
+CREATE TABLE DemoAge (
+	DemoAgeID	INT	IDENTITY(1,1)	NOT NULL,
+	DemoAgeRange	NVARCHAR(50)	NOT NULL,
+	DemoAgeRangeValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(DemoAgeID)
+);
+
 /*Data for Tables*/
 INSERT INTO StateList (QueryName, Name, StateAbbr)
 VALUES ('Alabama AL', 'Alabama', 'AL'),
@@ -200,10 +214,39 @@ VALUES	('10'),
 		('30'),
 		('40'),
 		('50'),
-		('60'), 
+		('60'),
 		('70'),
 		('80'),
 		('90');
+
+INSERT INTO DemoRace (DemoRaceName, DemoRaceValue)
+VALUES	('White', 'wa'),
+		('Black', 'ba'),
+		('Native American', 'na'),
+		('Asian', 'aa'),
+		('Pacific Islanders', 'pa'),
+		('Multiracial', 'r2'),
+		('Hispanic', 'hs'),
+		('White, Non-Hispanic', 'wn');
+
+INSERT INTO DemoAge (DemoAgeRange, DemoAgeRangeValue)
+VALUES	('0-4', '0_4'),
+		('5-9', '5_9'),
+		('10-14', '10_14'),
+		('15-19', '15_19'),
+		('20-24', '20_24'),
+		('25-29', '25_29'),
+		('30-34', '30_34'),
+		('35-39', '35_39'),
+		('40-44', '40_44'),
+		('45-49', '45_49'),
+		('50-54', '50_54'),
+		('55-59', '55_59'),
+		('60-64', '60_64'),
+		('65-69', '65_69'),
+		('70-74', '70_74'),
+		('75-79', '75_79'),
+		('80-84', '80_84');
 
 
 /*

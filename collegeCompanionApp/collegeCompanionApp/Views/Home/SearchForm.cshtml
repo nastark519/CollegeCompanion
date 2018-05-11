@@ -109,10 +109,10 @@
                             <label for="acceptRateInput" class="ccheader">Acceptance Rate</label>
                             <select class="form-control" id="acceptRateInput" name="acceptRateInput">
                                 <option selected> Any </option>
-                                <option>&lt;10&#37;</option>
+                                <option value="10">&lt;10&#37;</option>
                                 @foreach (var item in Model.AcceptanceRates)
                                 {
-                                    <option>&gt;@item.AcceptanceRateValue&#37;</option>
+                                    <option value="@item.AcceptanceRateValue">&gt;@item.AcceptanceRateValue&#37;</option>
                                 }
                             </select>
                         </div>
