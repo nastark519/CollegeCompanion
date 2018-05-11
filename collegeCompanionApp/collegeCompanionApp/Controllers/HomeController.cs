@@ -265,6 +265,10 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.city=" + cityName;
             }
+            if (cityName != "")
+            {
+                values = values + "&school.city=" + cityName;
+            }
             if (accreditor != "")
             {
                 values = values + "&school.accreditor=" + accreditor;

@@ -106,7 +106,6 @@ function successSearch(data) {
                     ownership = "Private For-Profit";
                 }
 
-<<<<<<< HEAD
                 if (schoolDegree === 2) { // If School Degree is 2, Program Offered with exclusibely education
                     schoolDegree = "Program Offered through an Exclusively Distance-Education Program";
                 } else if (schoolDegree === 1) { // If School Degree is 1, Program Offered

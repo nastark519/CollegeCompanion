@@ -45,30 +45,6 @@ function start() {
     //Get the Financial Limits from the SearchForm
     //Parse the data into an upper and lower limit for searching
     getBounds(finLimit);
-    var finBounds;
-    var lowerBound;
-    var upperBound;
-    if (finLimit !== null) {
-        if (finLimit === 'Any' || finLimit !== undefined) {
-            //console.log("Fin Limit Any! ");
-            lowerBound = '0';
-            upperBound = '';
-        } else if (finLimit === '<1000') {
-            //console.log("Fin Limit <1000 ");
-            lowerBound = '';
-            upperBound = '1000';
-        } else if (finLimit == '>60000') {
-            //console.log("Fin Limit >60000 ");
-            lowerBound = '60000';
-            upperBound = '';
-        } else {
-            //console.log("Fin Limit Selected!");
-            finBounds = finLimit.split(" ");
-            lowerBound = finBounds[0];
-            upperBound = finBounds[1];
-        }
-        console.log("FinLimit LowerBound-UpperBound:" + lowerBound + ".." + upperBound);
-    }
 
     // Get the acceptance rate percentage
     acceptRate = getAcceptRate(acceptRate);
