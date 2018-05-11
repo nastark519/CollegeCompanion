@@ -266,22 +266,6 @@ CREATE TABLE College_User_Relations (
 	ON UPDATE CASCADE ON DELETE CASCADE	
 );
 
-/*=========INSERT SCRIPTS==============*/
-
-/* I have commented this out because it in not need and I don't want it to break anything if it is tried.
-INSERT INTO Users(ASPIdentityID) VALUES (
-	'221b'
-);
-*/
---INSERT INTO Colleges(Name, StateName, City, Accreditor, Focus, Ownership, Cost, AdmissionRate) VALUES (
---	'Hyrule University', 'Hyrule', 'Kakariko', 'Malon Foundation', 'Business', 1, 20000, 80
---);
-/* commented out because an erro was being thrown and it doesn't apear to be needed.
-INSERT INTO College_User_Relations (UserID, CollegeID, Favorite, Saved) VALUES (
-	1, 1, 0, 0
-);
-*/
-
 /*======================================== Identity tables ====================================================================*/
 
 CREATE TABLE [dbo].[AspNetRoles] (

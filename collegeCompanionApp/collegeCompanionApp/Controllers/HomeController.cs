@@ -33,7 +33,7 @@ namespace collegeCompanionApp.Controllers
         int storedLimit = 0;
 
         //Adding in the repository pattern connection
-        private IRepository _repository;
+        IRepository _repository;
 
         public HomeController(IRepository repo)
         {
@@ -70,6 +70,14 @@ namespace collegeCompanionApp.Controllers
         public ActionResult Test()
         {
             return View();
+        }
+
+        public string GoogleAPIKey()
+        {
+            var key = "https://maps.googleapis.com/maps/api/js?key=";
+            key = key + System.Web.Configuration.WebConfigurationManager.AppSettings["WalkScoreAPIKey"];
+            key = key + "&callback=initMap";
+            return key;
         }
 
         /// <summary>
@@ -117,6 +125,7 @@ namespace collegeCompanionApp.Controllers
             //Note: This is completed without a JSON parse action so don't treat it like the other methods! lol
             return Content(resultString, "application/json");
         }
+
 
         public ActionResult SearchForm()
         {
@@ -251,6 +260,10 @@ namespace collegeCompanionApp.Controllers
             if (stateName != "")
             {
                 values = values + "&school.state=" + stateName;
+            }
+            if (cityName != "")
+            {
+                values = values + "&school.city=" + cityName;
             }
             if (cityName != "")
             {

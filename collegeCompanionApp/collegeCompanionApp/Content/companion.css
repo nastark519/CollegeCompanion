@@ -19,10 +19,10 @@
 body, img {
     padding: 0;
     margin: 0;
+    outline: none;
     width: 100%;
-    height: 100%;
-    min-width: 1000px;
-    min-height: 1000px;
+    height: auto;
+    background-size: cover;
 }
 
 .travelResults{
@@ -43,19 +43,14 @@ body, img {
     margin-top: 50px;
 }
 
-#img-index {
-    width: 100%;
-    height: auto;
-    background-image: url(../Content/colorful.jpg);
-    background-size: cover;
-}
-
 #img-searchForm {
     width: 100%;
     height: auto;
     min-height: 100px;
     background-image: url(../Content/blackboard.jpg);
     background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 #img-searchPeople {
@@ -80,25 +75,16 @@ body, img {
     background-size: cover;
 }
 
-#img-about {
-    width: 100%;
-    height: auto;
-    min-height: 100px;
-    background-image: url(../Content/streetChalk.png);
-    background-size: cover;
-}
-
-#img-contact {
-    width: 100%;
-    height: auto;
-    min-height: 100px;
-    background-image: url(../Content/padnPlant.jpg);
-    background-size: cover;
-}
-
 /* Large Header & Logo Style */
 
 .ccheader {
+    font-family: CCfont;
+    font-size-adjust: inherit;
+}
+
+.ccPanelHeader {
+    text-align: center;
+    vertical-align: middle;
     font-family: CCfont;
     font-size-adjust: inherit;
 }
@@ -108,29 +94,44 @@ body, img {
     font-size:medium;
 }
 
+.ccPanelBody {
+    margin-top: -5%;
+    height: 15em;
+    max-height: 15em;
+    min-height: 15em;
+    display: block;
+}
+
 /* Text Box Placements */
+
+div{
+    display:block;
+}
 
 .indexBox {
     clear: both;
-    width: 70%;
+    width: 80%;
     height: auto;
-    min-height: 600px;
-    padding: 10px;
+    min-height: 40em;
+    padding-top: 2em;
     font-size-adjust: inherit;
     color: dimgrey;
+    position: relative;
+    margin: 50px auto;
+
 }
 
 .aboutBox {
     clear: both;
     width: 50%;
     height: auto;
-    min-height: 600px;
-    max-height: 800px;
+    min-height: 40em;
     padding: 10px;
     font-size-adjust: inherit;
-    color: dimgrey;
-    margin-left: 30px;
     overflow: auto;
+    position: relative;
+    margin: 50px 0px 50px 50px auto;
+    color:dimgrey;
 }
 
 .contactBox {
@@ -191,6 +192,7 @@ body, img {
 .panel-style {
     margin-top: -20px !important;
     color: steelblue !important;
+    min-height:100px;
 }
 
 .footer {
@@ -200,4 +202,96 @@ body, img {
     width: 100%;
     text-align: center;
 }
+.panel-height {
+    min-height: 100px;
+    max-height: 100px;
+    height: 100px;
+}
+/* Search Field Styles*/
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"); body {
+    margin: 30px;
+}
 
+.search {
+    position: relative;
+    color: #aaa;
+    font-size: 16px;
+}
+
+    .search input {
+        width: 250px;
+        height: 32px;
+        background: #fcfcfc;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
+    }
+
+    .search input {
+        text-indent: 32px;
+    }
+
+    .search .fa-search {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+.searchform {
+    align-content:center;
+    text-align:center;
+}
+/** Google Maps Styles**/
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+#clear-div {
+    width: unset;
+    height: unset;
+    min-width: unset;
+    min-height: unset;
+}
+#map {
+    height: 400px;
+}
+
+#map-div {
+    height: 400px;
+    width: 400px;
+    margin: 0;
+    padding: 0;
+}
+
+#floating-panel {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
+
+img.bg {
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+    img.bg {
+        left: 50%;
+        margin-left: -512px; /* 50% */
+    }
+}
