@@ -117,12 +117,10 @@ function successSearch(data) {
                 if (schoolURL[0] === 'w') { // If School URL starts with 'w' for 'www'
                     schoolURL = "https://" + schoolURL; // Add 'https://' to the School URL
                 }
-
-               
-                $("#Results").append(
-                    '<div class="col-sm-5">' +
                 tuition = tuition.toLocaleString();
-                    var resultsString = 
+              
+                var resultsString = 
+                    '<div class="col-sm-5">' +
                     '<div style="float:left; width:20em;margin-right:2em;">' +
                         '<div class="panel panel-info">' +
                             '<div class="panel-heading text-center panel-height">' +

@@ -15,6 +15,8 @@ using System.Data.Linq;
 using System.Text;
 using collegeCompanionApp.Repository;
 using Ninject;
+using Geocoding;
+using System.Web.UI.WebControls;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -74,9 +76,8 @@ namespace collegeCompanionApp.Controllers
 
         public string GoogleAPIKey()
         {
-            var key = "https://maps.googleapis.com/maps/api/js?key=";
-            key = key + System.Web.Configuration.WebConfigurationManager.AppSettings["WalkScoreAPIKey"];
-            key = key + "&callback=initMap";
+            var key = "http://www.mapquestapi.com/directions/v2/route?key=";
+            key = key + System.Web.Configuration.WebConfigurationManager.AppSettings["MapQuestAPIKey"];
             return key;
         }
 
