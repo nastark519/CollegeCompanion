@@ -119,41 +119,34 @@ function successSearch(data) {
                 }
 
                 tuition = tuition.toLocaleString();
-
-
-                $("#Results").append(
-                    '<div class="col-sm-5">' +
+                    var resultsString = 
+                    '<div style="float:left; width:20em;margin-right:2em;">' +
                         '<div class="panel panel-info">' +
-                            '<div class="panel-heading text-center">' +
+                            '<div class="panel-heading text-center panel-height">' +
                                 '<div class="row">' +
                                     '<div class="col-sm-1">' +
                                         '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-                    '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + city +
-                    ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
-                                '</h2>' +
+                                        '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + city +
+                                        ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
+                                        '</h2>' +
                                     '</div>' +
                                     '<div class="col-sm-offset-0"></div>' +
                                     '<div class="col-sm-9">' +
-                                        '<div class="spaceLeft">' +
-                                            '<h5 class="ccheader">' +
+                        '<div class="spaceLeft">' +
+                                        //So the math function below takes the line height, divides it by the number of characters and presents the centered characters
+                                        //within the height of the panel header.
+                                        '<h5 class="ccPanelHeader" style="line-height:'+ 45/(Math.ceil(collegeName.length/30)) + 'px;"'+ ">" +
                                                 collegeName +
-                                    '</h5>' +
+                                            '</h5>' +
                                         '</div>' +
-                                    '</div>' +
-                                    '<div class="col-sm-pull-1">' +
-                                        '<h2>' +
-                                            '<i class="fa fa-sticky-note-o"></i> ' +     // Needs to be for saving.
-                                '</h2>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="panel-body text-primary" style="margin-top:-5%;">' +
+                            '<div class="panel-body text-primary ccPanelBody">' +
                                 '<div class="row">' +
                                     '<h4 class="text-center">' +
-                                        '<i class="glyphicon glyphicon-usd"></i>' +
-                                        tuition +
-                                '/year' +
-                            '</h4>' +
+                                        '$' + tuition + '/year' +
+                                     '</h4>' +
                                     '<div class="row" style="margin-top:5%;">' +
                     '<div class="col-sm-6">' +
                     '&emsp; State: ' + state +
@@ -178,8 +171,8 @@ function successSearch(data) {
                         '</div>' +
                             '</div>' +
                         '</div>' +
-                    '</div>'
-                );              
+                    '</div>';      
+                    $("#Results").append(resultsString);
 
                 //$("#SearchResults").append("<tr><td>" + data.results[i]["school.name"]
                 //    + "</td><td>" + accreditor

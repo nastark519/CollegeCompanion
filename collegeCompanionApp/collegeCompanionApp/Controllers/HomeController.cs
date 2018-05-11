@@ -257,10 +257,10 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.city=" + city;
             }
-            if (accreditor != "")
-            {
-                values = values + "&school.accreditor=" + accreditor;
-            }
+            //if (accreditor != "")
+            //{
+            //    values = values + "&school.accreditor=" + accreditor;
+            //}
             if (finLimit != null && finLimit != "" && finLimit != "..")
             {
                 if (finLimit.Length == 12)

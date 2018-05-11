@@ -43,7 +43,7 @@ function start() {
     var lowerBound;
     var upperBound;
     if (finLimit !== null) {
-        if (finLimit === 'Any') {
+        if (finLimit === 'Any' || finLimit !== undefined) {
             //console.log("Fin Limit Any! ");
             lowerBound = '0';
             upperBound = '';

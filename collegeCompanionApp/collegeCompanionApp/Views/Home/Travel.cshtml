@@ -30,13 +30,12 @@
     <div id="clear-div">
         <div class="col-lg-3" id="map-div">
             <div id="floating-panel">
-                <b>Start: </b>
-                <input id="start" name="start" type="text" placeholder="Enter starting location..." /> <br />
-                <b>End: </b>
-                <input id="end" name="end" type="text" placeholder="Enter starting location..." />
-                <button type="submit" id="submit" class="btn btn-sm">Submit</button>
-            </div>
-            <div id="map"></div>
+            <strong>Start: </strong>
+            <input id="start" type="text" onchange="calcRoute();"><br />
+            <strong>End: </strong>
+            <input id="end" type="text" onchange="calcRoute();">
+        </div>
+            <div id="map" style="width:100%;height:400px;"></div>
             &nbsp;
             <div id="warnings-panel"></div>
         </div>
@@ -44,7 +43,7 @@
 </div>
 
 @*<script async defer src=@Html.Action("GoogleAPIKey", "HomeController")></script>*@
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCP168UjPI0kwp82kzcdm4Hpd6iB5FNKUY&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCP168UjPI0kwp82kzcdm4Hpd6iB5FNKUY&callback=initMap"></script>
 
 
 @section scripts{
