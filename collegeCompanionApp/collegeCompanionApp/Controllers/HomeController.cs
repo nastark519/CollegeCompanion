@@ -46,7 +46,9 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            FormdataDB formdb = new FormdataDB();
+            Debug.Assert(formdb != null, "Database has the wrong connection.");
+            return View(formdb);
         }
 
         public ActionResult Travel()
@@ -274,7 +276,7 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.accreditor=" + accreditor;
             }
-            if (degree != "")
+            if (degree != "" && degree != "Any")
             {
                 string theDegree = SetDegree(degreeType, degree); // Set up Degree value
                 values = values + AddDegreeValue(theDegree); // Add Degree to Parameters

@@ -1,13 +1,24 @@
-﻿function directions() {
-    $("#submit").click(function () {
-        startInput = $("#startInput").val(); //Get starting location information from user.
-        console.log(startInput); //Verify we're getting back the data we expect.
+﻿window.onload = function () {
+    L.mapquest.key = 'ixKJ3EwloGeD24cG7f0hOGf8mLkinAbx';
 
-        endInput = $("#endInput").val(); //Get ending location information from user.
-        console.log(endInput); //Verify we're getting back the data we expect.
+    var map = L.mapquest.map('map', {
+        center: [37.7749, -122.4194],
+        layers: L.mapquest.tileLayer('map'),
+        zoom: 13,
+        zoomControl: false
+    });
 
-        httpInput = GoogleAPIKey();
+    L.control.zoom({
+        position: 'topright'
+    }).addTo(map);
 
+    L.mapquest.directionsControl({
+        routeSummary: {
+            enabled: false
+        },
+        narrativeControl: {
+            enabled: true,
+            compactResults: false
+        }
+    }).addTo(map);
 }
-
-http://www.mapquestapi.com/directions/v2/route?key=KEY&from=Clarendon Blvd,Arlington,VA&to=2400+S+Glebe+Rd,+Arlington,+VA
