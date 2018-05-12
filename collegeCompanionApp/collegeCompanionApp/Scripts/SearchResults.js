@@ -118,171 +118,82 @@ function successSearch(data) {
                     schoolURL = "https://" + schoolURL; // Add 'https://' to the School URL
                 }
 
-               
-                $("#Results").append(
-                    '<div class="col-sm-5">' +
-                tuition = tuition.toLocaleString();
-                    var resultsString = 
-                    '<div style="float:left; width:20em;margin-right:2em;">' +
-                        '<div class="panel panel-info">' +
-                            '<div class="panel-heading text-center panel-height">' +
-                                '<div class="row">' +
-                                    '<div class="col-sm-1">' +
-                                        '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-                                        '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + city +
-                                        ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
-                                        '</h2>' +
-                                    '</div>' +
-                                    '<div class="col-sm-offset-0"></div>' +
-                                    '<div class="col-sm-9">' + // College Name
-                                        '<div class="spaceLeft">' +
-                                            '<h5 class="ccheader">' +
-                                    '<div class="col-sm-9">' +
-                        '<div class="spaceLeft">' +
-                                        //So the math function below takes the line height, divides it by the number of characters and presents the centered characters
-                                        //within the height of the panel header.
-                                        '<h5 class="ccPanelHeader" style="line-height:'+ 45/(Math.ceil(collegeName.length/30)) + 'px;"'+ ">" +
-                                                collegeName +
-                                            '</h5>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="panel-body text-primary ccPanelBody">' +
-                                '<div class="row">' +
-                                    '<h4 class="text-center">' +
-                                        '$' + tuition + '/year' +
-                                     '</h4>' +
-                                    '<div class="row" style="margin-top:5%;">' +
-                    '<div class="col-sm-6">' + // State
-                    '&emsp; State: ' + state +
-                                '</div>' +
-                    '<div class="col-sm-6">' + // City
-                    'City: ' + city +
-                                '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class="row">' + // Degree Selected?
-                                    '&emsp; Degree Selected: ' + schoolDegree +
-                        '</div>' +
-                                '<div class="row">' + // Ownership
-                                    '&emsp; Ownership: ' + ownership +
-                        //'</div>' +
-                        //        '<div class="row">' +
-                        //            '&emsp; Accreditor: ' + accreditor +
-                        //'</div>' +
-                        '</div>' +
-                                '<div class="row">' + // Acceptance Rate
-                                    '&emsp; Acceptance Rate: ' + acceptRate + "%" +
-                    '</div>' +
-                    '<div class="row">' + // School URL
-                                    '&emsp; College Website: ' + '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
-                        '</div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>';      
-                    $("#Results").append(resultsString);
+                // Set up Result String 
+                var resultsString = getResultString(collegeName, state, city, accreditor, ownership, tuition, schoolDegree, schoolDegreeType, acceptRate, schoolURL);
 
-                //$("#SearchResults").append("<tr><td>" + data.results[i]["school.name"]
-                //    + "</td><td>" + accreditor
-                //    + "</td><td>" + data.results[i]["school.state"]
-                //    + "</td><td>" + data.results[i]["school.city"]
-                //    + "</td><td>" + ownership + "</td></tr>");
-
-                //I have put this at the end so I can just append to the div I want to.
-                // a url for the zillow calls.
-                //var theZillowApiUrl =
-                    //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={APIKeyHere}&state=" + state + "&city=" + city;
-
-                //var collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
-                //Adding in an ajax call to zillow to get city and state added
-                //as data comes into successSearch function
-                //$.ajax({
-                    //type: "GET",
-                    //url: CollegeRentsUrl,
-                    //dataType: "xml",
-                    //success: rentCallCalc
-                //});
-
-                //function rentCallCalc(xml) {
-                    //var zdex = 0;
-                    //the number of zindexes are returned.
-                    //var j = $(xml).find("zindex").length;
-                    //$(xml).find("region").each(function () {
-                        //var nextZdex = parseInt($(this).find("zindex"));
-                        //zdex = zdex + nextZdex;
-                    //});
-                    //var rent = (zdex / j) * (12 / 1889);
-
-                    //$(".panel-body text-primary").append(
-                        //'<div class="row">' +
-                        //'&emsp; Rent: ' + rent +
-                        //' is the approximate median rent + an average of $200 for a metro area and - $200 for a more rural area.' +
-                        //'</div>'
-                    //);
-                //}
-
-                    //'<div class="panel panel-info">' +
-                    //'<div class="panel-heading text-center">' +
-                    //'<div class="row">' +
-                    //'<div class="col-sm-1">' +
-                    //'<h2>' +
-                    //'<i class="fa fa-heart-o"></i>' +
-                    //'</h2>' +
-                    //'</div>' +
-                    //'<div class="col-sm-offset-0"></div>' +
-                    //'<div class="col-sm-9">' +
-                    //'<div class="spaceLeft">' +
-                    //'<h5 class="ccheader">' +
-                    //data.results[i]["school.name"] +
-                    //'</h5>' +
-                    //'</div>' +
-                    //'</div>' +
-                    //'<div class="col-sm-pull-1">' +
-                    //'<h2>' +
-                    //'<i class="fa fa-sticky-note-o"></i> ' +
-                    //'</h2>' +
-                    //'</div>' +
-                    //'</div>' +
-                    //'</div>' +
-                    //'<div class="panel-body text-primary" style="margin-top:-5%;">' +
-                    //'<div class="row">' +
-                    //'<h4 class="text-center">' +
-                    //'<i class="glyphicon glyphicon-usd"></i>' +
-                    //tuition +
-                    //'/year' +
-                    //'</h4>' +
-                    //'<div class="row" style="margin-top:5%;">' +
-                    //'<div class="col-sm-6">' +
-                    //'&emsp; State: ' + data.results[i]["school.state"] +
-                    //'</div>' +
-                    //'<div class="col-sm-6">' +
-                    //'City: ' + data.results[i]["school.city"] +
-                    //'</div>' +
-                    //'</div>' +
-                    //'</div>' +
-                    //'<div class="row">' +
-                    //'&emsp; Degree Being Saught' +
-                    //'</div>' +
-                    //'<div class="row">' +
-                    //'&emsp; Ownership: ' + ownership +
-                    //'</div>' +
-                    //'<div class="row">' +
-                    //'&emsp; Accreditor: ' + accreditor +
-                    //'</div>' +
-                    //'<div class="row">' +
-                    //'&emsp; Acceptance Rate: ' + (acceptRate * 100) + "%" +
-                    //'</div>' +
-                    //'</div>' +
-                    //'</div>' +
-                    //'</div>' +
-                    //'</div>');
+                // Display to Page
+                $("#Results").append(resultsString);
             }
         }
     } else { //School Not found
         $("#NotFound").text("No Schools Found!");
     }
 
+}
+
+
+function getResultString(collegeName, state, city, accreditor, ownership, tuition, schoolDegree, schoolDegreeType, acceptRate, schoolURL) {
+
+    return '<div class="col-sm-5">' +
+        '<div class="panel panel-info">' +
+            '<div class="panel-heading text-center">' +
+                '<div class="row">' +
+                    '<div class="col-sm-1">' +
+                        '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
+    '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + city +
+    ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
+                '</h2>' +
+                    '</div>' +
+                    '<div class="col-sm-offset-0"></div>' +
+                    '<div class="col-sm-9">' + // College Name
+                        '<div class="spaceLeft">' +
+                            '<h5 class="ccheader">' +
+                                collegeName +
+                    '</h5>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-sm-pull-1">' +
+                        '<h2>' +
+                            '<i class="fa fa-sticky-note-o"></i> ' +     // Needs to be for saving.
+                '</h2>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="panel-body text-primary" style="margin-top:-5%;">' + // Tuition
+                '<div class="row">' +
+                    '<h4 class="text-center">' +
+                        '<i class="glyphicon glyphicon-usd"></i>' +
+                        tuition +
+                '/year' +
+            '</h4>' +
+                    '<div class="row" style="margin-top:5%;">' +
+    '<div class="col-sm-6">' + // State
+    '&emsp; State: ' + state +
+                '</div>' +
+    '<div class="col-sm-6">' + // City
+    'City: ' + city +
+                '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="row">' + // Degree Selected
+                    '&emsp; Degree Selected: ' + schoolDegree +
+        '</div>' +
+                '<div class="row">' + // Ownership
+                    '&emsp; Ownership: ' + ownership +
+        //'</div>' +
+        //        '<div class="row">' +
+        //            '&emsp; Accreditor: ' + accreditor +
+        //'</div>' +
+        '</div>' +
+                '<div class="row">' + // Acceptance Rate
+                    '&emsp; Acceptance Rate: ' + acceptRate + "%" +
+    '</div>' +
+    '<div class="row">' + // School URL
+                    '&emsp; College Website: ' + '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
+        '</div>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
 }
 
 
