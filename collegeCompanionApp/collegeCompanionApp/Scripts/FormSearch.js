@@ -135,5 +135,3 @@ function checkStateDegree(state, degree, degreeType) {
         return true;
     }
 }
-
-
