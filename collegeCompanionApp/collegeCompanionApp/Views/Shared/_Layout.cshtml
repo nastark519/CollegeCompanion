@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - College Companion</title>
     @Styles.Render("~/Content/css")
-    @if (ViewBag.Title != "SearchesMenu") {
+    @if (ViewBag.Title != "SearchesMenu")
+    {
         @Styles.Render("~/Content/companion.css")
-    } else
+    }
+    else
     {
         @Styles.Render("~/Content/accordion.css")
     }
     @Scripts.Render("~/bundles/modernizr")
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.1/mapquest.css" />
 
 </head>
 <body>
-    <div class="navbar nav-tabs navbar-default navbar-fixed-top">
+    <div class="navbar nav-tabs navbar-default navbar-fixed-top" style="background-color:white;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -29,10 +32,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("College Search", "SearchForm", "Home")</li>
                     <li>@Html.ActionLink("Lifestyle", "SearchesMenu", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -42,7 +43,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer style="background-color:white;">
             <p>&copy; @DateTime.Now.Year - College Companion </p>
         </footer>
     </div>

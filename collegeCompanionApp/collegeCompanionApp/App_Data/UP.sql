@@ -51,6 +51,40 @@ CREATE TABLE PrivacyList (
 	PRIMARY KEY (PrivacyID)
 );
 
+CREATE TABLE DegreeList (
+	DegreeID	INT	IDENTITY(1,1)	NOT NULL,
+	DegreeName	NVARCHAR(100)	NOT NULL,
+	DegreeValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(DegreeID)
+);
+
+CREATE TABLE DegreeType (
+	DegreeTypeID	INT	IDENTITY(1,1)	NOT NULL,
+	DegreeTypeName	NVARCHAR(100)	NOT NULL,
+	DegreeTypeValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(DegreeTypeID)
+);
+
+CREATE TABLE AcceptanceRate (
+	AcceptanceRateID	INT	IDENTITY(1,1)	NOT NULL,
+	AcceptanceRateValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(AcceptanceRateID)
+);
+
+CREATE TABLE DemoRace (
+	DemoRaceID	INT	IDENTITY(1,1)	NOT NULL,
+	DemoRaceName	NVARCHAR(50)	NOT NULL,
+	DemoRaceValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(DemoRaceID)
+);
+
+CREATE TABLE DemoAge (
+	DemoAgeID	INT	IDENTITY(1,1)	NOT NULL,
+	DemoAgeRange	NVARCHAR(50)	NOT NULL,
+	DemoAgeRangeValue	NVARCHAR(50)	NOT NULL,
+	PRIMARY KEY(DemoAgeID)
+);
+
 /*Data for Tables*/
 INSERT INTO StateList (QueryName, Name, StateAbbr)
 VALUES ('Alabama AL', 'Alabama', 'AL'),
@@ -125,6 +159,96 @@ VALUES (1, 'Public'),
 	   (2, 'Private, Non-Profit'),
 	   (3, 'Private, For-Profit');
 
+INSERT INTO DegreeList (DegreeName, DegreeValue)
+VALUES	('Agriculture, Agriculture Operations, And Related Sciences', 'agriculture'),
+		('Natural Resources And Conservation', 'resources'),
+		('Architecture And Related Services', 'architecture'),
+		('Area, Ethnic, Cultural, Gender, And Group Studies', 'ethnic_cultural_gender'),
+		('Communication, Journalism, And Related Programs', 'communication'),
+		('Communications Technologies/Technicians And Support Services', 'communications_technology'),
+		('Computer And Information Sciences And Support Services', 'computer'),
+		('Personal And Culinary Services', 'personal_culinary'),
+		('Education', 'education'),
+		('Engineering', 'engineering'),
+		('Engineering Technologies And Engineering-Related Fields', 'engineering_technology'),
+		('Foreign Languages, Literatures, And Linguistics', 'language'),
+		('Family And Consumer Sciences/Human Sciences', 'family_consumer_science'),
+		('Legal Professions And Studies', 'legal'),
+		('English Language And Literature/Letters', 'english'),
+		('Liberal Arts And Sciences, General Studies And Humanities', 'humanities'),
+		('Library Science', 'library'),
+		('Biological And Biomedical Sciences', 'biological'),
+		('Mathematics And Statistics', 'mathematics'),
+		('Military Technologies And Applied Sciences', 'military'),
+		('Multi/Interdisciplinary Studies', 'multidiscipline'),
+		('Parks, Recreation, Leisure, And Fitness Studies', 'parks_recreation_fitness'),
+		('Philosophy And Religious Studies', 'philosophy_religious'),
+		('Theology And Religious Vocations', 'theology_religious_vocation'),
+		('Physical Sciences', 'physical_science'),
+		('Science Technologies/Technicians', 'science_technology'),
+		('Psychology', 'psychology'),
+		('Homeland Security, Law Enforcement, Firefighting And Related Protective Services', 'security_law_enforcement'),
+		('Public Administration And Social Service Professions', 'public_administration_social_service'),
+		('Social Sciences', 'social_science'),
+		('Construction Trades', 'construction'),
+		('Mechanic And Repair Technologies/Technicians', 'mechanic_repair_technology'),
+		('Precision Production', 'precision_production'),
+		('Transportation And Materials Moving', 'transportation'),
+		('Visual And Performing Arts', 'visual_performing'),
+		('Health Professions And Related Programs', 'health'),
+		('Business, Management, Marketing, And Related Support Services', 'business_marketing'),
+		('History', 'history');
+
+
+INSERT INTO DegreeType (DegreeTypeName, DegreeTypeValue)
+VALUES	('Certificate of less than one academic year', 'certificate_lt_1_yr'),
+		('Certificate of at least one but less than two academic years', 'certificate_lt_2_yr'),
+		('Associate degree', 'assoc'),
+		('Awards of at least two but less than four academic years', 'certificate_lt_4_yr'),
+		('Bachelor degree', 'bachelors');
+
+
+INSERT INTO AcceptanceRate (AcceptanceRateValue)
+VALUES	('10'),
+		('20'),
+		('30'),
+		('40'),
+		('50'),
+		('60'),
+		('70'),
+		('80'),
+		('90');
+
+INSERT INTO DemoRace (DemoRaceName, DemoRaceValue)
+VALUES	('White', 'wa'),
+		('Black', 'ba'),
+		('Native American', 'na'),
+		('Asian', 'aa'),
+		('Pacific Islanders', 'pa'),
+		('Multiracial', 'r2'),
+		('Hispanic', 'hs'),
+		('White, Non-Hispanic', 'wn');
+
+INSERT INTO DemoAge (DemoAgeRange, DemoAgeRangeValue)
+VALUES	('0-4', '0_4'),
+		('5-9', '5_9'),
+		('10-14', '10_14'),
+		('15-19', '15_19'),
+		('20-24', '20_24'),
+		('25-29', '25_29'),
+		('30-34', '30_34'),
+		('35-39', '35_39'),
+		('40-44', '40_44'),
+		('45-49', '45_49'),
+		('50-54', '50_54'),
+		('55-59', '55_59'),
+		('60-64', '60_64'),
+		('65-69', '65_69'),
+		('70-74', '70_74'),
+		('75-79', '75_79'),
+		('80-84', '80_84');
+
+
 /*
 College_User_Relations Table
 Feilds: UserID, CollegeID
@@ -141,22 +265,6 @@ CREATE TABLE College_User_Relations (
 	CONSTRAINT FK_CompanionID FOREIGN KEY (CompanionID) REFERENCES CompanionUser(CompanionID)
 	ON UPDATE CASCADE ON DELETE CASCADE	
 );
-
-/*=========INSERT SCRIPTS==============*/
-
-/* I have commented this out because it in not need and I don't want it to break anything if it is tried.
-INSERT INTO Users(ASPIdentityID) VALUES (
-	'221b'
-);
-*/
-INSERT INTO Colleges(Name, StateName, City, Accreditor, Focus, Ownership, Cost, AdmissionRate) VALUES (
-	'Hyrule University', 'Hyrule', 'Kakariko', 'Malon Foundation', 'Business', 1, 20000, 80
-);
-/* commented out because an erro was being thrown and it doesn't apear to be needed.
-INSERT INTO College_User_Relations (UserID, CollegeID, Favorite, Saved) VALUES (
-	1, 1, 0, 0
-);
-*/
 
 /*======================================== Identity tables ====================================================================*/
 

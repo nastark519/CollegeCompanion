@@ -13,8 +13,10 @@ using Newtonsoft.Json.Linq;
 using System.Xml;
 using System.Data.Linq;
 using System.Text;
-
-
+using collegeCompanionApp.Repository;
+using Ninject;
+using Geocoding;
+using System.Web.UI.WebControls;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -28,9 +30,19 @@ namespace collegeCompanionApp.Controllers
         string ownership = "";
         string finLimit = "";
         string acceptRate = "";
+        string degree = "";
+        string degreeType = "";
         int storedLimit = 0;
-        //Adding in the context for the Colleges&CompanionUsers&College_User_Relations
-        CompanionContext companiondb = new CompanionContext();
+
+        //Adding in the repository pattern connection
+        IRepository _repository;
+
+        public HomeController(IRepository repo)
+        {
+            _repository = repo;
+        }
+
+        public HomeController(){}
 
         public ActionResult Index()
         {
@@ -108,6 +120,7 @@ namespace collegeCompanionApp.Controllers
             return Content(resultString, "application/json");
         }
 
+
         public ActionResult SearchForm()
         {
             FormdataDB formdb = new FormdataDB();
@@ -130,18 +143,19 @@ namespace collegeCompanionApp.Controllers
         {
             Debug.WriteLine("SearchForm() Method!");
 
-            //Get College Scorecard API
+            //Get Data from Current URL
             schoolName = Request.QueryString["school.name"];
             state = Request.QueryString["school.state"];
             city = Request.QueryString["school.city"];
             accreditor = Request.QueryString["school.accreditor"];
             ownership = Request.QueryString["school.ownership"];
-            finLimit = Request.QueryString["school.tuition_revenue_per_fte"];
-            Debug.WriteLine("FinLimit: " + finLimit);
-            acceptRate = Request.QueryString["2015.admissions.admission_rate.overall__range"];
+            finLimit = Request.QueryString["school.tuition"];
+            acceptRate = Request.QueryString["school.admission_rate"];
+            degree = Request.QueryString["school.degree"];
+            degreeType = Request.QueryString["school.degreeType"];
 
             // build a WebRequest
-            WebRequest request = WebRequest.Create(CreateURL(schoolName, state, city, accreditor, ownership, finLimit, acceptRate));
+            WebRequest request = WebRequest.Create(CreateURL(schoolName, state, city, accreditor, ownership, finLimit, acceptRate, degree, degreeType));
             WebResponse response = request.GetResponse();
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(response.GetResponseStream());
@@ -188,9 +202,9 @@ namespace collegeCompanionApp.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    companiondb.Colleges.Add(college);
+                    _repository.AddCollege(college);
 
-                    companiondb.SaveChanges();
+                    _repository.SaveCollege(college);
                     return View();
                 }
                 else
@@ -222,62 +236,45 @@ namespace collegeCompanionApp.Controllers
         /// <returns>
         /// A URL string.
         /// </returns>
-        /// <param name="schoolName">A string from the user input on the SearchForm.</param>
-        /// <param name="stateName">A string from the user input on the SearchForm.</param>
-        /// <param name="cityName">A string from the user input on the SearchForm.</param>
-        /// <param name="accreditor">A string from the user input on the SearchForm.</param>
-        /// <param name="ownership">An string from the user input on the SearchForm.</param>
-        /// <param name="finLimit">An string from the user input on the SearchForm.</param>
-        public string CreateURL(string schoolName, string stateName, string cityName, string accreditor, string ownership, string finLimit, string acceptRate)
+        public string CreateURL(string schoolName, string stateName, string cityName, string accreditor, string ownership, string finLimit, string acceptRate, string degree, string degreeType)
         {
             Debug.WriteLine("createURL() Method!");
 
-            var values = "school.state=" + state;
+            var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; // Source, Endpoint
+            var APIKey = "&api_key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"]; // CollegeScoreCard API Key           
+            var fields = SetCollegeFields(); // Set Fields
+            var values = SetCollegeValues(ownership, acceptRate, finLimit); // Set Values, Parameters
 
+            // Checks for Empty Values
+            // If not empty, add to parameters
             if (schoolName != "")
             {
                 values = values + "&school.name=" + schoolName;
             }
-            if (city != "")
+            if (stateName != "")
             {
-                values = values + "&school.city=" + city;
+                values = values + "&school.state=" + stateName;
+            }
+            if (cityName != "")
+            {
+                values = values + "&school.city=" + cityName;
+            }
+            if (cityName != "")
+            {
+                values = values + "&school.city=" + cityName;
             }
             if (accreditor != "")
             {
                 values = values + "&school.accreditor=" + accreditor;
             }
-            if (finLimit != null && finLimit != "")
+            if (degree != "" && degree != "Any")
             {
-                if (finLimit.Length == 12)
-                {
-                    //storedLimit = Convert.ToInt32(finLimit.Substring(0, 5));
-                    values = values + "&school.tuition_revenue_per_fte__range=" + finLimit;
-                    //Debug.WriteLine("Stored Limit: " + storedLimit);
-                    Debug.WriteLine("Fin Limit: " + finLimit);
-                }
-                else if (finLimit.Length == 10)
-                {
-                    //storedLimit = Convert.ToInt32(finLimit.Substring(0, 3));
-                    values = values + "&school.tuition_revenue_per_fte__range=" + finLimit;
-                    //Debug.WriteLine("Stored Limit: " + storedLimit);
-                    Debug.WriteLine("Fin Limit: " + finLimit);
-                }
-                else
-                {
-                    //storedLimit = Convert.ToInt32(finLimit);  // get substring of val. and convert to integer. sp4 **************
-                    values = values + "&school.tuition_revenue_per_fte=" + finLimit;
-                    //Debug.WriteLine("Stored Limit: " + storedLimit);
-                    Debug.WriteLine("Fin Limit: " + finLimit);
-                }
+                string theDegree = SetDegree(degreeType, degree); // Set up Degree value
+                values = values + AddDegreeValue(theDegree); // Add Degree to Parameters
+                fields = fields + AddDegreeField(theDegree); // Add Degree to Fields
             }
-            values = values + "&2015.admissions.admission_rate.overall__range=" + acceptRate;
-            values = values + "&school.ownership=" + ownership;
 
-            var source = "https://api.data.gov/ed/collegescorecard/v1/schools?"; //Source
-            var APIKey = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"]; //API Key
-            var fields = "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall";
-            //Fields 
-            //URL to College Scorecard
+            //Set up GET URL to College Scorecard
             string url = source + values + APIKey + fields;
             //Replace spaces with %20 
             url = url.Trim();
@@ -287,23 +284,42 @@ namespace collegeCompanionApp.Controllers
             return url;
         }
 
-        public String CheckFinLimit(String finLimit)
-
+        public string SetCollegeFields()
         {
-
-            return finLimit;
-
+            // Default Fields to get
+            return "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall,school.school_url";
         }
 
+        public string SetCollegeValues(string ownership, string acceptRate, string finLimit)
+        {
+            string collegeValues = "school.ownership=" + ownership + "&2015.admissions.admission_rate.overall__range=" + acceptRate
+                + "&school.tuition_revenue_per_fte__range=" + finLimit + "&_sort=school.tuition_revenue_per_fte:desc"; // Default Parameters
+            return collegeValues;
+        }
+
+        public string AddDegreeField(string theDegree)
+        {
+            string field = "," + theDegree; // Add Degree to fields
+            return field;
+        }
+
+        public string AddDegreeValue(string theDegree)
+        {
+            string val = "&" + theDegree + "__range=1.."; // Add Degree to parameters
+            return val;
+        }
+
+        public string SetDegree(string degreeType, string degree)
+        {
+            string aDegree = "2015.academics.program." + degreeType + "." + degree; // Degree to Search
+            return aDegree;
+        }
 
 
         public ActionResult Yelp()
         {
-
             return View();
-
         }
-
 
         public JsonResult YelpSearch()
         {
@@ -455,7 +471,9 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult Demographic()
         {
-            return View();
+            FormdataDB formdb = new FormdataDB();
+            Debug.Assert(formdb != null, "Database has the wrong connection.");
+            return View(formdb);
         }
 
         public JsonResult DemographicSearch()
