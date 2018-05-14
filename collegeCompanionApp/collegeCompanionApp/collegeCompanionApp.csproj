@@ -303,16 +303,20 @@
     <Compile Include="Models\DemoAge.cs" />
     <Compile Include="Models\DemoRace.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Repository\CollegeRepository.cs" />
+    <Compile Include="Repository\ICollegeRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\FinLimitList.cs" />
     <Compile Include="Models\FormdataDB.cs" />
     <Compile Include="Models\FormDataViewModel.cs" />
     <Compile Include="Models\PrivacyList.cs" />
+    <Compile Include="Repository\IUnitOfWork.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Models\StateList.cs" />
     <Compile Include="Models\CompanionUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\UnitOfWork.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
