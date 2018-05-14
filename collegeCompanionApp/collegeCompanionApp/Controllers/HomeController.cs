@@ -46,9 +46,7 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult Index()
         {
-            FormdataDB formdb = new FormdataDB();
-            Debug.Assert(formdb != null, "Database has the wrong connection.");
-            return View(formdb);
+            return View();
         }
 
         public ActionResult Travel()
@@ -74,13 +72,6 @@ namespace collegeCompanionApp.Controllers
         public ActionResult Test()
         {
             return View();
-        }
-
-        public string GoogleAPIKey()
-        {
-            var key = "http://www.mapquestapi.com/directions/v2/route?key=";
-            key = key + System.Web.Configuration.WebConfigurationManager.AppSettings["MapQuestAPIKey"];
-            return key;
         }
 
         /// <summary>
