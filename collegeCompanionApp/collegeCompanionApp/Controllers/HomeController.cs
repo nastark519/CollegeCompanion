@@ -15,6 +15,8 @@ using System.Data.Linq;
 using System.Text;
 using collegeCompanionApp.Repository;
 using Ninject;
+using Geocoding;
+using System.Web.UI.WebControls;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -33,17 +35,12 @@ namespace collegeCompanionApp.Controllers
         int storedLimit = 0;
 
         //Adding in the repository pattern connection
+
         //private CompanionContext db;
         
         // We can do everything that the constructer method was doing here in one line of code.
         ICollegeRepository _repository = new CollegeRepository(new CompanionContext());
-        
-        //public HomeController()
-        //{
-        //    this._repository = new Repository.Repository(new CompanionContext());
-        //}
 
-        //public HomeController(){}
 
         public ActionResult Index()
         {
@@ -120,6 +117,7 @@ namespace collegeCompanionApp.Controllers
             //Note: This is completed without a JSON parse action so don't treat it like the other methods! lol
             return Content(resultString, "application/json");
         }
+
 
         public ActionResult SearchForm()
         {
@@ -261,11 +259,15 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.city=" + cityName;
             }
+            if (cityName != "")
+            {
+                values = values + "&school.city=" + cityName;
+            }
             if (accreditor != "")
             {
                 values = values + "&school.accreditor=" + accreditor;
             }
-            if (degree != "")
+            if (degree != "" && degree != "Any")
             {
                 string theDegree = SetDegree(degreeType, degree); // Set up Degree value
                 values = values + AddDegreeValue(theDegree); // Add Degree to Parameters

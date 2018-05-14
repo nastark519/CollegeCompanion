@@ -17,9 +17,9 @@ namespace collegeCompanionApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CollegeID { get; set; }
 
-        public bool Favorite { get; set; } // maybe change to an int and look for == 0 and < 0.
+        //public bool Favorite { get; set; } // maybe change to an int and look for == 0 and < 0.
 
-        public bool Saved { get; set; }
+        //public bool Saved { get; set; }
 
         public virtual College College { get; set; }
 

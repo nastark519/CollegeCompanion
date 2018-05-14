@@ -45,7 +45,7 @@ namespace collegeCompanionApp.Repository
                                   .Select(n => n.CompanionID)
                                   .SingleOrDefault().ToString();
 
-            var savedColleges = Context.College_User_Relations.Where(r => r.CompanionID == user && r.Saved).ToList();
+            var savedColleges = Context.College_User_Relations.Where(r => r.CompanionID == user /*&& r.Saved*/).ToList();
             List<College> savedCollegeList = new List<College>();
             foreach (College_User_Relations item in savedColleges)
             {

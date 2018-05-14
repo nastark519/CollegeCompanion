@@ -39,7 +39,7 @@ function start() {
     console.log("School Tuition: " + schoolTuition);
     console.log("Acceptance Rate:" + acceptRate);
     console.log("Degree: " + degree);
-    console.log("Degree Type: " + degreeType);  
+    console.log("Degree Type: " + degreeType);
 
     // Set vaules for JSON request
     var values = "school.name=" + schoolName + "&school.state=" + state + "&school.city=" + city
@@ -118,7 +118,6 @@ function successSearch(data) {
                     schoolURL = "https://" + schoolURL; // Add 'https://' to the School URL
                 }
 
-               
                 $("#Results").append(
                     '<div class="col-sm-5">' +
                         '<div class="panel panel-info">' +
@@ -276,12 +275,76 @@ function successSearch(data) {
                     //'</div>' +
                     //'</div>' +
                     //'</div>');
+                // Set up Result String 
+                var resultsString = getResultString(collegeName, state, city, accreditor, ownership, tuition, schoolDegree, schoolDegreeType, acceptRate, schoolURL);
+
+                // Display to Page
+                $("#Results").append(resultsString);
             }
         }
     } else { //School Not found
         $("#NotFound").text("No Schools Found!");
     }
 
+}
+
+
+function getResultString(collegeName, state, city, accreditor, ownership, tuition, schoolDegree, schoolDegreeType, acceptRate, schoolURL) {
+
+    return '<div style="float:left; width:20em;margin-right:2em;">' +
+        '<div class="panel panel-info">' +
+        '<div class="panel-heading text-center panel-height">' +
+        '<div class="row">' +
+        '<div class="col-sm-1">' +
+        '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
+        '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + city + ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
+        '</h2>' +
+        '</div>' +
+        '<div class="col-sm-offset-0"></div>' +
+        '<div class="col-sm-9">' + // College Name
+        '<div class="spaceLeft">' +
+        //So the math function below takes the line height, divides it by the number of characters and presents the centered characters
+        //within the height of the panel header.
+        '<h5 class="ccPanelHeader" style="line-height:' + 45 / (Math.ceil(collegeName.length / 30)) + 'px;"' + ">" +
+        collegeName +
+        '</h5>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="panel-body text-primary ccPanelBody">' +
+        '<div class="row">' +
+        '<h4 class="text-center">' +
+        '$' + tuition + '/year' +
+        '</h4>' +
+        '<div class="row" style="margin-top:5%;">' +
+        '<div class="col-sm-6">' + // State
+        '&emsp; State: ' + state +
+        '</div>' +
+        '<div class="col-sm-6">' + // City
+        'City: ' + city +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="row">' + // Degree Selected
+        '&emsp; Degree Selected: ' + schoolDegree +
+        '</div>' +
+        '<div class="row">' + // Ownership
+        '&emsp; Ownership: ' + ownership +
+        //'</div>' +
+        //        '<div class="row">' +
+        //            '&emsp; Accreditor: ' + accreditor +
+        //'</div>' +
+        '</div>' +
+        '<div class="row">' + // Acceptance Rate
+        '&emsp; Acceptance Rate: ' + acceptRate + "%" +
+        '</div>' +
+        '<div class="row">' + // School URL
+        '&emsp; College Website: ' + '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
 }
 
 
