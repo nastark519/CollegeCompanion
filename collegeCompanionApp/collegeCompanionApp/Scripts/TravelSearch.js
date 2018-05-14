@@ -73,8 +73,8 @@ function displaySearch(results) {
     searchContent += '</a>';
     searchContent += '</div>';
     searchContent += '<div class="panel-body">';
-    searchContent += '<p style="font-size: 11pt;color: steelblue;vertical-align: middle;"> <strong>Transit Score:</strong> ' + convertToNA(results["transit.score"]) + '</p>';
-    searchContent += '<p style="font-size: 11pt;color: steelblue;vertical-align: middle;"> <strong>Biking Score:</strong> ' + convertToNA(results["bike.score"]) + '</p>';
+    console.log(results["transit.score"]);
+    searchContent += '<p style="font-size: 11pt;color: steelblue;vertical-align: middle;"> <strong>Description:</strong> ' + results["description"] + '</p>';
     searchContent += '</div>';
     searchContent += '<div class="panel-footer">';
     searchContent += '<a style="font-size:8pt;color:darkgray;" href="' + results["help_link"] + '">' + 'For How Walks Score Works!' + '</a>';

@@ -1,4 +1,5 @@
-﻿
+﻿@model collegeCompanionApp.Models.FormdataDB
+
 @{
     ViewBag.Title = "Demographic";
 }
@@ -17,22 +18,68 @@
         @*Zipcode User Input*@
         <input class="well-sm" type="text" id="Zipcode" name="Zipcode" placeholder="EX: 97361" />
         @*Search Button*@
-        <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg" />
-    </div>
-</div>
-
-<hr />
-
-@*Display Results here*@
-<div id="Results" style="display: none">
-    @*Address Header*@
-    <h3 class="text-center" id="Address"></h3>
-    <div class="container">
-        <ul class="list-group" id="SearchResults">
-            @*List of Results here*@
-        </ul>
+        <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg btn-success" />
     </div>
 
+    <div class="row">
+        <div class="form-group text-center col-sm-3">
+            @*Race list*@
+            <label>Please Select a Race:</label>
+            <select class="form-control text-center" id="raceInput" name="raceInput">
+                @foreach (var item in Model.DemoRaces)
+            {
+                <option value="@item.DemoRaceValue">@item.DemoRaceName</option>
+        }
+            </select>
+        </div>
+
+        <div class="form-group text-center col-sm-6">
+            @*Age Ranges*@
+            <label>Choose Up to 10:</label>
+            @foreach (var item in Model.DemoAges)
+        {
+            <label class="checkbox-inline" id="ageRangeInput">
+                <input type="checkbox" id="ageRangeInput" value="@item.DemoAgeRangeValue">Ages @item.DemoAgeRange years old
+            </label>
+    }
+            <label class="checkbox-inline" id="ageRangeInput">
+                <input type="checkbox" id="ageRangeInput" value="85p"> Over 85 years old
+            </label>
+        </div>
+
+        <div class="form-group text-center col-sm-3">
+            @*Female or Male Selector*@
+            <label>Please Select a Gender:</label>
+            <select class="form-control text-center" id="genderInput" name="genderInput">
+                <option value="f">Female</option>
+                <option value="m">Male</option>
+            </select>
+        </div>
+    </div>
+
+    <hr />
+
+    @*Display Results here*@
+    <div id="Results" style="display: none">
+        @*Address Header*@
+        <h2 class="text-center" id="Address"></h2>
+        <div class="row">
+            <div class="col-sm-3">
+                <ul class="list-group" id="SearchResults">
+                    @*List of All Age Ranges Results here*@
+                </ul>
+            </div>
+            <div class="col-sm-7">
+                <div id="piechart"></div>
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            </div>
+            <div class="col-sm-2">
+                <ul class="list-group" id="SelectedAges">
+                    @*List of Selected Results here*@
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 
