@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using collegeCompanionApp.Models;
+using System.Threading.Tasks;
 
 namespace collegeCompanionApp.Repository
 {
-    public interface IRepository
+    public interface IRepository<TEntity> where TEntity : class
     {
 
-        IEnumerable<College> Colleges { get; }
+        //IEnumerable<TEntity> Colleges { get; }
 
-        void AddCollege(College college);
+        void AddCollege(TEntity college);
 
-        void DeleteCollege(College college);
+        void DeleteCollege(TEntity college);
 
-        void SaveCollege(College college);
+        void SaveCollege(TEntity college);
 
-        IEnumerable<College> GetSavedColleges(string logIn);
+        //IEnumerable<TEntity> GetSavedColleges(string logIn);
 
         //int GetZipCode(College college);
 
-        string GetState(College college);
+        //string GetState(TEntity college);
 
-        string GetCity(College college);
+        //string GetCity(TEntity college);
 
-        College GetCollege(string collegeName);
+        //TEntity GetCollege(string collegeName);
     }
 }

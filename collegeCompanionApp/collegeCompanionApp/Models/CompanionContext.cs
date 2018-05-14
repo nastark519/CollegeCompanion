@@ -16,7 +16,7 @@ namespace collegeCompanionApp.Models
         public virtual DbSet<College> Colleges { get; set; }
         public virtual DbSet<CompanionUser> CompanionUsers { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)    // What is happening here?
         {
         }
     }

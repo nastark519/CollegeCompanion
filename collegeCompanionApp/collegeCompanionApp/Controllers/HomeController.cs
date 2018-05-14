@@ -33,12 +33,15 @@ namespace collegeCompanionApp.Controllers
         int storedLimit = 0;
 
         //Adding in the repository pattern connection
-        private CollegeRepository _repository;
-
-        public HomeController()
-        {
-            this._repository = new CollegeRepository(new CompanionContext());
-        }
+        //private CompanionContext db;
+        
+        // We can do everything that the constructer method was doing here in one line of code.
+        ICollegeRepository _repository = new CollegeRepository(new CompanionContext());
+        
+        //public HomeController()
+        //{
+        //    this._repository = new Repository.Repository(new CompanionContext());
+        //}
 
         //public HomeController(){}
 
