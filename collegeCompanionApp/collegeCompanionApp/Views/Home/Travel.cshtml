@@ -2,10 +2,9 @@
 @{
     ViewBag.Title = "Travel";
 }
-<head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-</head>
+
 <h2>Travel</h2>
+
 <div class="container">
     <div class="col-lg-3">
         <div class="form-group">
@@ -24,30 +23,17 @@
             <button type="submit" id="submit" class="btn btn-default">Submit</button>
         </div>
     </div>
-    <div class="col-lg-3" style="float:left">
-        <div class="travelResults"></div>
-    </div>
-    <div id="clear-div">
-        <div class="col-lg-3" id="map-div">
-            <div id="floating-panel">
-            <strong>Start: </strong>
-            <input id="start" type="text" onchange="calcRoute();"><br />
-            <strong>End: </strong>
-            <input id="end" type="text" onchange="calcRoute();">
-        </div>
-            <div id="map" style="width:100%;height:400px;"></div>
-            &nbsp;
-            <div id="warnings-panel"></div>
-        </div>
-    </div>
+    <div class="travelResults" style="float:left;"></div>
 </div>
-
-@*<script async defer src=@Html.Action("GoogleAPIKey", "HomeController")></script>*@
-<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCP168UjPI0kwp82kzcdm4Hpd6iB5FNKUY&callback=initMap"></script>
-
-
+<div style="border: 0; margin: 0;">
+    <div id="map" style="width: 100%; height: 830px;"></div>
+</div>
+<script>
+    var mpKey = '@System.Configuration.ConfigurationManager.AppSettings["MapQuestAPIKey"]';
+</script>
 @section scripts{
-    <script  type="text/javascript" src="~/Scripts/TravelSearch.js"></script>
-    <script  type="text/javascript" src="~/Scripts/googleSearch.js"></script>
+    <script type="text/javascript" src="~/Scripts/TravelSearch.js"></script>
+    <script type="text/javascript" src="~/Scripts/googleSearch.js"></script>
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.1/mapquest.js"></script>
 }
 

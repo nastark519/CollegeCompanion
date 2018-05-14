@@ -15,6 +15,8 @@ using System.Data.Linq;
 using System.Text;
 using collegeCompanionApp.Repository;
 using Ninject;
+using Geocoding;
+using System.Web.UI.WebControls;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -70,14 +72,6 @@ namespace collegeCompanionApp.Controllers
         public ActionResult Test()
         {
             return View();
-        }
-
-        public string GoogleAPIKey()
-        {
-            var key = "https://maps.googleapis.com/maps/api/js?key=";
-            key = key + System.Web.Configuration.WebConfigurationManager.AppSettings["WalkScoreAPIKey"];
-            key = key + "&callback=initMap";
-            return key;
         }
 
         /// <summary>
@@ -273,7 +267,7 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.accreditor=" + accreditor;
             }
-            if (degree != "")
+            if (degree != "" && degree != "Any")
             {
                 string theDegree = SetDegree(degreeType, degree); // Set up Degree value
                 values = values + AddDegreeValue(theDegree); // Add Degree to Parameters
