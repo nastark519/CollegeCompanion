@@ -35,14 +35,12 @@ namespace collegeCompanionApp.Controllers
         int storedLimit = 0;
 
         //Adding in the repository pattern connection
-        IRepository _repository;
 
-        public HomeController(IRepository repo)
-        {
-            _repository = repo;
-        }
+        //private CompanionContext db;
+        
+        // We can do everything that the constructer method was doing here in one line of code.
+        ICollegeRepository _repository = new CollegeRepository(new CompanionContext());
 
-        public HomeController(){}
 
         public ActionResult Index()
         {
@@ -185,17 +183,19 @@ namespace collegeCompanionApp.Controllers
         /// <summary>
         /// Saves selected data into the College Database
         /// </summary>
-        /// <returns>
-        /// True if data is successfully saved, False if it is not.
-        /// </returns>
-        /// <param name="schoolName">A string from the dataset of API results.</param>
-        /// <param name="stateName">A string from the dataset of API results.</param>
-        /// <param name="cityName">A string from the dataset of API results.</param>
-        /// <param name="accreditor">A string from the dataset of API results.</param>
-        /// <param name="ownership">An integer from the dataset of API results.</param>
-        /// <param name="finLimit">An integer from the dataset of API results.</param>
-        public ActionResult SaveData([Bind(Include = "CollegeID,Name,StateName,City,Accreditor,Ownership,Cost")]College college)
+        public ActionResult SaveData()
         {
+            string name = Request.QueryString["Name"];
+            string stateName = Request.QueryString["StateName"];
+            string city = Request.QueryString["City"];
+            string accreditor = Request.QueryString["Accreditor"];
+            string ownership = Request.QueryString["Ownership"];
+            int cost;
+
+            int.TryParse(Request.QueryString["Cost"], out cost);
+
+            College college = new College { Name = name, StateName = stateName, City = city, Accreditor = accreditor, Ownership = ownership, Cost = cost };
+
             if (User.Identity.IsAuthenticated)
             {
                 Debug.WriteLine("saveData() Method!");
