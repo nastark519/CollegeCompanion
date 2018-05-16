@@ -9,7 +9,8 @@
 
 To set up for this project we suggest that you have downloaded Visual Studio community 2017 version 15.7.0, as this is the version that is up to date with what we have made. A link is provided below.
 
-	https://www.visualstudio.com/vs/community/
+
+https://www.visualstudio.com/vs/community/
 
 
 
