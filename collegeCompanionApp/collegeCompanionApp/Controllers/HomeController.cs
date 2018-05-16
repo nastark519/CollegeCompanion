@@ -47,6 +47,11 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
+        public ActionResult Error()
+        {
+            return View();
+        }
+
         public ActionResult Travel()
         {
             return View();

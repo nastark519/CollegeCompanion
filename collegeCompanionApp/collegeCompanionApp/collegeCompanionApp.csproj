@@ -326,6 +326,7 @@
     <Content Include="Content\blackboard.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\catskullErrorIcon.svg" />
     <Content Include="Content\colorful.jpg" />
     <Content Include="Content\companion.css" />
     <Content Include="Content\food.png" />
@@ -427,6 +428,7 @@
     <Content Include="Views\Home\SearchesMenu.cshtml" />
     <Content Include="Views\Home\Travel.cshtml" />
     <Content Include="Views\Home\Demographic.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
