@@ -2,7 +2,7 @@
 ===================================
 -- *CODE-BLOODED & ERROR RESISTANT*
 
-[Coding Rules](CodingRules.md) | [Contributors](contributors.md) | [Development](Development.md) | [Tool List](ToolList.md) | [How to install](installInstruct.md)
+[Coding Rules](CodingRules.md) | [Contributors](contributors.md) | [Development](Development.md) | [How to install](installInstruct.md) | [Tool List](ToolList.md) 
 
 ![alt text](Images/SST_Logo.PNG)
 
