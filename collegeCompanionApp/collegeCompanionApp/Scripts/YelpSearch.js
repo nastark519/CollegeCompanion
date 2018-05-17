@@ -84,11 +84,28 @@ function successSearch(data) {
             var url = business[i].url;
 
             //Display Data onto Table
-            $("#SearchResults").append("<tr><td>" + name
-                + "</td><td>" + city
-                + "</td><td>" + address
-                + "</td><td>" + rating
-                + "</td><td>" + "<a href=" + url + "style='display:block';>" + name + " Page</a></td></tr>");
+            $("#SearchResults").append(
+                '<div class="col-md-9 col-md-offfset-3" style="float:left;width:20em;margin-right:2em;">'
+                + '<div class="panel panel-info">'
+                +'<div class="panel-heading text-center panel-height">' 
+                + '<h3 class="ccPanelHeader">' + name + ' </h3>'
+                + '</div>'
+                + '<div class="panel-body text-primary" style="margin-left:1em;height:10em;">'
+                + '<div class="row" style="margin-top:2em">'
+                + '<strong>City</strong>:' + city
+                +'</div>'
+                + '<div class="row">'
+                + '<strong>Address</strong>:' + address
+                + '</div>'
+                + '<div class="row">'
+                + '<strong>Rating</strong>:' +  rating
+                + '</div>'
+                + '</div>'
+                + '<div class="panel-footer" style="text-align:center">'
+                + "<a href=" + url + "style='display:block';>" + name + " Website</a>"
+                + '</div>'
+                + '</div>'
+                );
             
         }
 
