@@ -33,3 +33,17 @@ To start using and changing this projects code go to
 		+ once the above step is complete you will again click on the plus symbol, and
 
 		+  click on *__clone__ this repository* to get the git command to clone the repository to your local machine, that will look something like this `git clone https://bitbucketUser@bitbucket.org/daniel_tapia/collegecompanion.git` make sure to copy this code exactly into the command prompt that you are using. And to make sure you are in the directory folder that you want to be working in when the command is executed.
+
+#### Third:
+
+
+
+Once our code is all set up in your environment you will need to get the proper API keys in order to test and run the code locally.
+
+
+
+1.) [College Scorecard](https://api.data.gov/signup/)
+
+2.) [MapQuest](https://developer.mapquest.com/plan_purchase/steps/business_edition/business_edition_free/register)
+
+3.) [Yelp!](https://www.yelp.com/developers/documentation/v3/authentication)
