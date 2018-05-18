@@ -55,6 +55,16 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult Travel()
         {
+            //Check that they have a saved list item, else ask them to save a college
+            //Check that they are signed in user (to see what that code might look like, look at the code on the
+            //bottom of SearchResults.cshtml) show by college name
+            //Call the Repo/DB Context
+            //Do a LINQ Query for the saved colleges as a list.
+            //Save that LINQ Query to a variable that is .ToList()
+            //Inside the "return View(); returnt the variable
+            //Inside the pages View.html you will add an @model IEnumerable<collegeCompanionApp.Models.SearchResults>
+            //Then, where you want to present the list view (in this case, in a selector) you would call:
+            //@foreach(var item in Model){ @item....}
             return View();
         }
 
