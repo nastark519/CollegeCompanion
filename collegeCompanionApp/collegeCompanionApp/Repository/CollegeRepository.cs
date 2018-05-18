@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace collegeCompanionApp.Repository
 {
-    public class CollegeRepository : Repository<College>, ICollegeRepository
+    public class CollegeRepository : Repository<SearchResult>, ICollegeRepository
     {
         public CollegeRepository(CompanionContext compContex)
         : base(compContex) { }
@@ -20,57 +20,49 @@ namespace collegeCompanionApp.Repository
             get { return Context as CompanionContext; }
         }
 
-        public string GetCity(College college)
+        public string GetCity(SearchResult college)
         {
             if (college == null)
             {
                 throw new ArgumentNullException(nameof(college));
             }
-            var city = Context.Colleges.Where(n => n.CollegeID == college.CollegeID)
+            var city = Context.SearchResults.Where(n => n.SearchResultsID == college.SearchResultsID)
                                            .Select(n => n.City)
                                            .SingleOrDefault()
                                            .ToString();
             return city;
         }
 
-        public College GetCollege(string collegeName)
+        public SearchResult GetCollege(string collegeName)
         {
-            College college = Context.Colleges.Where(n => n.Name == collegeName).SingleOrDefault();
+            SearchResult college = Context.SearchResults.Where(n => n.Name == collegeName).SingleOrDefault();
             return college;
         }
 
-        public IEnumerable<College> GetSavedColleges(string logIn)
+        public IEnumerable<SearchResult> GetSavedColleges(string logIn)
         {
-            string user = Context.CompanionUsers.Where(n => n.Email == logIn)
+            int user = Context.CompanionUsers.Where(n => n.Email == logIn)
                                   .Select(n => n.CompanionID)
-                                  .SingleOrDefault().ToString();
+                                  .SingleOrDefault();
 
-            var savedColleges = Context.College_User_Relations.Where(r => r.CompanionID == user /*&& r.Saved*/).ToList();
-            List<College> savedCollegeList = new List<College>();
-            foreach (College_User_Relations item in savedColleges)
+            var savedColleges = Context.SearchResults.Where(r => r.CompanionID == user  /*&& r.Saved*/).ToList();
+            List<SearchResult> savedCollegeList = new List<SearchResult>();
+            foreach (SearchResult item in savedColleges)
             {
-                savedCollegeList.Add(Context.Colleges.Where(c => c.CollegeID == item.CollegeID).FirstOrDefault());
+                savedCollegeList.Add(Context.SearchResults.Where(c => c.SearchResultsID == item.SearchResultsID).FirstOrDefault());
             }
-            if (user != null)
-            {
-                return savedCollegeList;
-            }
-            else
-            {
-                throw new NullReferenceException("No Saved Values Found for This User.");
-            }
+            return savedCollegeList;
         }
 
-        public string GetState(College college)
+        public string GetState(SearchResult college)
         {
             if (college == null)
             {
                 throw new ArgumentNullException(nameof(college));
             }
-            var state = Context.Colleges.Where(n => n.CollegeID == college.CollegeID)
+            string state = Context.SearchResults.Where(n => n.SearchResultsID == college.SearchResultsID)
                                            .Select(n => n.StateName)
-                                           .SingleOrDefault()
-                                           .ToString();
+                                           .SingleOrDefault();
             return state;
         }
     }
