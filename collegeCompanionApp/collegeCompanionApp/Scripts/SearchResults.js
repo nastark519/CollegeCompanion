@@ -123,6 +123,7 @@ function successSearch(data) {
                 var zipCode = 97128;
                 //http://localhost:30375/Home/SaveData?userID=2&name=blah&stateName=blah&city=blah&zipCode=92000&accreditor=blah&degree=blah&degreeType=blah&ownership=1&cost=10000
 
+                //This view is KING
                 $("#Results").append(
                     '<div style="float:left; width:20em;margin-right:2em;">' +
                         '<div class="panel panel-info">' +
@@ -148,7 +149,7 @@ function successSearch(data) {
                     + schoolDegree
                     + '&degreeType='
                     //Degree Type unreachable, need to combine our horrible moshpit of appended code.
-                    + 'None Selected'
+                    + degreeType
                     + '&ownership='
                     + ownership
                     + '&cost='
