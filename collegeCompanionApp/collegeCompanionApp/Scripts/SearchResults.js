@@ -89,21 +89,23 @@ function successSearch(data) {
                 var city = data.results[i]["school.city"];
 
                 if (accreditor === null) { // If accreditor is NULL than display 'N/A'
-                    accreditor = "N/A";
+                    accreditor = "None";
                 }
 
                 if (acceptRate === null) { // If acceptance rate is NULL than display 'N/A'
-                    acceptRate = "N/A";
+                    acceptRate = "None";
                 } else { // Else get acceptance rate percentage
                     acceptRate = (acceptRate * 100).toFixed(2); // Round to second decimal place
                 }
 
+                var ownershipStr;
+
                 if (ownership === 1) { // If ownership is 1, it's public
-                    ownership = "Public";
+                    ownershipStr = "Public";
                 } else if (ownership === 2) { // If ownership is 2, it's Private Non-Profit
-                    ownership = "Private Non-Profit";
+                    ownershipStr = "Private Non-Profit";
                 } else { // Else it's Private For-Profit
-                    ownership = "Private For-Profit";
+                    ownershipStr = "Private For-Profit";
                 }
 
                 if (schoolDegree === 2) { // If School Degree is 2, Program Offered with exclusibely education
@@ -118,6 +120,9 @@ function successSearch(data) {
                     schoolURL = "https://" + schoolURL; // Add 'https://' to the School URL
                 }
 
+                var zipCode = 97128;
+                //http://localhost:30375/Home/SaveData?userID=2&name=blah&stateName=blah&city=blah&zipCode=92000&accreditor=blah&degree=blah&degreeType=blah&ownership=1&cost=10000
+
                 $("#Results").append(
                     '<div style="float:left; width:20em;margin-right:2em;">' +
                         '<div class="panel panel-info">' +
@@ -125,8 +130,30 @@ function successSearch(data) {
                                 '<div class="row">' +
                                     '<div class="col-sm-1">' +
                                         '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-                    '<a class="fa fa-heart-o" href="SaveData?Name=' + collegeName + '&StateName=' + state + '&City=' + city +
-                    '&Accreditor=' + accreditor + '&Ownership=' + ownership + '&Cost=' + tuition + '"></a>' +      // This this a starting point fot sp4 for fav.
+                        '<a class="fa fa-heart-o" href="/Home/SaveData'
+                    + '?userID=' 
+                    + companionID
+                    + '&name='
+                    + collegeName 
+                    + '&stateName='
+                    + state
+                    + '&city='
+                    + city
+                    + '&zipCode='
+                    + zipCode
+                    //Accreditor causes save errors, need to figure out what's going on here.
+                    + '&accreditor='
+                    + 'None'
+                    + '&degree='
+                    + schoolDegree
+                    + '&degreeType='
+                    //Degree Type unreachable, need to combine our horrible moshpit of appended code.
+                    + 'None Selected'
+                    + '&ownership='
+                    + ownership
+                    + '&cost='
+                    + tuition
+                        + '"></a>' +      // This this a starting point fot sp4 for fav.
                                 '</h2>' +
                                     '</div>' +
                                     '<div class="col-sm-offset-0"></div>' +
@@ -159,7 +186,7 @@ function successSearch(data) {
                                     '&emsp; Degree Selected: ' + schoolDegree +
                         '</div>' +
                                 '<div class="row">' + // Ownership
-                                    '&emsp; Ownership: ' + ownership +
+                    '&emsp; Ownership: ' + ownershipStr +
                         //'</div>' +
                         //        '<div class="row">' +
                         //            '&emsp; Accreditor: ' + accreditor +
@@ -192,7 +219,9 @@ function getResultString(collegeName, state, city, accreditor, ownership, tuitio
         '<div class="row">' +
         '<div class="col-sm-1">' +
         '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-        '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + city + ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
+        '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + '&StateName=' + state + '&City=' + city +
+            '&Accreditor=' + accreditor + '&Ownership=' + ownership + '&Cost=' + tuition + '&ZipCode=' + zipCode +
+        '&Degree=' + schoolDegree + '&DegreeType=' + schoolDegreeType + '&AcceptanceRate=' + acceptRate + '&UserID=' + companionID +  '})"></a>' +      // This this a starting point fot sp4 for fav.
         '</h2>' +
         '</div>' +
         '<div class="col-sm-offset-0"></div>' +

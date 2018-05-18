@@ -40,6 +40,7 @@ namespace collegeCompanionApp.Controllers
         
         // We can do everything that the constructer method was doing here in one line of code.
         ICollegeRepository _repository = new CollegeRepository(new CompanionContext());
+        CompanionContext db = new CompanionContext();
 
 
         public ActionResult Index()
@@ -133,7 +134,7 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult SearchResults()
         {
-            return View();
+            return View(db.CompanionUsers.ToList());
         }
 
         /// <summary>
@@ -190,16 +191,31 @@ namespace collegeCompanionApp.Controllers
         /// </summary>
         public ActionResult SaveData()
         {
+            int userID = Int32.Parse(Request.QueryString["UserID"]);
             string name = Request.QueryString["Name"];
             string stateName = Request.QueryString["StateName"];
             string city = Request.QueryString["City"];
+            int zipCode = Int32.Parse(Request.QueryString["ZipCode"]);
             string accreditor = Request.QueryString["Accreditor"];
-            string ownership = Request.QueryString["Ownership"];
+            string degree = Request.QueryString["Degree"];
+            string degreeType = Request.QueryString["DegreeType"];
+            int ownership = Int32.Parse(Request.QueryString["Ownership"]);
             int cost;
 
             int.TryParse(Request.QueryString["Cost"], out cost);
 
-            College college = new College { Name = name, StateName = stateName, City = city, Accreditor = accreditor, Ownership = ownership, Cost = cost };
+            SearchResult college = new SearchResult {
+                                                        CompanionID = userID,
+                                                        Name = name,
+                                                        StateName = stateName,
+                                                        City = city,
+                                                        ZipCode = zipCode,
+                                                        Accreditor = accreditor,
+                                                        Degree = degree,
+                                                        DegreeType = degreeType,
+                                                        Ownership = ownership,
+                                                        Cost = cost
+            };
 
             if (User.Identity.IsAuthenticated)
             {
@@ -210,7 +226,7 @@ namespace collegeCompanionApp.Controllers
                     _repository.AddCollege(college);
 
                     _repository.SaveCollege(college);
-                    return View();
+                    return View(college);
                 }
                 else
                 {
@@ -222,17 +238,6 @@ namespace collegeCompanionApp.Controllers
             {
                 return RedirectToAction("Register","Account");
             }
-            //College db = new College
-            //{
-            // Name = schoolName,
-            //StateName = stateName,
-            //City = cityName,
-            //Accreditor = accreditor,
-            //Focus = Request.QueryString["degreeInput"],
-            //Ownership = ownership,
-            //Cost = cost,
-            //AdmissionRate = acceptRate
-            //};
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace collegeCompanionApp.Models
+namespace collegeCompanionApp.Models
 {
     using System;
     using System.Collections.Generic;
