@@ -6,15 +6,12 @@ namespace collegeCompanionApp.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class College
+    public partial class SearchResult
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public College()
-        {
-            College_User_Relations = new HashSet<College_User_Relations>();
-        }
+        [Key]
+        public int SearchResultsID { get; set; }
 
-        public int CollegeID { get; set; }
+        public int? CompanionID { get; set; }
 
         [Required]
         [StringLength(150)]
@@ -31,11 +28,18 @@ namespace collegeCompanionApp.Models
         [StringLength(25)]
         public string Accreditor { get; set; }
 
-        public string Ownership { get; set; }
+        public int Ownership { get; set; }
 
         public int Cost { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<College_User_Relations> College_User_Relations { get; set; }
+        public int ZipCode { get; set; }
+
+        [StringLength(100)]
+        public string Degree { get; set; }
+
+        [StringLength(100)]
+        public string DegreeType { get; set; }
+
+        public virtual CompanionUser CompanionUser { get; set; }
     }
 }

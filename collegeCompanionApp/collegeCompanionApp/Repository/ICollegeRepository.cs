@@ -6,14 +6,14 @@ using collegeCompanionApp.Models;
 
 namespace collegeCompanionApp.Repository
 {
-    public interface ICollegeRepository : IRepository<College>
+    public interface ICollegeRepository : IRepository<SearchResult>
     {
-        string GetCity(College college);
+        string GetCity(SearchResult college);
 
-        string GetState(College college);
+        string GetState(SearchResult college);
 
-        College GetCollege(string collegeName);
+        SearchResult GetCollege(string collegeName);
 
-        IEnumerable<College> GetSavedColleges(string logIn);
+        IEnumerable<SearchResult> GetSavedColleges(string logIn);
     }
 }

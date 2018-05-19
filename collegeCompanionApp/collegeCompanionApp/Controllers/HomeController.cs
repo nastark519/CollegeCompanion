@@ -40,6 +40,7 @@ namespace collegeCompanionApp.Controllers
         
         // We can do everything that the constructer method was doing here in one line of code.
         ICollegeRepository _repository = new CollegeRepository(new CompanionContext());
+        CompanionContext db = new CompanionContext();
 
 
         public ActionResult Index()
@@ -47,8 +48,23 @@ namespace collegeCompanionApp.Controllers
             return View();
         }
 
+        public ActionResult Error()
+        {
+            return View();
+        }
+
         public ActionResult Travel()
         {
+            //Check that they have a saved list item, else ask them to save a college
+            //Check that they are signed in user (to see what that code might look like, look at the code on the
+            //bottom of SearchResults.cshtml) show by college name
+            //Call the Repo/DB Context
+            //Do a LINQ Query for the saved colleges as a list.
+            //Save that LINQ Query to a variable that is .ToList()
+            //Inside the "return View(); returnt the variable
+            //Inside the pages View.html you will add an @model IEnumerable<collegeCompanionApp.Models.SearchResults>
+            //Then, where you want to present the list view (in this case, in a selector) you would call:
+            //@foreach(var item in Model){ @item....}
             return View();
         }
 
@@ -128,7 +144,7 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult SearchResults()
         {
-            return View();
+            return View(db.CompanionUsers.ToList());
         }
 
         /// <summary>
@@ -185,16 +201,31 @@ namespace collegeCompanionApp.Controllers
         /// </summary>
         public ActionResult SaveData()
         {
+            int userID = Int32.Parse(Request.QueryString["UserID"]);
             string name = Request.QueryString["Name"];
             string stateName = Request.QueryString["StateName"];
             string city = Request.QueryString["City"];
+            int zipCode = Int32.Parse(Request.QueryString["ZipCode"]);
             string accreditor = Request.QueryString["Accreditor"];
-            string ownership = Request.QueryString["Ownership"];
+            string degree = Request.QueryString["Degree"];
+            string degreeType = Request.QueryString["DegreeType"];
+            int ownership = Int32.Parse(Request.QueryString["Ownership"]);
             int cost;
 
             int.TryParse(Request.QueryString["Cost"], out cost);
 
-            College college = new College { Name = name, StateName = stateName, City = city, Accreditor = accreditor, Ownership = ownership, Cost = cost };
+            SearchResult college = new SearchResult {
+                                                        CompanionID = userID,
+                                                        Name = name,
+                                                        StateName = stateName,
+                                                        City = city,
+                                                        ZipCode = zipCode,
+                                                        Accreditor = accreditor,
+                                                        Degree = degree,
+                                                        DegreeType = degreeType,
+                                                        Ownership = ownership,
+                                                        Cost = cost
+            };
 
             if (User.Identity.IsAuthenticated)
             {
@@ -205,7 +236,7 @@ namespace collegeCompanionApp.Controllers
                     _repository.AddCollege(college);
 
                     _repository.SaveCollege(college);
-                    return View();
+                    return View(college);
                 }
                 else
                 {
@@ -217,17 +248,6 @@ namespace collegeCompanionApp.Controllers
             {
                 return RedirectToAction("Register","Account");
             }
-            //College db = new College
-            //{
-            // Name = schoolName,
-            //StateName = stateName,
-            //City = cityName,
-            //Accreditor = accreditor,
-            //Focus = Request.QueryString["degreeInput"],
-            //Ownership = ownership,
-            //Cost = cost,
-            //AdmissionRate = acceptRate
-            //};
         }
 
         /// <summary>

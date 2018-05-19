@@ -1,5 +1,5 @@
-﻿@*Model Statement*@
-@model collegeCompanionApp.Models.College
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<collegeCompanionApp.Models.CompanionUser>
 
 @{
     ViewBag.Title = "SearchResults";
@@ -43,5 +43,19 @@
 </div>
 
 @section scripts{
+    <script type="text/javascript">
+        @{ 
+            int cid = -1;
+            foreach(var item in Model)
+            {
+                if(item.ASPIdentityID == User.Identity.GetUserId())
+                {
+                    cid = item.CompanionID;
+                }
+            }
+        }
+        var companionID = @cid
+
+    </script>
     <script type="text/javascript" src="~/Scripts/SearchResults.js"></script>
 }
