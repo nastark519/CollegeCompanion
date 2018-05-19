@@ -1,17 +1,47 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<body>
-    <div class="img-fullpage" id="img-index">
-        <div class="shiftDiv-left">
-            <div class="indexBox">
-                <h1 class="ccheader">Welcome to the College Companion</h1>
-                <p class="lead">
-                    The College Companion is a website to help prospective college students find the college, and
-                    enviroment, that is right for them. Many sites like this worry about your GPA or credentials, meanwhile we're
-                    concerned making sure your happy in the enviroment of your future learning!
-                </p>
+<img src="~/Content/colorful.jpg" class="bg">
+<div class="shiftDiv-left">
+    <div class="indexBox">
+        <h1 class="ccheader">Welcome to the College Companion</h1>
+        <p class="lead">
+            The College Companion is a website to help prospective college students find the college, and
+            enviroment, that is right for them. Many sites like this worry about your GPA or credentials, meanwhile we're
+            concerned making sure your happy in the enviroment of your future learning!
+        </p>
+            <div class="searchform">
+                @*Search Box*@
+                <div class="search" style="margin-bottom:10px">
+                    <span class="fa fa-search"></span>
+                    <input type="text" placeholder="Enter a State..." name="stateInput" id="stateInput">
+                    <div id="NotFound"></div>
+                </div>
             </div>
-        </div>
+                <input type="submit" class="btn btn-warning" name="submit" id="submit" value="Search">
+                <button type="button" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("SearchForm", "Home") + "'");"> Advanced Search </button>
+                <select class="form-control" id="finLimitInput" name="finLimitInput" type="hidden" style="visibility: hidden">
+                    <option value="Any"></option>
+                </select>
+                <input class="form-control" id="schoolNameInput" name="schoolNameInput" aria-describedby="nameHelp" type="hidden" style="visibility: hidden">
+                <input class="form-control" id="cityInput" name="cityInput" aria-describedby="cityHelp" type="hidden" style="visibility: hidden">
+                <select class="form-control" id="degreeInput" name="degreeInput" type="hidden" style="visibility: hidden">
+                    <option value="Any"></option>
+                </select>
+                <select class="form-control" id="degreeType" name="degreeType" type="hidden" style="visibility: hidden">
+                    <option value="Any"></option>
+                </select>
+                <select class="form-control" id="ownershipInput" name="ownershipInput" type="hidden" style="visibility: hidden">
+                    <option value="Any"></option>
+                </select>
+                <select class="form-control" id="acceptRateInput" name="acceptRateInput" type="hidden" style="visibility: hidden">
+                    <option value="Any"></option>
+                </select>
+            </div>
     </div>
-</body>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript" src="~/Scripts/FormSearch.js"></script>
+}

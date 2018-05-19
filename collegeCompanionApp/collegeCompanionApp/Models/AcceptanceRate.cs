@@ -1,4 +1,4 @@
-﻿namespace collegeCompanionApp.Models
+namespace collegeCompanionApp.Models
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,6 @@
     [Table("AcceptanceRate")]
     public partial class AcceptanceRate
     {
-        [Key]
         public int AcceptanceRateID { get; set; }
 
         [Required]

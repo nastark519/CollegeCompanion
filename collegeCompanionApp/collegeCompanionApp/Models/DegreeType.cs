@@ -1,4 +1,4 @@
-﻿namespace collegeCompanionApp.Models
+namespace collegeCompanionApp.Models
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,6 @@
     [Table("DegreeType")]
     public partial class DegreeType
     {
-        [Key]
         public int DegreeTypeID { get; set; }
 
         [Required]
