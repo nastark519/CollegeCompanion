@@ -29,7 +29,7 @@ CREATE TABLE SearchResults (
 	ZipCode		int				not null, 
 	Degree		nvarchar(100),
 	DegreeType	nvarchar(100)	
-	PRIMARY KEY (CollegeID ASC),
+	PRIMARY KEY (SearchResultsID ASC),
 	CONSTRAINT FK_CompanionID FOREIGN KEY (CompanionID) REFERENCES CompanionUser(CompanionID) ON UPDATE CASCADE ON DELETE CASCADE	
 );
 
