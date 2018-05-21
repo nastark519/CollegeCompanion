@@ -26,14 +26,15 @@ namespace UnitTestCollegeCompanion
         [Given(@"I have entered Oregon into the search bar")]
         public void GivenIHaveEnteredOregonIntoTheSearchBar()
         {
-            ScenarioContext.Current.Pending();
+            driver.FindElement(By.Id("stateInput")).SendKeys("Oregon");
         }
         
         [When(@"I press search")]
         public void WhenIPressSearch()
         {
-            ScenarioContext.Current.Pending();
+            driver.FindElement(By.Id("submit")).Click();
         }
+        
         
         [Then(@"the result should have (.*)")]
         public void ThenTheResultShouldHave(string theDivThatHoldsCollegeInfo)
