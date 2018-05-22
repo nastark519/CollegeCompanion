@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<collegeCompanionApp.Models.SearchResult>
+
 @{
     ViewBag.Title = "Travel";
 }
@@ -23,17 +24,29 @@
             <button type="submit" id="submit" class="btn btn-default">Submit</button>
         </div>
     </div>
-    <div class="travelResults" style="float:left;"></div>
-</div>
-<div style="border: 0; margin: 0;">
-    <div id="map" style="width: 100%; height: 830px;"></div>
-</div>
-<script>
-    var mpKey = 'ixKJ3EwloGeD24cG7f0hOGf8mLkinAbx';
-</script>
-@section scripts{
-    <script type="text/javascript" src="~/Scripts/TravelSearch.js"></script>
-    <script type="text/javascript" src="~/Scripts/googleSearch.js"></script>
-    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.1/mapquest.js"></script>
-}
+    <div class="col-lg-3">
+        @*Save Colleges*@
+        <div class="form-group">
+            <label for="collegeInput" class="ccheader">Or Select Your Saved Colleges</label>
+            <select class="form-control" id="collegeInput" name="collegeInput">
+                @foreach (var item in Model)
+                {
+                    <option value="@item.ZipCode">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+        <div class="travelResults" style="float:left;"></div>
+    </div>
+    <div style="border: 0; margin: 0;">
+        <div id="map" style="width: 100%; height: 830px;"></div>
+    </div>
+    <script>
+        var mpKey = 'ixKJ3EwloGeD24cG7f0hOGf8mLkinAbx';
+    </script>
+    @section scripts{
+        <script type="text/javascript" src="~/Scripts/TravelSearch.js"></script>
+        <script type="text/javascript" src="~/Scripts/googleSearch.js"></script>
+        <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.1/mapquest.js"></script>
+    }
 

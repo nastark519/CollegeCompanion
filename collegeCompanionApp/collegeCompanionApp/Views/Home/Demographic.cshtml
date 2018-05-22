@@ -1,4 +1,6 @@
-﻿@model collegeCompanionApp.Models.FormdataDB
+﻿@*@model collegeCompanionApp.Models.FormdataDB*@
+@model collegeCompanionApp.Models.ViewModel.LifeStyle
+
 
 @{
     ViewBag.Title = "Demographic";
@@ -14,9 +16,20 @@
 
     <div class="form-group text-center">
         @*Zipcode Text*@
-        <label>Zipcode:</label>
+        @*<label>Zipcode:</label>*@
         @*Zipcode User Input*@
-        <input class="well-sm" type="text" id="Zipcode" name="Zipcode" placeholder="EX: 97361" />
+        @*<input class="well-sm" type="text" id="Zipcode" name="Zipcode" placeholder="EX: 97361" />*@
+
+        @*Save Colleges*@
+        <div class="form-group">
+            <label for="Zipcode" class="ccheader">Or Select Your Saved Colleges</label>
+            <select class="form-control" id="Zipcode" name="Zipcode">
+                @foreach (var item in Model.SearchResults)
+                {
+                    <option value="@item.ZipCode">@item.Name</option>
+                }
+            </select>
+        </div>
         @*Search Button*@
         <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg btn-success" />
     </div>
@@ -27,9 +40,9 @@
             <label>Please Select a Race:</label>
             <select class="form-control text-center" id="raceInput" name="raceInput">
                 @foreach (var item in Model.DemoRaces)
-            {
-                <option value="@item.DemoRaceValue">@item.DemoRaceName</option>
-        }
+                {
+                    <option value="@item.DemoRaceValue">@item.DemoRaceName</option>
+                }
             </select>
         </div>
 
@@ -37,11 +50,11 @@
             @*Age Ranges*@
             <label>Choose Up to 10:</label>
             @foreach (var item in Model.DemoAges)
-        {
-            <label class="checkbox-inline" id="ageRangeInput">
-                <input type="checkbox" id="ageRangeInput" value="@item.DemoAgeRangeValue">Ages @item.DemoAgeRange years old
-            </label>
-    }
+            {
+                <label class="checkbox-inline" id="ageRangeInput">
+                    <input type="checkbox" id="ageRangeInput" value="@item.DemoAgeRangeValue">Ages @item.DemoAgeRange years old
+                </label>
+            }
             <label class="checkbox-inline" id="ageRangeInput">
                 <input type="checkbox" id="ageRangeInput" value="85p"> Over 85 years old
             </label>

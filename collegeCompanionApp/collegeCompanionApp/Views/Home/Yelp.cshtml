@@ -1,4 +1,6 @@
-﻿
+﻿@model IEnumerable<collegeCompanionApp.Models.SearchResult>
+
+
 @{
     ViewBag.Title = "Yelp";
 }
@@ -11,11 +13,24 @@
 
     <hr />
 
-    <div class="form-group text-center">
+    <div class="col-sm-4"></div>
+
+    <div class="col-sm-4 form-group text-center">
         @*Location Text*@
-        <label>Location:</label>
+        @*<label>Location:</label>*@
+
+        @*Save Colleges*@
+        <label for="Location" class="ccheader">Colleges</label>
+        <select class="form-control text-center" id="Location" name="Location">
+            @foreach (var item in Model)
+            {
+                <option value="@item.ZipCode">@item.Name</option>
+            }
+        </select>
         @*Location Input*@
-        <input class="well-sm" type="text" id="Location" name="Location" placeholder="ZIP, School Name..." />
+        @*<input class="well-sm" type="text" id="Location" name="Location" placeholder="ZIP, School Name..." />*@
+
+        <br />
 
         @*Selecting A Term*@
         <form id="Term">
@@ -27,6 +42,9 @@
             <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg" />
         </form>
     </div>
+
+    <div class="col-sm-4"></div>
+
 </div>
 
 <hr />
