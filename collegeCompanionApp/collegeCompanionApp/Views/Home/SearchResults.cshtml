@@ -8,7 +8,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="adjustTop">
     <div class="container">
-        <h2>SearchResults</h2>
+        <div style="text-align: center;">
+            <h2>SearchResults</h2>
+            <button type="button" class="btn btn-info" onclick="@("window.location.href='" + @Url.Action("SaveDataList", "Home") + "'");"> Saved Colleges List </button>
+        </div>
         <hr />
         <h2 class="text-center" id="NotFound"></h2>
         @*Razor call for loop to populate these as needed after search*@

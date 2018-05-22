@@ -176,25 +176,25 @@ function successSearch(data) {
                                     '</h4>' +
                                     '<div class="row" style="margin-top:5%;">' +
                     '<div class="col-sm-6">' + // State
-                    '&emsp; State: ' + state +
+                    '&emsp; <b> State</b>: ' + state +
                                 '</div>' +
                     '<div class="col-sm-6">' + // City
-                    'City: ' + city +
+                    '<b>City</b>: ' + city +
                                 '</div>' +
                                     '</div>' +
                                 '</div>' +
                                 '<div class="row">' + // Degree Selected?
-                                    '&emsp; Degree Selected: ' + schoolDegree +
+                                    '&emsp; <b>Degree Selected</b>: ' + schoolDegree +
                         '</div>' +
                                 '<div class="row">' + // Ownership
-                    '&emsp; Ownership: ' + ownershipStr +
+                    '&emsp; <b>Ownership</b>: ' + ownershipStr +
                         //'</div>' +
                         //        '<div class="row">' +
                         //            '&emsp; Accreditor: ' + accreditor +
                         //'</div>' +
                         '</div>' +
                                 '<div class="row">' + // Acceptance Rate
-                                    '&emsp; Acceptance Rate: ' + acceptRate + "%" +
+                                    '&emsp; <b>Acceptance Rate</b>: ' + acceptRate + "%" +
                     '</div>' +
                     '</div>' +
                     '<div class="panel-footer" style="text-align:center">' + // School URL
