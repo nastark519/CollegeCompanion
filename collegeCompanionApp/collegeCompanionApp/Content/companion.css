@@ -141,6 +141,19 @@ div{
     color:dimgrey;
 }
 
+.quizBox {
+    clear: both;
+    width: 70%;
+    height: auto;
+    min-height: 40em;
+    padding: 10px;
+    font-size-adjust: inherit;
+    overflow: auto;
+    position: relative;
+    margin: 50px 0px 50px 50px auto;
+    color: dimgrey;
+}
+
 .contactBox {
     clear: both;
     width: 50%;
