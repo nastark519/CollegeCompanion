@@ -1,5 +1,5 @@
-﻿@*Model Statement*@
-@model collegeCompanionApp.Models.College
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<collegeCompanionApp.Models.CompanionUser>
 
 @{
     ViewBag.Title = "SearchResults";
@@ -8,40 +8,57 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="adjustTop">
     <div class="container">
-        <h2>SearchResults</h2>
+        <div style="text-align: center;">
+            <h2>SearchResults</h2>
+            <button type="button" class="btn btn-info" onclick="@("window.location.href='" + @Url.Action("SaveDataList", "Home") + "'");"> Saved Colleges List </button>
+        </div>
         <hr />
         <h2 class="text-center" id="NotFound"></h2>
         @*Razor call for loop to populate these as needed after search*@
-        <div id="Results">
+        <div id="Results" class="col-md-12" style="position:relative;">
 
         </div>
     </div>
 </div>
 <hr />
 <div class="footer">
-    @*Pagination UI*@
-    <nav aria-label="searchResultsPagination">
+    *@*Pagination UI*@
+    @*<nav aria-label="searchResultsPagination">
         <ul class="pagination">
             <li class="page-item">
                 <a class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                 </a>
-            </li>
-            @*Populate the number of pages needed from search*@
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+            </li>*@
+    @*Populate the number of pages needed from search*@
+    @*<li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>*@
 </div>
 
 @section scripts{
+    <script type="text/javascript">
+        @{ 
+            int cid = -1;
+            foreach(var item in Model)
+            {
+                if(item.ASPIdentityID == User.Identity.GetUserId())
+                {
+                    cid = item.CompanionID;
+                }
+            }
+        }
+        var companionID = @cid
+
+    </script>
     <script type="text/javascript" src="~/Scripts/SearchResults.js"></script>
 }

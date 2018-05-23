@@ -15,6 +15,11 @@ using System.Data.Linq;
 using System.Text;
 using collegeCompanionApp.Repository;
 using Ninject;
+using Geocoding;
+using System.Web.UI.WebControls;
+using System.Web.Http;
+using System.Web.Http.Description;
+using System.Windows.Forms;
 
 namespace collegeCompanionApp.Controllers
 {
@@ -33,22 +38,41 @@ namespace collegeCompanionApp.Controllers
         int storedLimit = 0;
 
         //Adding in the repository pattern connection
-        private IRepository _repository;
 
-        public HomeController(IRepository repo)
-        {
-            _repository = repo;
-        }
+        //private CompanionContext db;
+        
+        // We can do everything that the constructer method was doing here in one line of code.
+        ICollegeRepository _repository = new CollegeRepository(new CompanionContext());
+        CompanionContext db = new CompanionContext();
 
-        public HomeController(){}
 
         public ActionResult Index()
         {
             return View();
         }
 
+        public ActionResult DegreeQuiz()
+        {
+            return View();
+        }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
+
         public ActionResult Travel()
         {
+            //Check that they have a saved list item, else ask them to save a college
+            //Check that they are signed in user (to see what that code might look like, look at the code on the
+            //bottom of SearchResults.cshtml) show by college name
+            //Call the Repo/DB Context
+            //Do a LINQ Query for the saved colleges as a list.
+            //Save that LINQ Query to a variable that is .ToList()
+            //Inside the "return View(); returnt the variable
+            //Inside the pages View.html you will add an @model IEnumerable<collegeCompanionApp.Models.SearchResults>
+            //Then, where you want to present the list view (in this case, in a selector) you would call:
+            //@foreach(var item in Model){ @item....}
             return View();
         }
 
@@ -70,6 +94,52 @@ namespace collegeCompanionApp.Controllers
         public ActionResult Test()
         {
             return View();
+        }
+
+        // DELETE: api/SearchResults/5
+        [ResponseType(typeof(SearchResult))]
+        public ActionResult Delete(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                SearchResult searchResult = db.SearchResults.Find(id);
+                if (searchResult == null)
+                {
+                    Debug.WriteLine("Error for Delete() method.");
+                    return RedirectToAction("SaveDataList", "Home");
+                }
+
+                db.SearchResults.Remove(searchResult);
+                db.SaveChanges();
+
+                return RedirectToAction("SaveDataList", "Home");
+            } else
+            {
+                return RedirectToAction("Register", "Account");
+            }
+        }
+
+    public ActionResult SaveDataList()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                Debug.WriteLine("SaveDataList() Method!");
+
+                if (ModelState.IsValid)
+                { 
+                    return View(db.SearchResults.Where(c => c.CompanionUser.Email == User.Identity.Name).ToList());
+                }
+                else
+                {
+                    Debug.WriteLine("Error for SaveDataList() method.");
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
+
         }
 
         /// <summary>
@@ -118,6 +188,7 @@ namespace collegeCompanionApp.Controllers
             return Content(resultString, "application/json");
         }
 
+
         public ActionResult SearchForm()
         {
             FormdataDB formdb = new FormdataDB();
@@ -127,7 +198,7 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult SearchResults()
         {
-            return View();
+            return View(db.CompanionUsers.ToList());
         }
 
         /// <summary>
@@ -182,49 +253,65 @@ namespace collegeCompanionApp.Controllers
         /// <summary>
         /// Saves selected data into the College Database
         /// </summary>
-        /// <returns>
-        /// True if data is successfully saved, False if it is not.
-        /// </returns>
-        /// <param name="schoolName">A string from the dataset of API results.</param>
-        /// <param name="stateName">A string from the dataset of API results.</param>
-        /// <param name="cityName">A string from the dataset of API results.</param>
-        /// <param name="accreditor">A string from the dataset of API results.</param>
-        /// <param name="ownership">An integer from the dataset of API results.</param>
-        /// <param name="finLimit">An integer from the dataset of API results.</param>
-        public ActionResult SaveData([Bind(Include = "CollegeID,Name,StateName,City,Accreditor,Ownership,Cost")]College college)
+        public ActionResult SaveData()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                Debug.WriteLine("saveData() Method!");
+            int userID = Int32.Parse(Request.QueryString["UserID"]);
+            string name = Request.QueryString["Name"];
+            string stateName = Request.QueryString["StateName"];
+            string city = Request.QueryString["City"];
+            int zipCode = Int32.Parse(Request.QueryString["ZipCode"]);
+            string accreditor = Request.QueryString["Accreditor"];
+            string degree = Request.QueryString["Degree"];
+            string degreeType = Request.QueryString["DegreeType"];
+            int ownership = Int32.Parse(Request.QueryString["Ownership"]);
+            int cost;
 
-                if (ModelState.IsValid)
+            int.TryParse(Request.QueryString["Cost"], out cost);
+
+            var collegeList = db.SearchResults.Where(n => n.Name == name).ToList();
+
+            if (collegeList == null) { 
+                SearchResult college = new SearchResult {
+                                                            CompanionID = userID,
+                                                            Name = name,
+                                                            StateName = stateName,
+                                                            City = city,
+                                                            ZipCode = zipCode,
+                                                            Accreditor = accreditor,
+                                                            Degree = degree,
+                                                            DegreeType = degreeType,
+                                                            Ownership = ownership,
+                                                            Cost = cost
+                };
+
+                if (User.Identity.IsAuthenticated)
                 {
-                    _repository.AddCollege(college);
+                    Debug.WriteLine("saveData() Method!");
 
-                    _repository.SaveCollege(college);
-                    return View();
+                    if (ModelState.IsValid)
+                    {
+                        _repository.AddCollege(college);
+
+                        _repository.SaveCollege(college);
+                        return View(college);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Error for SaveData() method.");
+                        return View();
+                    }
                 }
                 else
                 {
-                    Debug.WriteLine("Error for SaveData() method.");
-                    return View();
+                    return RedirectToAction("Register","Account");
                 }
             }
             else
             {
-                return RedirectToAction("Register","Account");
+                System.Windows.Forms.MessageBox.Show("You Have Already Saved This College");
+                return RedirectToAction("SaveDataList", "Home");
+                
             }
-            //College db = new College
-            //{
-            // Name = schoolName,
-            //StateName = stateName,
-            //City = cityName,
-            //Accreditor = accreditor,
-            //Focus = Request.QueryString["degreeInput"],
-            //Ownership = ownership,
-            //Cost = cost,
-            //AdmissionRate = acceptRate
-            //};
         }
 
         /// <summary>
@@ -256,11 +343,15 @@ namespace collegeCompanionApp.Controllers
             {
                 values = values + "&school.city=" + cityName;
             }
+            if (cityName != "")
+            {
+                values = values + "&school.city=" + cityName;
+            }
             if (accreditor != "")
             {
                 values = values + "&school.accreditor=" + accreditor;
             }
-            if (degree != "")
+            if (degree != "" && degree != "Any")
             {
                 string theDegree = SetDegree(degreeType, degree); // Set up Degree value
                 values = values + AddDegreeValue(theDegree); // Add Degree to Parameters
