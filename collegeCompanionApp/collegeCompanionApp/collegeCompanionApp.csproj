@@ -120,6 +120,12 @@
     <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Simplify.Resources">
+      <HintPath>..\packages\Simplify.Resources.1.0.0\lib\net40\Simplify.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplify.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=76e7d56d397d79b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplify.Windows.Forms.1.0.0\lib\net40\Simplify.Windows.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
@@ -211,6 +217,7 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
@@ -234,6 +241,9 @@
     </Reference>
     <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver, Version=3.12.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.3.12.0\lib\net45\WebDriver.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -341,6 +351,7 @@
     <Content Include="Content\teachersDesk.jpg" />
     <Content Include="Content\textureBG.jpg" />
     <Content Include="Content\travel.png" />
+    <Content Include="Content\whiteboard-2903269.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -374,6 +385,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\quizForm.js" />
     <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\QUnitTest\DemographicJSTest.js" />
     <Content Include="Scripts\QUnitTest\FormSearchJSTest.js" />
@@ -431,11 +443,9 @@
     <Content Include="Views\Home\Travel.cshtml" />
     <Content Include="Views\Home\Demographic.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
-    <Content Include="Views\SearchResults\Create.cshtml" />
-    <Content Include="Views\SearchResults\Delete.cshtml" />
-    <Content Include="Views\SearchResults\Details.cshtml" />
-    <Content Include="Views\SearchResults\Edit.cshtml" />
-    <Content Include="Views\SearchResults\Index.cshtml" />
+    <Content Include="Views\Home\Delete.cshtml" />
+    <Content Include="Views\Home\DegreeQuiz.cshtml" />
+    <Content Include="Views\Home\SaveDataList.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -485,7 +495,13 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets'))" />
+    <Error Condition="!Exists('..\packages\Selenium.WebDriver.ChromeDriver.2.38.0.1\build\Selenium.WebDriver.ChromeDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.WebDriver.ChromeDriver.2.38.0.1\build\Selenium.WebDriver.ChromeDriver.targets'))" />
+    <Error Condition="!Exists('..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets'))" />
   </Target>
+  <Import Project="..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets" Condition="Exists('..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets')" />
+  <Import Project="..\packages\Selenium.WebDriver.ChromeDriver.2.38.0.1\build\Selenium.WebDriver.ChromeDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.ChromeDriver.2.38.0.1\build\Selenium.WebDriver.ChromeDriver.targets')" />
+  <Import Project="..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

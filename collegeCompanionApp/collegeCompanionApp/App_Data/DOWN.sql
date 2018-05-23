@@ -1,7 +1,6 @@
 
 
-DROP TABLE dbo.College_User_Relations;
-DROP TABLE dbo.Colleges;
+DROP TABLE dbo.SearchResults;
 DROP TABLE dbo.CompanionUser;
 DROP TABLE dbo.StateList;
 DROP TABLE dbo.FinLimitList;
