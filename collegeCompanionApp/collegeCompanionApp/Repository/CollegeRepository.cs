@@ -13,8 +13,8 @@ namespace collegeCompanionApp.Repository
         public CollegeRepository(CompanionContext compContex)
         : base(compContex) { }
 
-        // Casting the Contex that we have inharited from our
-        // repo in be a CompanionContext.
+        // Casting the Contex that we have inherited from our
+        // repo in as a CompanionContext.
         public CompanionContext CompanionContext
         {
             get { return Context as CompanionContext; }
@@ -36,6 +36,12 @@ namespace collegeCompanionApp.Repository
         public SearchResult GetCollege(string collegeName)
         {
             SearchResult college = Context.SearchResults.Where(n => n.Name == collegeName).SingleOrDefault();
+            return college;
+        }
+
+        public SearchResult FindCollege(int id)
+        {
+            SearchResult college = Context.SearchResults.Where(n => n.SearchResultsID == id).SingleOrDefault();
             return college;
         }
 

@@ -203,12 +203,15 @@ function nullTest(ans1, ans2, ans3, ans4, ans5, ans6, ans7, ans8, ans9, ans10, a
         ans11, ans12, ans13, ans14, ans15, ans16, ans17, ans18, ans19, ans20,
         ans21, ans22, ans23, ans24, ans25, ans26, ans27, ans28];
 
-    ansArray.forEach(function (item, index, array) {
-        if (item == null || item == 'undefined') {
+    console.log(ansArray);
+
+    ansArray.forEach(function (item) {
+        console.log(item);
+        if (isNaN(item)) {
             $('#error').html("Please check your quiz and fill out all the questions.");
             return false;
-        } else {
-            return true;
         }
-    });
+        return true;
+    }
+    ); 
 }
