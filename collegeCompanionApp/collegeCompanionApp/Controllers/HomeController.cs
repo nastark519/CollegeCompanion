@@ -17,9 +17,11 @@ using collegeCompanionApp.Repository;
 using Ninject;
 using Geocoding;
 using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Windows.Forms;
+
 
 namespace collegeCompanionApp.Controllers
 {
@@ -63,17 +65,15 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult Travel()
         {
-            //Check that they have a saved list item, else ask them to save a college
-            //Check that they are signed in user (to see what that code might look like, look at the code on the
-            //bottom of SearchResults.cshtml) show by college name
-            //Call the Repo/DB Context
-            //Do a LINQ Query for the saved colleges as a list.
-            //Save that LINQ Query to a variable that is .ToList()
-            //Inside the "return View(); returnt the variable
-            //Inside the pages View.html you will add an @model IEnumerable<collegeCompanionApp.Models.SearchResults>
-            //Then, where you want to present the list view (in this case, in a selector) you would call:
-            //@foreach(var item in Model){ @item....}
-            return View();
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                return View(db.SearchResults.ToList());
+            }
         }
 
         public ActionResult SearchesMenu()
@@ -95,6 +95,7 @@ namespace collegeCompanionApp.Controllers
         {
             return View();
         }
+
 
         // DELETE: api/SearchResults/5
         [ResponseType(typeof(SearchResult))]
@@ -141,7 +142,9 @@ namespace collegeCompanionApp.Controllers
             }
 
         }
-
+		
+		
+		//****************************************************WalkScore*******************************************************//
         /// <summary>
         /// Searches for ratings of Walking, Transit & Bike for a given city using Walk Score API.
         /// </summary>
@@ -188,6 +191,8 @@ namespace collegeCompanionApp.Controllers
             return Content(resultString, "application/json");
         }
 
+
+        //****************************************************College Search*******************************************************//
 
         public ActionResult SearchForm()
         {
@@ -270,7 +275,7 @@ namespace collegeCompanionApp.Controllers
 
             var collegeList = db.SearchResults.Where(n => n.Name == name).ToList();
 
-            if (collegeList == null) { 
+            if (collegeList.Count == 0) { 
                 SearchResult college = new SearchResult {
                                                             CompanionID = userID,
                                                             Name = name,
@@ -293,6 +298,8 @@ namespace collegeCompanionApp.Controllers
                         _repository.AddCollege(college);
 
                         _repository.SaveCollege(college);
+
+                        System.Windows.Forms.MessageBox.Show("You Have Successfully Saved This College");
                         return View(college);
                     }
                     else
@@ -371,7 +378,7 @@ namespace collegeCompanionApp.Controllers
         public string SetCollegeFields()
         {
             // Default Fields to get
-            return "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall,school.school_url";
+            return "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall,school.school_url,school.zip";
         }
 
         public string SetCollegeValues(string ownership, string acceptRate, string finLimit)
@@ -400,9 +407,19 @@ namespace collegeCompanionApp.Controllers
         }
 
 
+        //****************************************************Yelp*******************************************************//
+
         public ActionResult Yelp()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                return View(db.SearchResults.ToList());
+            }
         }
 
         public JsonResult YelpSearch()
@@ -416,8 +433,10 @@ namespace collegeCompanionApp.Controllers
             string location = GetLocation(Request.QueryString["location"]);
             //Get Term
             string term = GetTerm(Request.QueryString["term"]);
+            //Get IsOpen
+            string isOpen = Request.QueryString["isOpen"];
             //Set Parameters
-            string param = SetParam(location, term);
+            string param = SetParam(location, term, isOpen);
             //URL Endpoint
             var url = SetURL(param);
 
@@ -479,9 +498,20 @@ namespace collegeCompanionApp.Controllers
             return term;
         }
 
-        public string SetParam(string location, string term)
+        public string SetParam(string location, string term, string isOpen)
         {
-            return "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
+            var param = "term=" + term + "&location=" + location + "&limit=12&sort_by=distance&open_now=";
+
+            if(isOpen == "Open")
+            {
+                param = param + "true";
+            }
+            else
+            {
+                param = param + "false";
+            }
+
+            return param;
         }
 
         public string SetURL(string param)
@@ -489,75 +519,34 @@ namespace collegeCompanionApp.Controllers
             return "https://api.yelp.com/v3/businesses/search?" + param;
         }
 
+        
 
-        //working on getting the xml from zillow's api to work.
-        //may end up not needing this code.
-        //public XmlDocument CollegeRentsInArea()
-        //{
-
-
-        //I have put this at the end so I can just append to the div I want to.
-        // a url for the zillow calls.
-        //string theZillowApiUrl =
-        //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={theAPIKeyHere}&state=" + state + "&city=" + city;
-
-        //string collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
-
-        //WebRequest request = WebRequest.Create(theZillowApiUrl);
-        //Stream stream = request.GetResponse().GetResponseStream();
-
-        //XmlDocument xmlDoc = new XmlDocument();
-
-        //stream.Close();
-
-        //return xmlDoc;
-        //}
-
-        //public ActionResult CollegeSearch()
-        //{
-        //    var college = new College();
-        //    college.CollegeName = Request.QueryString["school.name"];
-        //    college.StateName = Request.QueryString["state.name"];
-
-        //    return View(college);
-        //}
-
-        //[Route("Home/Search")]
-        //public JsonResult Search()
-        //{
-        //    Console.WriteLine("In the Search method in Home Controller");
-
-        //    //Get College Scorecard API
-        //    string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
-        //    //School Name
-        //    string schoolName = Request.QueryString["schoolName"];
-        //    HttpUtility.UrlPathEncode(schoolName);//Adds %20 to spaces
-
-
-        //    //URL to College Scorecard
-        //    string url = "https://api.data.gov/ed/collegescorecard/v1/schools?api_key=" + 
-        //        key + "&school.name=" + schoolName + "&_fields=school.name,id";
-
-
-        //    //Sends request to College Scorecard to get JSon
-        //    WebRequest request = WebRequest.Create(url);
-        //    request.Credentials = CredentialCache.DefaultCredentials;
-        //    WebResponse response = request.GetResponse(); //The Response            
-        //    Stream dataStream = response.GetResponseStream(); //Start Data Stream from Server.            
-        //    string reader = new StreamReader(dataStream).ReadToEnd(); //Data Stream to a reader string
-
-
-        //    //JSon string to a JSon object             
-        //    var serializer = new JavaScriptSerializer();
-        //    var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
-
-
+        //****************************************************Demographic*******************************************************//
 
         public ActionResult Demographic()
         {
-            FormdataDB formdb = new FormdataDB();
-            Debug.Assert(formdb != null, "Database has the wrong connection.");
-            return View(formdb);
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                FormdataDB formdb = new FormdataDB();
+                LifeStyle lifeStyle = new LifeStyle();
+                lifeStyle.SearchResults = db.SearchResults;
+                lifeStyle.DemoAges = formdb.DemoAges;
+                lifeStyle.DemoRaces = formdb.DemoRaces;
+                //if (lifeStyle.SearchResults == null)
+                //{
+                //    Debug.WriteLine("LifeSyle is NULL!");
+                //    return RedirectToAction("SearchesMenu");
+                //}
+                //FormdataDB formdb = new FormdataDB();
+                //Debug.Assert(formdb != null, "Database has the wrong connection.");
+                //return View(formdb);
+                return View(lifeStyle);
+            }
         }
 
         public JsonResult DemographicSearch()

@@ -30,7 +30,7 @@ CREATE TABLE SearchResults (
 	Degree		nvarchar(100),
 	DegreeType	nvarchar(100)	
 	PRIMARY KEY (SearchResultsID ASC),
-	CONSTRAINT FK_CompanionID FOREIGN KEY (CompanionID) REFERENCES CompanionUser(CompanionID) ON UPDATE CASCADE ON DELETE CASCADE	
+	CONSTRAINT FK_CompanionID FOREIGN KEY (CompanionID) REFERENCES CompanionUser(CompanionID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /*===================List Tables==================*/
@@ -117,6 +117,7 @@ VALUES ('Alabama AL', 'Alabama', 'AL'),
 	   ('Kentucky KY', 'Kentucky', 'KY'),
 	   ('Louisiana LA', 'Louisiana', 'LA'),
 	   ('Maine ME', 'Maine', 'ME'),
+	   ('Marshall Islands MH', 'Marshall Islands', 'MH'),
 	   ('Maryland MD', 'Maryland', 'MD'),
 	   ('Massachusetts MA', 'Massachusetts', 'MA'),
 	   ('Michigan MI', 'Michigan', 'MI'),
@@ -132,7 +133,6 @@ VALUES ('Alabama AL', 'Alabama', 'AL'),
 	   ('New York NY', 'New York', 'NY'),
 	   ('North Carolina NC', 'North Carolina', 'NC'),
 	   ('North Dakota ND', 'North Dakota', 'ND'),
-	   ('Marshall Islands MH', 'Marshall Islands', 'MH'),
 	   ('Northern Mariana Islands MP', 'Northern Mariana Islands', 'MP'),
 	   ('Ohio OH', 'Ohio', 'OH'),
 	   ('Oklahoma OK', 'Oklahoma', 'OK'),
