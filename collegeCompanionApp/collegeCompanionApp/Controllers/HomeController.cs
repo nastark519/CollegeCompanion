@@ -65,24 +65,6 @@ namespace collegeCompanionApp.Controllers
 
         public ActionResult Travel()
         {
-            //Check that they have a saved list item, else ask them to save a college
-            //Check that they are signed in user (to see what that code might look like, look at the code on the
-            //bottom of SearchResults.cshtml) show by college name
-            //Call the Repo/DB Context
-            //Do a LINQ Query for the saved colleges as a list.
-            //Save that LINQ Query to a variable that is .ToList()
-            //Inside the "return View(); returnt the variable
-            //Inside the pages View.html you will add an @model IEnumerable<collegeCompanionApp.Models.SearchResults>
-            //Then, where you want to present the list view (in this case, in a selector) you would call:
-            //@foreach(var item in Model){ @item....}
-            //int cid = -1;
-            //foreach (var item in Model)
-            //{
-            //    if (item.ASPIdentityID == User.Identity.GetUserId())
-            //    {
-            //        cid = item.CompanionID;
-            //    }
-            //}
             var userId = User.Identity.GetUserId();
             if (userId == null)
             {
@@ -293,7 +275,7 @@ namespace collegeCompanionApp.Controllers
 
             var collegeList = db.SearchResults.Where(n => n.Name == name).ToList();
 
-            if (collegeList == null) { 
+            if (collegeList.Count == 0) { 
                 SearchResult college = new SearchResult {
                                                             CompanionID = userID,
                                                             Name = name,
@@ -316,6 +298,8 @@ namespace collegeCompanionApp.Controllers
                         _repository.AddCollege(college);
 
                         _repository.SaveCollege(college);
+
+                        System.Windows.Forms.MessageBox.Show("You Have Successfully Saved This College");
                         return View(college);
                     }
                     else
@@ -449,8 +433,10 @@ namespace collegeCompanionApp.Controllers
             string location = GetLocation(Request.QueryString["location"]);
             //Get Term
             string term = GetTerm(Request.QueryString["term"]);
+            //Get IsOpen
+            string isOpen = Request.QueryString["isOpen"];
             //Set Parameters
-            string param = SetParam(location, term);
+            string param = SetParam(location, term, isOpen);
             //URL Endpoint
             var url = SetURL(param);
 
@@ -512,9 +498,20 @@ namespace collegeCompanionApp.Controllers
             return term;
         }
 
-        public string SetParam(string location, string term)
+        public string SetParam(string location, string term, string isOpen)
         {
-            return "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
+            var param = "term=" + term + "&location=" + location + "&limit=12&sort_by=distance&open_now=";
+
+            if(isOpen == "Open")
+            {
+                param = param + "true";
+            }
+            else
+            {
+                param = param + "false";
+            }
+
+            return param;
         }
 
         public string SetURL(string param)

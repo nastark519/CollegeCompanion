@@ -1,8 +1,5 @@
 ﻿console.log("You're in the Demographic Search JavaScript file");
 
-//global.window = window;
-//global.$ = require('jquery');
-
 $("#Zipcode").keypress(function (e) {
     //If 'Enter' Key Pressed
     if (e.keyCode === 13) {
@@ -61,13 +58,15 @@ function start() {
     }
     console.log("Array Variable Check[0]: " + ageRangeVar[0]);
 
+    var zipURL = "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" + zipcode + "&sensor=false&key=AIzaSyCS8ZI4cCMMVdu1SWSSFJ1wnX4ZZniB8zU";
+    console.log("zipURL: " + zipURL);
 
     //************************ Get Latitude & Longitude *********************************//
 
     //Credit: https://stackoverflow.com/questions/6100264/google-maps-get-latitude-and-longitude-from-zip-code
     //Get Latidude and Longitude 
     $.ajax({
-        url: "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" + zipcode + "&sensor=false&key= AIzaSyCS8ZI4cCMMVdu1SWSSFJ1wnX4ZZniB8zU",
+        url: zipURL, 
         method: "GET",
         success: getCoordinates,
         error: errorOnAjax
@@ -148,7 +147,9 @@ function boxCheck(race, gender, ageRange) {
 }
 
 function getCoordinates(data) {
+    console.log("Data is: " + data.status);
     if (data.status === "OK") { //Results Found
+        console.log("There is Data!");
         //Get Latitude
         latitude = data.results[0].geometry.location.lat;
         //Get Longitude
@@ -239,7 +240,7 @@ function successSearch(data) {
         console.log("Projection Population: " + prop.pstotpop);
 
         //Display Data onto List
-        $("#SearchResults").append('<li class="list-group-item"><b>Total Population</b>: ' + prop.pstotpop + '</li>' + //Total Population
+        $("#SearchResults").append('<li class="list-group-item"><b><u>Total Population</u></b>: ' + prop.pstotpop + '</li>' + //Total Population
             '<li class="list-group-item"><b>Median Age</b>: ' + prop.psmedage + '</li>'); //Median Age 
 
         displayData(); //Adds Ages & percentage to List -- Display Results
@@ -324,7 +325,7 @@ function displayResult(data) { // Display Selected Age Ranges
         console.log("SelectedRange[0]: " + selectedRange[0]);
         console.log("ageRange[0]: " + ageRange[0]);
 
-        $("#SelectedAges").append('<li class="list-group-item"><b><u>Selected Ages</u></b></li>');
+        $("#SelectedAges").append('<li class="list-group-item"><b><u>Your Selection</u></b></li>');
 
         for (i = 0; i < ageRangeVar.length; i++) {
             $("#SelectedAges").append('<li class="list-group-item"><b>Ages ' + ageRange[i]

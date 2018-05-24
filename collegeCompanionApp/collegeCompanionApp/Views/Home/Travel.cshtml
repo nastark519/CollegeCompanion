@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="col-lg-3">
-        <div class="form-group">
+        @*<div class="form-group">
             <label for="addressInput">Address</label>
             <input type="text" class="form-control" name="addressInput" id="addressInput" placeholder="1234 Somewhere St" />
 
@@ -22,18 +22,26 @@
             <input type="text" class="form-control" name="zipInput" id="zipInput" placeholder="US Only" pattern="[0-9]{5}" />
             <br />
             <button type="submit" id="submit" class="btn btn-default">Submit</button>
-        </div>
+        </div>*@
     </div>
     <div class="col-lg-3">
         @*Save Colleges*@
         <div class="form-group">
-            <label for="collegeInput" class="ccheader">Or Select Your Saved Colleges</label>
+            @*Address Input*@
+            @*<label for="addressInput">Address</label>
+            <input type="text" class="form-control" name="addressInput" id="addressInput" placeholder="1234 Somewhere St" />*@
+            @*College Selection*@
+            <label for="collegeInput">Select a College</label>
             <select class="form-control" id="collegeInput" name="collegeInput">
                 @foreach (var item in Model)
                 {
-                    <option value="@item.ZipCode">@item.Name</option>
+                    <option value="@item.ZipCode,@item.StateName,@item.City">@item.Name</option>
                 }
             </select>
+
+            <br />
+            @*Submit Button*@
+            <button type="submit" id="submit" class="btn btn-default">Submit</button>
         </div>
     </div>
         <div class="travelResults" style="float:left;"></div>

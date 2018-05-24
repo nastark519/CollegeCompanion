@@ -14,24 +14,20 @@
 
     <hr />
 
-    <div class="form-group text-center">
-        @*Zipcode Text*@
-        @*<label>Zipcode:</label>*@
-        @*Zipcode User Input*@
-        @*<input class="well-sm" type="text" id="Zipcode" name="Zipcode" placeholder="EX: 97361" />*@
-
+    <div class="form-group text-center">       
         @*Save Colleges*@
-        <div class="form-group">
-            <label for="Zipcode" class="ccheader">Or Select Your Saved Colleges</label>
-            <select class="form-control" id="Zipcode" name="Zipcode">
-                @foreach (var item in Model.SearchResults)
-                {
-                    <option value="@item.ZipCode">@item.Name</option>
-                }
-            </select>
-        </div>
-        @*Search Button*@
-        <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg btn-success" />
+        <label for="Zipcode" class="ccheader">Select a College</label>
+        <select class="form-control" style="display: block; margin: 0 auto;" id="Zipcode" name="Zipcode">
+            @foreach (var item in Model.SearchResults)
+            {
+                <option value="@item.ZipCode">@item.Name</option>
+            }
+        </select>
+        <br />
+        @*Information for the user*@
+        <h4><u>View How Many People Living Around Your College Area!</u></h4>
+        <h5><i>Select a "<b>Race</b>", up to 10 different "<b>Age Ranges</b>", and a "<b>Gender</b>"!</i></h5>
+        <i>"Total Population will be Displayed by Default"</i>
     </div>
 
     <div class="row">
@@ -68,6 +64,11 @@
                 <option value="m">Male</option>
             </select>
         </div>
+    </div>
+
+    <div class="form-group text-center">
+        @*Search Button*@
+        <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg btn-success" />
     </div>
 
     <hr />

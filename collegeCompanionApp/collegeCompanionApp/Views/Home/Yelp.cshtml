@@ -13,37 +13,39 @@
 
     <hr />
 
-    <div class="col-sm-4"></div>
+    @*<div class="col-sm-4"></div>*@
 
-    <div class="col-sm-4 form-group text-center">
+    <div class="form-group" style="text-align: center;">
         @*Location Text*@
         @*<label>Location:</label>*@
 
         @*Save Colleges*@
-        <label for="Location" class="ccheader">Colleges</label>
-        <select class="form-control text-center" id="Location" name="Location">
+        <label for="Location" class="ccheader">Select a College</label>
+        <select class="form-control text-center" style="display: block; margin: 0 auto;" id="Location" name="Location">
             @foreach (var item in Model)
             {
                 <option value="@item.ZipCode">@item.Name</option>
             }
         </select>
-        @*Location Input*@
-        @*<input class="well-sm" type="text" id="Location" name="Location" placeholder="ZIP, School Name..." />*@
 
         <br />
 
-        @*Selecting A Term*@
-        <form id="Term">
-            @*Delivery Radio Automatically Checked*@
-            <input type="radio" name="Term" value="Delivery" checked> Delivery<br>
-            @*Grocery Radio*@
-            <input type="radio" name="Term" value="Grocery"> Grocery<br><br>
-            @*Search Button.*@
-            <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg" />
-        </form>
+        @*Term Input*@
+        <label for="Term" class="ccheader">Enter a Term</label>
+        <br />
+        <input class="well-sm well" type="text" id="Term" name="Term" placeholder="ex: Delivery, Pizza..." />
+        @*Open Now Checkbox*@
+        <label class="checkbox-inline" id="IsOpen">
+            <input type="checkbox" id="IsOpen" value="Open"> Is Open
+        </label>
+
+        <br />
+        @*Search Button.*@
+        <input id="Search" name="Search" type="button" value="Search" class="btn btn-lg btn-block btn-success" style="display: block; margin: 0 auto;"/>
+
     </div>
 
-    <div class="col-sm-4"></div>
+    @*<div class="col-sm-4"></div>*@
 
 </div>
 
