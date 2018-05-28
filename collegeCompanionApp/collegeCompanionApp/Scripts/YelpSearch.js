@@ -22,7 +22,7 @@ function start() {
     //Get Location
     var location = $('#Location').val();
     //Term Selected
-    var term = $("#Term").val();//$("input[name='Term']:checked").val();
+    var term = $("#Term").val();
     // Is Open
     var isOpen = $("#IsOpen:checked").val();
     if (isOpen === undefined) {
@@ -90,7 +90,7 @@ function successSearch(data) {
             var rating = business[i].rating;
             var url = business[i].url;
             var price = business[i].price;
-            //var openNow
+            var isClosed = business[i].is_closed;
 
             // Set Price Meaning
             if (price === "$$$$") {
@@ -101,6 +101,17 @@ function successSearch(data) {
                 price = "Reasonable";
             } else {
                 price = "Low-Priced";
+            }
+
+
+            console.log("Is Closed: " + isClosed);
+            // If Permanently Closed
+            if (isClosed) {
+                isClosed = '<div class="row text-center">'
+                    + '<label><u>Permanently Closed</u>!</label>'
+                    + '</div>';
+            } else {
+                isClosed = "";
             }
 
             var displayResults = '<div class="col-md-9 col-md-offfset-3" style="float:left;width:20em;margin-right:2em;">'
@@ -117,10 +128,10 @@ function successSearch(data) {
                 + '</div>'
                 + '<div class="row">'
                 + '<strong>Rating</strong>: ' + rating
-                + '</div>'
+                + '</div>' 
                 + '<div class="row">'
                 + '<strong>Price</strong>: ' + price
-                + '</div>'
+                + '</div>' + isClosed
                 + '</div>'
                 + '<div class="panel-footer" style="text-align:center">'
                 + "<a href=" + url + "style='display:block';>" + name + " Website</a>"
@@ -128,28 +139,7 @@ function successSearch(data) {
                 + '</div>';
 
             //Display Data onto Table
-            $("#SearchResults").append(displayResults
-                //'<div class="col-md-9 col-md-offfset-3" style="float:left;width:20em;margin-right:2em;">'
-                //+ '<div class="panel panel-info">'
-                //+'<div class="panel-heading text-center panel-height">' 
-                //+ '<h3 class="ccPanelHeader">' + name + ' </h3>'
-                //+ '</div>'
-                //+ '<div class="panel-body text-primary" style="margin-left:1em;height:10em;">'
-                //+ '<div class="row" style="margin-top:2em">'
-                //+ '<strong>City</strong>: ' + city
-                //+'</div>'
-                //+ '<div class="row">'
-                //+ '<strong>Address</strong>: ' + address
-                //+ '</div>'
-                //+ '<div class="row">'
-                //+ '<strong>Rating</strong>: ' +  rating
-                //+ '</div>'
-                //+ '</div>'
-                //+ '<div class="panel-footer" style="text-align:center">'
-                //+ "<a href=" + url + "style='display:block';>" + name + " Website</a>"
-                //+ '</div>'
-                //+ '</div>'
-            );
+            $("#SearchResults").append(displayResults);
 
             
         }
