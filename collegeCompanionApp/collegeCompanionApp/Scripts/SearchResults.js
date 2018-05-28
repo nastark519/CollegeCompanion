@@ -7,6 +7,11 @@ window.onload = start;
 var degree;
 var degreeType;
 
+// An array that holds the divs on the school information.
+var pages = [];
+
+var indexPage = 0;
+
 function start() {
 
     // Gets the Current URL
@@ -52,6 +57,7 @@ function start() {
     // Console Check Ajax Call URL
     console.log("Ajax URL: " + url);
 
+
     // Requesting JSon through Ajax
     $.ajax({
         type: "GET",
@@ -63,30 +69,41 @@ function start() {
 }
 
 function successSearch(data) {
+    var i = 0;
+    var xi = 0;
     var schools = data.metadata.total; // Total number of schools found
     console.log("Total Results: " + schools); // Display Total Results
+    var j = 0;
+    // add an action listener that will hear a onclick here for the paganation.
 
     if (schools > 0) { // If Schools Found...
         // Clear Error message & Past Results
         $("#NotFound").empty();
         $("#Results").empty();
 
+        
+        
         var schoolDegreeType = "2015.academics.program." + degreeType + "." + degree; // Degree to look for
 
-        for (i = 0; i <= schools; i++) {
-            if (data.results[i]) {
+        while (12 < (schools - (i * 12))) {
+
+            var page = [];
+
+            for (j = 0; j < 12; j++) { // replaced schools with the number 5 to test paganation.
+
+            if (data.results[xi]) {
                 // Get data into variables
-                var accreditor = data.results[i]["school.accreditor"];
-                var ownership = data.results[i]["school.ownership"];
-                var tuition = data.results[i]["school.tuition_revenue_per_fte"];
+                var accreditor = data.results[xi]["school.accreditor"];
+                var ownership = data.results[xi]["school.ownership"];
+                var tuition = data.results[xi]["school.tuition_revenue_per_fte"];
                 tuition = tuition.toLocaleString(); // Convert Object to String
-                var acceptRate = data.results[i]["2015.admissions.admission_rate.overall"];
-                var schoolDegree = data.results[i][schoolDegreeType];
-                var schoolURL = data.results[i]["school.school_url"];
-                var collegeName = data.results[i]["school.name"];
+                var acceptRate = data.results[xi]["2015.admissions.admission_rate.overall"];
+                var schoolDegree = data.results[xi][schoolDegreeType];
+                var schoolURL = data.results[xi]["school.school_url"];
+                var collegeName = data.results[xi]["school.name"];
                 //setting up these next two vars for my zillow call.
-                var state = data.results[i]["school.state"];
-                var city = data.results[i]["school.city"];
+                var state = data.results[xi]["school.state"];
+                var city = data.results[xi]["school.city"];
 
                 if (accreditor === null) { // If accreditor is NULL than display 'N/A'
                     accreditor = "None";
@@ -124,7 +141,8 @@ function successSearch(data) {
                 //http://localhost:30375/Home/SaveData?userID=2&name=blah&stateName=blah&city=blah&zipCode=92000&accreditor=blah&degree=blah&degreeType=blah&ownership=1&cost=10000
 
                 //This view is KING
-                $("#Results").append(
+                page.push(
+                //$("#Results").append(
                     '<div style="float:left; width:20em;margin-right:2em;">' +
                         '<div class="panel panel-info">' +
                             '<div class="panel-heading text-center panel-height">' +
@@ -202,13 +220,33 @@ function successSearch(data) {
                     '</div>' +
                         '</div>' +
                     '</div>'
-                );              
+                );
+                xi++;
             }
         }
-    } else { //School Not found
+            pages[i++] = page;
+        }
+
+        $("#Results").append(pages[0]);
+    }
+    else { //School Not found
         $("#NotFound").text("No Schools Found!");
     }
+}
 
+// This function is for pagenation.
+function pageNum(numb) {
+    // Clear Error message & Past Results
+    $("#NotFound").empty();
+    $("#Results").empty();
+
+    if (pages[numb]) {
+        $("#Results").append(pages[numb]);
+    }
+    else { //School Not found
+        $("#NotFound").text("No Other Schools Found.");
+    }
+    
 }
 
 
