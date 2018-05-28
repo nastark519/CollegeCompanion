@@ -89,8 +89,19 @@ function successSearch(data) {
             var address = business[i].location.address1;
             var rating = business[i].rating;
             var url = business[i].url;
-            var openNow
-            //var id = businesses[i].id;
+            var price = business[i].price;
+            //var openNow
+
+            // Set Price Meaning
+            if (price === "$$$$") {
+                price = "Very Expensive";
+            } else if (price === "$$$") {
+                price = "Somewhat Expensive";
+            } else if (price === "$$") {
+                price = "Reasonable";
+            } else {
+                price = "Low-Priced";
+            }
 
             var displayResults = '<div class="col-md-9 col-md-offfset-3" style="float:left;width:20em;margin-right:2em;">'
                 + '<div class="panel panel-info">'
@@ -106,6 +117,9 @@ function successSearch(data) {
                 + '</div>'
                 + '<div class="row">'
                 + '<strong>Rating</strong>: ' + rating
+                + '</div>'
+                + '<div class="row">'
+                + '<strong>Price</strong>: ' + price
                 + '</div>'
                 + '</div>'
                 + '<div class="panel-footer" style="text-align:center">'
@@ -137,18 +151,12 @@ function successSearch(data) {
                 //+ '</div>'
             );
 
-            //getBusinessHours(id);
             
         }
 
     } else { //No Results Found
         $("#NoResults").text("No Results Found!");
     }
-
-}
-
-
-function getBusinessHours(id) {
 
 }
 
