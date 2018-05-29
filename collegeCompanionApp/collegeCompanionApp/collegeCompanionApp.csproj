@@ -313,6 +313,7 @@
     <Compile Include="Models\DemoAge.cs" />
     <Compile Include="Models\DemoRace.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ViewModel\LifeStyle.cs" />
     <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Repository\CollegeRepository.cs" />
     <Compile Include="Repository\ICollegeRepository.cs" />

@@ -11,6 +11,7 @@ $("#Location").keypress(function (e) {
 
 $("#Search").click(start);
 
+
 function start() {
     //Empty Everything for New Request
     $("#Results").css("display", "none");
@@ -21,10 +22,16 @@ function start() {
     //Get Location
     var location = $('#Location').val();
     //Term Selected
-    var term = $("input[name='Term']:checked").val();
+    var term = $("#Term").val();
+    // Is Open
+    var isOpen = $("#IsOpen:checked").val();
+    if (isOpen === undefined) {
+        isOpen = "Closed";
+    }
     //Console Output
     console.log("Location: " + location);
     console.log("Term: " + term);
+    console.log("Is Open: " + isOpen);
 
     //Meet Length Requirment
     if (location.length <= 3) {
@@ -35,7 +42,7 @@ function start() {
     }
 
     //Create URL
-    var fields = "location=" + location + "&term=" + term;
+    var fields = "location=" + location + "&term=" + term + "&isOpen=" + isOpen;
     var url = "YelpSearch?" + fields;
     url = url.replace(/ /g, "%20"); //replace spaces with '%20'
     console.log("URL: " + url);
@@ -82,30 +89,58 @@ function successSearch(data) {
             var address = business[i].location.address1;
             var rating = business[i].rating;
             var url = business[i].url;
+            var price = business[i].price;
+            var isClosed = business[i].is_closed;
 
-            //Display Data onto Table
-            $("#SearchResults").append(
-                '<div class="col-md-9 col-md-offfset-3" style="float:left;width:20em;margin-right:2em;">'
+            // Set Price Meaning
+            if (price === "$$$$") {
+                price = "Very Expensive";
+            } else if (price === "$$$") {
+                price = "Somewhat Expensive";
+            } else if (price === "$$") {
+                price = "Reasonable";
+            } else {
+                price = "Low-Priced";
+            }
+
+
+            console.log("Is Closed: " + isClosed);
+            // If Permanently Closed
+            if (isClosed) {
+                isClosed = '<div class="row text-center">'
+                    + '<label><u>Permanently Closed</u>!</label>'
+                    + '</div>';
+            } else {
+                isClosed = "";
+            }
+
+            var displayResults = '<div class="col-md-9 col-md-offfset-3" style="float:left;width:20em;margin-right:2em;">'
                 + '<div class="panel panel-info">'
-                +'<div class="panel-heading text-center panel-height">' 
+                + '<div class="panel-heading text-center panel-height">'
                 + '<h3 class="ccPanelHeader">' + name + ' </h3>'
                 + '</div>'
                 + '<div class="panel-body text-primary" style="margin-left:1em;height:10em;">'
                 + '<div class="row" style="margin-top:2em">'
-                + '<strong>City</strong>:' + city
-                +'</div>'
-                + '<div class="row">'
-                + '<strong>Address</strong>:' + address
+                + '<strong>City</strong>: ' + city
                 + '</div>'
                 + '<div class="row">'
-                + '<strong>Rating</strong>:' +  rating
+                + '<strong>Address</strong>: ' + address
                 + '</div>'
+                + '<div class="row">'
+                + '<strong>Rating</strong>: ' + rating
+                + '</div>' 
+                + '<div class="row">'
+                + '<strong>Price</strong>: ' + price
+                + '</div>' + isClosed
                 + '</div>'
                 + '<div class="panel-footer" style="text-align:center">'
                 + "<a href=" + url + "style='display:block';>" + name + " Website</a>"
                 + '</div>'
-                + '</div>'
-                );
+                + '</div>';
+
+            //Display Data onto Table
+            $("#SearchResults").append(displayResults);
+
             
         }
 

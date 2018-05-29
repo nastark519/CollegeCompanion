@@ -35,8 +35,6 @@ function start() {
     console.log("Degree: " + degree);
     console.log("Degree Type: " + degreeType);
 
-    state = stateInputFormatting(state);
-
     // Check for undefined
     if (accreditor === undefined) {
         accreditor = '';
@@ -56,6 +54,9 @@ function start() {
     if (checkStateDegree(state, degree, degreeType) === false) {
         return false;
     } else {
+        // Set State Query Value
+        state = stateInputFormatting(state);
+
         // If any Ownership
         if (ownership === 'Any') {
             console.log("Any Ownership!");
@@ -140,7 +141,9 @@ function checkStateDegree(state, degree, degreeType) {
 }
 
 function stateInputFormatting(state) {
-    if (state == "Alabama" || state == "AL") {
+    if (state === "Any") {
+        state = "";
+    } else if (state == "Alabama" || state == "AL") {
         state = "Alabama AL";
     } else if (state == "Alaska" || state == "AK") {
         state = "Alaska AK";
