@@ -68,6 +68,7 @@ function start() {
     });
 }
 
+//On success of AJAX call
 function successSearch(data) {
     var i = 0;
     var xi = 0;
@@ -153,18 +154,16 @@ function successSearch(data) {
 
                 //var zipCode = 97128;
                 //http://localhost:30375/Home/SaveData?userID=2&name=blah&stateName=blah&city=blah&zipCode=92000&accreditor=blah&degree=blah&degreeType=blah&ownership=1&cost=10000
-                
-                //This view is KING
-                page.push(
-                //$("#Results").append(
-                    '<div style="float:left; width:20em;margin-right:2em;">' +
-                        '<div class="panel panel-info">' +
-                            '<div class="panel-heading text-center panel-height">' +
-                                '<div class="row">' +
-                                    '<div class="col-sm-1">' +
-                                        '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-                        '<a class="fa fa-heart-o" href="/Home/SaveData'
-                    + '?userID=' 
+
+                //The resulting view and its designed formatting
+                var resultString = '<div style="float:left; width:20em;margin-right:2em;">' +
+                    '<div class="panel panel-info">' +
+                    '<div class="panel-heading text-center panel-height">' +
+                    '<div class="row">' +
+                    '<div class="col-sm-1">' +
+                    '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
+                    '<a class="fa fa-heart-o" href="/Home/SaveData'
+                    + '?userID='
                     + companionID
                     + '&name='
                     + collegeName
@@ -263,8 +262,7 @@ function pageNum(numb) {
     
 }
 
-
-
+//Error on AJAX
 function errorOnAjax() {
     console.log("error on Ajax");
     $("#NotFound").text("Error on Ajax!"); // Display Error if ajax error

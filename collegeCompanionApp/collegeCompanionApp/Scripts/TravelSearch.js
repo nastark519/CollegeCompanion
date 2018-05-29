@@ -37,6 +37,7 @@ $("#submit").click(function () {
     });
 });
 
+//Gets the longitutde and latitude for API call
 function getCoords(data) {
     latitude = data.results[0].geometry.location.lat;
     longitude = data.results[0].geometry.location.lng;
@@ -47,6 +48,7 @@ function getCoords(data) {
     getURL(url);
 }
 
+//runs the AJAX call 
 function getURL(url) {
     //Requesting JSon through AJAX
     $.ajax({
@@ -63,6 +65,7 @@ function errorOnAjax() {
     console.log("error");
 }
 
+//Displays results in designed format
 function displaySearch(results) {
     console.log(results);
     $(".travelResults").empty(); //Prevents Search Duplicates
@@ -86,6 +89,7 @@ function displaySearch(results) {
     $(".travelResults").append(searchContent);
 }
 
+//Takes any unpleasant results in the view and makes them "No Data Found"
 function convertToNA(results) {
     if (typeof results === 'undefined' || results === null) {
         results = "No Data Found";

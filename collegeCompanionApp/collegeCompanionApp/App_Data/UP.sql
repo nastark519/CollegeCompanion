@@ -30,7 +30,7 @@ CREATE TABLE SearchResults (
 	Degree		nvarchar(100),
 	DegreeType	nvarchar(100)	
 	PRIMARY KEY (SearchResultsID ASC),
-	CONSTRAINT FK_CompanionID FOREIGN KEY (CompanionID) REFERENCES CompanionUser(CompanionID) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT FK_CompanionID FOREIGN KEY (CompanionID) REFERENCES CompanionUser(CompanionID) ON DELETE CASCADE
 );
 
 /*===================List Tables==================*/

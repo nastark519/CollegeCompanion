@@ -13,16 +13,14 @@
         <div class="searchform">
             @*Search Box*@
             <div class="search" style="margin-bottom:10px">
-                <span class="fa fa-search"></span>
                 <input type="text" placeholder="Enter a State..." name="stateInput" id="stateInput">
-                <div id="NotFound"></div>
             </div>
         </div>
         <div style="text-align: center;">
             <input type="submit" class="btn btn-warning" name="submit" id="submit" value="Search">
             <button type="button" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("SearchForm", "Home") + "'");"> Advanced Search </button>
         </div>
-        <div class="ccPanelHeader" style="margin-top:3em">Unsure which degree is right for you? Try our Quiz and find out!</div>
+        <div class="ccPanelHeader" style="margin-top:3em;margin-bottom:1em">Unsure which degree is right for you? Try our Quiz and find out!</div>
         <button type="button" class="btn btn-danger" style="display: block; margin: 0 auto;" onclick="@("window.location.href='" + @Url.Action("DegreeQuiz", "Home") + "'");"> Take the Quiz!</button>
         <select class="form-control" id="finLimitInput" name="finLimitInput" type="hidden" style="visibility: hidden">
             <option value="Any"></option>

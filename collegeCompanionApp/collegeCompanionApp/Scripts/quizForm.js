@@ -1,6 +1,9 @@
-﻿$('#submit').click(start);
+﻿//submit button listener
+$('#submit').click(start);
 
+//Main body function to do processing
 function start() {
+    //Answer results for each of the 28 questions on the form
     var ans1 = parseInt($("input:radio[name=q1]:checked").val());
     var ans2 = parseInt($("input:radio[name=q2]:checked").val());
     var ans3 = parseInt($("input:radio[name=q3]:checked").val());
@@ -30,9 +33,13 @@ function start() {
     var ans26 = parseInt($("input:radio[name=q26]:checked").val());
     var ans27 = parseInt($("input:radio[name=q27]:checked").val());
     var ans28 = parseInt($("input:radio[name=q28]:checked").val());
+
+    //Test to ensure none of the values are null before running
     var test = nullTest(ans1, ans2, ans3, ans4, ans5, ans6, ans7, ans8, ans9, ans10, ans11, ans12, ans13, ans14, ans15, ans16, ans17, ans18, ans19, ans20, ans21, ans22, ans23, ans24, ans25, ans26, ans27, ans28);
 
+    //If all answers are filled, process the results
     if (test != false) {
+        //Figure out which field has the highest value.
         var bsTotal = bsFields(ans2, ans9, ans16, ans20);
         var medTotal = medFields(ans7, ans11, ans19, ans27);
         var buisTotal = buisFields(ans1, ans6, ans14, ans26);
@@ -43,45 +50,54 @@ function start() {
 
         var category = findHighest(bsTotal, medTotal, buisTotal, edTotal, compTotal, socialTotal, natTotal);
 
+        //Send a pop up to the user of their result
         popUpResults(category);
     }
 }
 
+//Function to total the BS fields
 function bsFields(ans2, ans9, ans16, ans20) {
     var bsTotal = ans2 + ans9 + ans16 + ans20;
     return bsTotal;
 }
 
+//Function to total the medical fields
 function medFields(ans7, ans11, ans19, ans27) {
     var medTotal = ans7 + ans11 + ans19 + ans27;
     return medTotal;
 }
 
+//Function to total the business fields
 function buisFields(ans1, ans6, ans14, ans26) {
     var buisTotal = ans1 + ans6 + ans14 + ans26;
     return buisTotal;
 }
 
+//Function to total the education fields
 function edFields(ans3, ans21, ans23, ans25) {
     var edTotal = ans3 + ans21 + ans23 + ans25;
     return edTotal;
 }
 
+//Function to total the computer fields
 function compFields(ans10, ans15, ans17, ans24) {
     var compTotal = ans10 + ans15 + ans17 + ans24;
     return compTotal;
 }
 
+//Function to total the social fields
 function socialFields(ans4, ans8, ans12, ans18) {
     var socialTotal = ans4 + ans8 + ans12 + ans18;
     return socialTotal;
 }
 
+//Function to total the natural science fields
 function natFields(ans5, ans13, ans22, ans28) {
     var natTotal = ans5 + ans13 + ans22 + ans28;
     return natTotal;
 }
 
+//Takes the various field totals and weighs them against each other to find the highest score
 function findHighest(bsTotal, medTotal, buisTotal, edTotal, compTotal, socialTotal, natTotal) {
     var highest = bsTotal;
     var category = "None";
@@ -116,6 +132,7 @@ function findHighest(bsTotal, medTotal, buisTotal, edTotal, compTotal, socialTot
     return category;
 }
 
+//Creates the alert pop-up
 function popUpResults(category) {
     if (category == "Medical Sciences") {
         alert(
@@ -197,18 +214,22 @@ function popUpResults(category) {
     }
 }
 
+//Test for any unselected questions so we don't run without it
 function nullTest(ans1, ans2, ans3, ans4, ans5, ans6, ans7, ans8, ans9, ans10, ans11, ans12, ans13, ans14, ans15, ans16, ans17, ans18, ans19, ans20, ans21, ans22, ans23, ans24, ans25, ans26, ans27, ans28) {
 
     var ansArray = [ans1, ans2, ans3, ans4, ans5, ans6, ans7, ans8, ans9, ans10,
         ans11, ans12, ans13, ans14, ans15, ans16, ans17, ans18, ans19, ans20,
         ans21, ans22, ans23, ans24, ans25, ans26, ans27, ans28];
 
-    ansArray.forEach(function (item, index, array) {
-        if (item == null || item == 'undefined') {
+    console.log(ansArray);
+
+    ansArray.forEach(function (item) {
+        console.log(item);
+        if (isNaN(item)) {
             $('#error').html("Please check your quiz and fill out all the questions.");
             return false;
-        } else {
-            return true;
         }
-    });
+        return true;
+    }
+    ); 
 }
