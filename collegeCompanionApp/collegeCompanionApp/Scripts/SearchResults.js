@@ -7,6 +7,11 @@ window.onload = start;
 var degree;
 var degreeType;
 
+// An array that holds the divs on the school information.
+var pages = [];
+
+var indexPage = 0;
+
 function start() {
 
     // Gets the Current URL
@@ -52,6 +57,7 @@ function start() {
     // Console Check Ajax Call URL
     console.log("Ajax URL: " + url);
 
+
     // Requesting JSon through Ajax
     $.ajax({
         type: "GET",
@@ -63,30 +69,48 @@ function start() {
 }
 
 function successSearch(data) {
+    var i = 0;
+    var xi = 0;
     var schools = data.metadata.total; // Total number of schools found
+
+    // since we are only doing 100 schools set to 100 if total returns > 100 school
+    // we are doing this because otherwise we would need to do another api call.
+    if (schools > 100) {
+        schools = 100;
+    }
+
     console.log("Total Results: " + schools); // Display Total Results
+    var j = 0;
+    // add an action listener that will hear a onclick here for the paganation.
 
     if (schools > 0) { // If Schools Found...
         // Clear Error message & Past Results
         $("#NotFound").empty();
         $("#Results").empty();
 
+        
+        
         var schoolDegreeType = "2015.academics.program." + degreeType + "." + degree; // Degree to look for
 
-        for (i = 0; i <= schools; i++) {
-            if (data.results[i]) {
+        while (12 < (schools - (i * 12))) {
+
+            var page = [];
+
+            for (j = 0; j < 12; j++) { // replaced schools with the number 5 to test paganation.
+
+            if (data.results[xi]) {
                 // Get data into variables
-                var accreditor = data.results[i]["school.accreditor"];
-                var ownership = data.results[i]["school.ownership"];
-                var tuition = data.results[i]["school.tuition_revenue_per_fte"];
+                var accreditor = data.results[xi]["school.accreditor"];
+                var ownership = data.results[xi]["school.ownership"];
+                var tuition = data.results[xi]["school.tuition_revenue_per_fte"];
                 tuition = tuition.toLocaleString(); // Convert Object to String
-                var acceptRate = data.results[i]["2015.admissions.admission_rate.overall"];
-                var schoolDegree = data.results[i][schoolDegreeType];
-                var schoolURL = data.results[i]["school.school_url"];
-                var collegeName = data.results[i]["school.name"];
-                var state = data.results[i]["school.state"];
-                var city = data.results[i]["school.city"];
-                var zipCode = data.results[i]["school.zip"];
+                var acceptRate = data.results[xi]["2015.admissions.admission_rate.overall"];
+                var schoolDegree = data.results[xi][schoolDegreeType];
+                var schoolURL = data.results[xi]["school.school_url"];
+                var collegeName = data.results[xi]["school.name"];
+                var state = data.results[xi]["school.state"];
+                var city = data.results[xi]["school.city"];
+                var zipCode = data.results[xi]["school.zip"];
 
                 if (accreditor === null) { // If accreditor is NULL than display 'N/A'
                     accreditor = "None";
@@ -129,16 +153,18 @@ function successSearch(data) {
 
                 //var zipCode = 97128;
                 //http://localhost:30375/Home/SaveData?userID=2&name=blah&stateName=blah&city=blah&zipCode=92000&accreditor=blah&degree=blah&degreeType=blah&ownership=1&cost=10000
-
-
-                var resultString = '<div style="float:left; width:20em;margin-right:2em;">' +
-                    '<div class="panel panel-info">' +
-                    '<div class="panel-heading text-center panel-height">' +
-                    '<div class="row">' +
-                    '<div class="col-sm-1">' +
-                    '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-                    '<a class="fa fa-heart-o" href="/Home/SaveData'
-                    + '?userID='
+                
+                //This view is KING
+                page.push(
+                //$("#Results").append(
+                    '<div style="float:left; width:20em;margin-right:2em;">' +
+                        '<div class="panel panel-info">' +
+                            '<div class="panel-heading text-center panel-height">' +
+                                '<div class="row">' +
+                                    '<div class="col-sm-1">' +
+                                        '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
+                        '<a class="fa fa-heart-o" href="/Home/SaveData'
+                    + '?userID=' 
                     + companionID
                     + '&name='
                     + collegeName
@@ -206,94 +232,35 @@ function successSearch(data) {
                     '<div class="panel-footer" style="text-align:center">' + // School URL
                     '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
                     '</div>' +
-                    '</div>' +
-                    '</div>';
-                //This view is KING
-                $("#Results").append(resultString
-                    //'<div style="float:left; width:20em;margin-right:2em;">' +
-                    //    '<div class="panel panel-info">' +
-                    //        '<div class="panel-heading text-center panel-height">' +
-                    //            '<div class="row">' +
-                    //                '<div class="col-sm-1">' +
-                    //                    '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-                    //    '<a class="fa fa-heart-o" href="/Home/SaveData'
-                    //+ '?userID=' 
-                    //+ companionID
-                    //+ '&name='
-                    //+ collegeName 
-                    //+ '&stateName='
-                    //+ state
-                    //+ '&city='
-                    //+ city
-                    //+ '&zipCode='
-                    //+ zipCode
-                    ////Accreditor causes save errors, need to figure out what's going on here.
-                    //+ '&accreditor='
-                    //+ 'None'
-                    //+ '&degree='
-                    //+ schoolDegree
-                    //+ '&degreeType='
-                    ////Degree Type unreachable, need to combine our horrible moshpit of appended code.
-                    //+ degreeType
-                    //+ '&ownership='
-                    //+ ownership
-                    //+ '&cost='
-                    //+ tuition
-                    //    + '"></a>' +      // This this a starting point fot sp4 for fav.
-                    //            '</h2>' +
-                    //                '</div>' +
-                    //                '<div class="col-sm-offset-0"></div>' +
-                    //                '<div class="col-sm-9">' + // College Name
-                    //                    '<div class="spaceLeft">' +
-                    ////So the math function below takes the line height, divides it by the number of characters and presents the centered characters
-                    ////within the height of the panel header.
-                    //'<h5 class="ccPanelHeader" style="line-height:' + 45 / (Math.ceil(collegeName.length / 30)) + 'px;"' + ">" +
-                    //                            collegeName +
-                    //                '</h5>' +
-                    //                    '</div>' +
-                    //                '</div>' +
-                    //            '</div>' +
-                    //        '</div>' +
-                    //    '<div class="panel-body text-primary ccPanelBody">' +
-                    //            '<div class="row">' +
-                    //                '<h4 class="text-center">' +
-                    //                 '$' + tuition + '/year' +
-                    //                '</h4>' +
-                    //                '<div class="row" style="margin-top:5%;">' +
-                    //'<div class="col-sm-6">' + // State
-                    //'&emsp; State: ' + state +
-                    //            '</div>' +
-                    //'<div class="col-sm-6">' + // City
-                    //'City: ' + city +
-                    //            '</div>' +
-                    //                '</div>' +
-                    //            '</div>' +
-                    //            '<div class="row">' + // Degree Selected?
-                    //                '&emsp; Degree Selected: ' + schoolDegree +
-                    //    '</div>' +
-                    //            '<div class="row">' + // Ownership
-                    //'&emsp; Ownership: ' + ownershipStr +
-                    //    //'</div>' +
-                    //    //        '<div class="row">' +
-                    //    //            '&emsp; Accreditor: ' + accreditor +
-                    //    //'</div>' +
-                    //    '</div>' +
-                    //            '<div class="row">' + // Acceptance Rate
-                    //                '&emsp; Acceptance Rate: ' + acceptRate + "%" +
-                    //'</div>' +
-                    //'</div>' +
-                    //'<div class="panel-footer" style="text-align:center">' + // School URL
-                    //'<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
-                    //'</div>' +
-                    //    '</div>' +
-                    //'</div>'
-                );              
+                        '</div>' +
+                    '</div>'
+                );
+                xi++;
             }
         }
-    } else { //School Not found
+            pages[i++] = page;
+        }
+
+        $("#Results").append(pages[0]);
+    }
+    else { //School Not found
         $("#NotFound").text("No Schools Found!");
     }
+}
 
+// This function is for pagenation.
+function pageNum(numb) {
+    // Clear Error message & Past Results
+    $("#NotFound").empty();
+    $("#Results").empty();
+
+    if (pages[numb]) {
+        $("#Results").append(pages[numb]);
+    }
+    else { //School Not found
+        $("#NotFound").text("No Other Schools Found.");
+    }
+    
 }
 
 
