@@ -378,7 +378,7 @@ namespace collegeCompanionApp.Controllers
         public string SetCollegeFields()
         {
             // Default Fields to get
-            return "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall,school.school_url,school.zip";
+            return "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall,school.school_url,school.zip&_per_page=100";
         }
 
         public string SetCollegeValues(string ownership, string acceptRate, string finLimit)

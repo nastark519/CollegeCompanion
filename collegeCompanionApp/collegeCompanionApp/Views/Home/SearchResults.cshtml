@@ -22,19 +22,19 @@
 </div>
 <hr />
 <div class="footer">
-    *@*Pagination UI*@
-    @*<nav aria-label="searchResultsPagination">
+    @*Pagination UI*@
+    <nav aria-label="searchResultsPagination">
         <ul class="pagination">
             <li class="page-item">
                 <a class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                 </a>
-            </li>*@
+            </li>
     @*Populate the number of pages needed from search*@
-    @*<li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#" onclick="pageNum(0)">1</a></li>
+                <li class="page-item"><a class="page-link" href="#" onclick="pageNum(1)">2</a></li>
+                <li class="page-item"><a class="page-link" href="#" onclick="pageNum(2)">3</a></li>
                 <li class="page-item">
                     <a class="page-link" href="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -42,7 +42,7 @@
                     </a>
                 </li>
             </ul>
-        </nav>*@
+        </nav>
 </div>
 
 @section scripts{
