@@ -390,6 +390,8 @@
     <Content Include="Scripts\QUnitTest\DemographicJSTest.js" />
     <Content Include="Scripts\QUnitTest\FormSearchJSTest.js" />
     <Content Include="Scripts\QUnitTest\qunit-2.6.0.css" />
+    <Content Include="Scripts\QUnitTest\SearchResultsJSTest.js" />
+    <Content Include="Scripts\QUnitTest\YelpJSTest.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\SearchResults.js" />
