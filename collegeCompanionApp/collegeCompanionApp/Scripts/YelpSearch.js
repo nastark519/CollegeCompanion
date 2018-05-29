@@ -1,5 +1,6 @@
 ﻿console.log("You're in the YelpSearch.js script");
 
+//Gets the location on keypress
 $("#Location").keypress(function (e) {
     //If 'Enter' Key Pressed
     if (e.keyCode === 13) {
@@ -8,7 +9,7 @@ $("#Location").keypress(function (e) {
     }
 });
 
-
+//Search button event listener
 $("#Search").click(start);
 
 
@@ -58,7 +59,7 @@ function start() {
 
 }
 
-
+//Success on AJAX returns Yelp stores that meet criteria
 function successSearch(data) {
     //Businesses Data
     var business = data.businesses;

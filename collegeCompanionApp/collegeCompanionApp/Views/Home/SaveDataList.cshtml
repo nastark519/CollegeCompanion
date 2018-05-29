@@ -59,7 +59,18 @@
                 @Html.DisplayFor(modelItem => item.Accreditor)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Ownership)
+                @if (item.Ownership == 1)
+                {
+                    <text>Public</text>
+                }
+                else if (item.Ownership == 2)
+                {
+                     <text>Private, Non-Profit</text>
+                }
+                else
+                {
+                     <text>Private, For Profit"</text>
+                 }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cost)
