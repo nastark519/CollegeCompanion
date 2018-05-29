@@ -119,13 +119,12 @@ div{
     clear: both;
     width: 80%;
     height: auto;
-    min-height: 40em;
+    min-height: 10em;
     padding-top: 2em;
     font-size-adjust: inherit;
     color: dimgrey;
     position: relative;
     margin: 50px auto;
-
 }
 
 .aboutBox {
@@ -227,10 +226,6 @@ div{
     max-height: 100px;
     height: 100px;
 }
-/* Search Field Styles*/
-@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"); body {
-    margin: 30px;
-}
 
 .search {
     position: relative;
@@ -241,14 +236,11 @@ div{
     .search input {
         width: 250px;
         height: 32px;
+        padding-left:5px;
         background: #fcfcfc;
         border: 1px solid #aaa;
         border-radius: 5px;
         box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
-    }
-
-    .search input {
-        text-indent: 32px;
     }
 
     .search .fa-search {
