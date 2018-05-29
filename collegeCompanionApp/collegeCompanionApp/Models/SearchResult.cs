@@ -41,5 +41,9 @@ namespace collegeCompanionApp.Models
         public string DegreeType { get; set; }
 
         public virtual CompanionUser CompanionUser { get; set; }
+
+        //public virtual DemoAge DemoAge { get; set; }
+
+        //public virtual DemoRace DemoRace { get; set; }
     }
 }

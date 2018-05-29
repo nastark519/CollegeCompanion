@@ -108,9 +108,9 @@ function successSearch(data) {
                 var schoolDegree = data.results[xi][schoolDegreeType];
                 var schoolURL = data.results[xi]["school.school_url"];
                 var collegeName = data.results[xi]["school.name"];
-                //setting up these next two vars for my zillow call.
                 var state = data.results[xi]["school.state"];
                 var city = data.results[xi]["school.city"];
+                var zipCode = data.results[xi]["school.zip"];
 
                 if (accreditor === null) { // If accreditor is NULL than display 'N/A'
                     accreditor = "None";
@@ -143,10 +143,17 @@ function successSearch(data) {
                 if (schoolURL[0] === 'w') { // If School URL starts with 'w' for 'www'
                     schoolURL = "https://" + schoolURL; // Add 'https://' to the School URL
                 }
+                if (schoolURL.endsWith("/")) {
+                    schoolURL = schoolURL.slice(0, schoolURL.length - 1);
+                }
 
-                var zipCode = 97128;
+                if (zipCode.length > 5) {
+                    zipCode = zipCode.slice(0, 5);
+                }
+
+                //var zipCode = 97128;
                 //http://localhost:30375/Home/SaveData?userID=2&name=blah&stateName=blah&city=blah&zipCode=92000&accreditor=blah&degree=blah&degreeType=blah&ownership=1&cost=10000
-
+                
                 //This view is KING
                 page.push(
                 //$("#Results").append(
@@ -160,7 +167,7 @@ function successSearch(data) {
                     + '?userID=' 
                     + companionID
                     + '&name='
-                    + collegeName 
+                    + collegeName
                     + '&stateName='
                     + state
                     + '&city='
@@ -179,47 +186,47 @@ function successSearch(data) {
                     + ownership
                     + '&cost='
                     + tuition
-                        + '"></a>' +      // This this a starting point fot sp4 for fav.
-                                '</h2>' +
-                                    '</div>' +
-                                    '<div class="col-sm-offset-0"></div>' +
-                                    '<div class="col-sm-9">' + // College Name
-                                        '<div class="spaceLeft">' +
+                    + '"></a>' +      // This this a starting point fot sp4 for fav.
+                    '</h2>' +
+                    '</div>' +
+                    '<div class="col-sm-offset-0"></div>' +
+                    '<div class="col-sm-9">' + // College Name
+                    '<div class="spaceLeft">' +
                     //So the math function below takes the line height, divides it by the number of characters and presents the centered characters
                     //within the height of the panel header.
                     '<h5 class="ccPanelHeader" style="line-height:' + 45 / (Math.ceil(collegeName.length / 30)) + 'px;"' + ">" +
-                                                collegeName +
-                                    '</h5>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '<div class="panel-body text-primary ccPanelBody">' +
-                                '<div class="row">' +
-                                    '<h4 class="text-center">' +
-                                     '$' + tuition + '/year' +
-                                    '</h4>' +
-                                    '<div class="row" style="margin-top:5%;">' +
+                    collegeName +
+                    '</h5>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="panel-body text-primary ccPanelBody">' +
+                    '<div class="row">' +
+                    '<h4 class="text-center">' +
+                    '$' + tuition + '/year' +
+                    '</h4>' +
+                    '<div class="row" style="margin-top:5%;">' +
                     '<div class="col-sm-6">' + // State
-                    '&emsp; State: ' + state +
+                    '&emsp; <b> State</b>: ' + state +
                                 '</div>' +
                     '<div class="col-sm-6">' + // City
-                    'City: ' + city +
+                    '<b>City</b>: ' + city +
                                 '</div>' +
                                     '</div>' +
                                 '</div>' +
                                 '<div class="row">' + // Degree Selected?
-                                    '&emsp; Degree Selected: ' + schoolDegree +
+                                    '&emsp; <b>Degree Selected</b>: ' + schoolDegree +
                         '</div>' +
                                 '<div class="row">' + // Ownership
-                    '&emsp; Ownership: ' + ownershipStr +
+                    '&emsp; <b>Ownership</b>: ' + ownershipStr +
                         //'</div>' +
                         //        '<div class="row">' +
                         //            '&emsp; Accreditor: ' + accreditor +
                         //'</div>' +
                         '</div>' +
                                 '<div class="row">' + // Acceptance Rate
-                                    '&emsp; Acceptance Rate: ' + acceptRate + "%" +
+                                    '&emsp; <b>Acceptance Rate</b>: ' + acceptRate + "%" +
                     '</div>' +
                     '</div>' +
                     '<div class="panel-footer" style="text-align:center">' + // School URL
@@ -256,66 +263,6 @@ function pageNum(numb) {
     
 }
 
-
-function getResultString(collegeName, state, city, accreditor, ownership, tuition, schoolDegree, schoolDegreeType, acceptRate, schoolURL) {
-
-    return '<div style="float:left; width:20em;margin-right:2em;">' +
-        '<div class="panel panel-info">' +
-        '<div class="panel-heading text-center panel-height">' +
-        '<div class="row">' +
-        '<div class="col-sm-1">' +
-        '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-        '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + '&StateName=' + state + '&City=' + city +
-            '&Accreditor=' + accreditor + '&Ownership=' + ownership + '&Cost=' + tuition + '&ZipCode=' + zipCode +
-        '&Degree=' + schoolDegree + '&DegreeType=' + schoolDegreeType + '&AcceptanceRate=' + acceptRate + '&UserID=' + companionID +  '})"></a>' +      // This this a starting point fot sp4 for fav.
-        '</h2>' +
-        '</div>' +
-        '<div class="col-sm-offset-0"></div>' +
-        '<div class="col-sm-9">' + // College Name
-        '<div class="spaceLeft">' +
-        //So the math function below takes the line height, divides it by the number of characters and presents the centered characters
-        //within the height of the panel header.
-        '<h5 class="ccPanelHeader" style="line-height:' + 45 / (Math.ceil(collegeName.length / 30)) + 'px;"' + ">" +
-        collegeName +
-        '</h5>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<div class="panel-body text-primary ccPanelBody">' +
-        '<div class="row">' +
-        '<h4 class="text-center">' +
-        '$' + tuition + '/year' +
-        '</h4>' +
-        '<div class="row" style="margin-top:5%;">' +
-        '<div class="col-sm-6">' + // State
-        '&emsp; State: ' + state +
-        '</div>' +
-        '<div class="col-sm-6">' + // City
-        'City: ' + city +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<div class="row">' + // Degree Selected
-        '&emsp; Degree Selected: ' + schoolDegree +
-        '</div>' +
-        '<div class="row">' + // Ownership
-        '&emsp; Ownership: ' + ownership +
-        //'</div>' +
-        //        '<div class="row">' +
-        //            '&emsp; Accreditor: ' + accreditor +
-        //'</div>' +
-        '</div>' +
-        '<div class="row">' + // Acceptance Rate
-        '&emsp; Acceptance Rate: ' + acceptRate + "%" +
-        '</div>' +
-        '<div class="row">' + // School URL
-        '&emsp; College Website: ' + '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>';
-}
 
 
 function errorOnAjax() {
