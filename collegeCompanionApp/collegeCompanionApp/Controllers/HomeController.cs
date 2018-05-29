@@ -37,10 +37,9 @@ namespace collegeCompanionApp.Controllers
         string acceptRate = "";
         string degree = "";
         string degreeType = "";
-        int storedLimit = 0;
 
         //Adding in the repository pattern connection
-        private ICollegeRepository _repository;
+        private readonly ICollegeRepository _repository;
 
         public HomeController(ICollegeRepository repo)
         {
@@ -49,9 +48,6 @@ namespace collegeCompanionApp.Controllers
 
         //An empty controller so the site will work when not passing in the repository.
         public HomeController(){}
-
-        //Temporary connection to the commpanion context while repository is in flux
-        CompanionContext db = new CompanionContext();
 
         /// <summary>
         /// Home page of the website. Enables search via javascript: FormSearch.js. 
@@ -96,6 +92,7 @@ namespace collegeCompanionApp.Controllers
         /// </returns>
         public ActionResult Travel()
         {
+            var userName = User.Identity.Name;
             var userId = User.Identity.GetUserId();
             if (userId == null)
             {
@@ -103,7 +100,7 @@ namespace collegeCompanionApp.Controllers
             }
             else
             {
-                return View(db.SearchResults.ToList());
+                return View(_repository.GetSavedColleges(userName));
             }
         }
 
@@ -152,20 +149,20 @@ namespace collegeCompanionApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                SearchResult searchResult = db.SearchResults.Find(id);
+                SearchResult searchResult = _repository.FindCollege(id);
                 if (searchResult == null)
                 {
                     Debug.WriteLine("Error for Delete() method.");
                     return RedirectToAction("SaveDataList", "Home");
                 }
 
-                db.SearchResults.Remove(searchResult);
-                db.SaveChanges();
+                _repository.DeleteCollege(searchResult);
+                _repository.SaveCollege(searchResult);
 
                 return RedirectToAction("SaveDataList", "Home");
             } else
             {
-                return RedirectToAction("Register", "Account");
+                return RedirectToAction("Login", "Account");
             }
         }
 
@@ -184,7 +181,7 @@ namespace collegeCompanionApp.Controllers
 
                 if (ModelState.IsValid)
                 { 
-                    return View(db.SearchResults.Where(c => c.CompanionUser.Email == User.Identity.Name).ToList());
+                    return View(_repository.GetSavedColleges(User.Identity.Name));
                 }
                 else
                 {
@@ -194,7 +191,7 @@ namespace collegeCompanionApp.Controllers
             }
             else
             {
-                return RedirectToAction("Register", "Account");
+                return RedirectToAction("Login", "Account");
             }
 
         }
@@ -258,9 +255,7 @@ namespace collegeCompanionApp.Controllers
         /// </returns>
         public ActionResult SearchForm()
         {
-            FormdataDB formdb = new FormdataDB();
-            Debug.Assert(formdb != null, "Database has the wrong connection.");
-            return View(formdb);
+            return View(_repository.GetFormData());
         }
 
         /// <summary>
@@ -272,7 +267,7 @@ namespace collegeCompanionApp.Controllers
         /// </returns>
         public ActionResult SearchResults()
         {
-            return View(db.CompanionUsers.ToList());
+            return View(_repository.GetAllUsers());
         }
 
         /// <summary>
@@ -343,9 +338,7 @@ namespace collegeCompanionApp.Controllers
 
             int.TryParse(Request.QueryString["Cost"], out cost);
 
-            var collegeList = db.SearchResults.Where(n => n.Name == name).ToList();
-
-            if (collegeList.Count == 0) { 
+            if (_repository.GetCollege(name, userID) == 0) { 
                 SearchResult college = new SearchResult {
                                                             CompanionID = userID,
                                                             Name = name,
@@ -370,7 +363,7 @@ namespace collegeCompanionApp.Controllers
                         _repository.SaveCollege(college);
 
                         System.Windows.Forms.MessageBox.Show("You Have Successfully Saved This College");
-                        return View(college);
+                        return RedirectToAction("SaveDataList", "Home");
                     }
                     else
                     {
@@ -380,7 +373,7 @@ namespace collegeCompanionApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Register","Account");
+                    return RedirectToAction("Login","Account");
                 }
             }
             else
@@ -533,6 +526,7 @@ namespace collegeCompanionApp.Controllers
         /// </returns>
         public ActionResult Yelp()
         {
+            var userName = User.Identity.Name;
             var userId = User.Identity.GetUserId();
             if (userId == null)
             {
@@ -540,7 +534,7 @@ namespace collegeCompanionApp.Controllers
             }
             else
             {
-                return View(db.SearchResults.ToList());
+                return View(_repository.GetSavedColleges(userName));
             }
         }
 
@@ -646,6 +640,14 @@ namespace collegeCompanionApp.Controllers
             return term;
         }
 
+        /// <summary>
+        /// A method to create a parameter string for the geolocation.
+        /// </summary>
+        /// <param name="location">The location field.</param>
+        /// <param name="term">The term field.</param>
+        /// <returns>
+        /// The resulting string for the URL.
+        /// </returns>
         public string SetParam(string location, string term, string isOpen)
         {
             var param = "term=" + term + "&location=" + location + "&limit=12&sort_by=distance&open_now=";
@@ -660,17 +662,6 @@ namespace collegeCompanionApp.Controllers
             }
 
             return param;
-        /// <summary>
-        /// A method to create a parameter string for the geolocation.
-        /// </summary>
-        /// <param name="location">The location field.</param>
-        /// <param name="term">The term field.</param>
-        /// <returns>
-        /// The resulting string for the URL.
-        /// </returns>
-        public string SetParam(string location, string term)
-        {
-            return "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
         }
 
         /// <summary>
@@ -697,6 +688,7 @@ namespace collegeCompanionApp.Controllers
         /// </returns>
         public ActionResult Demographic()
         {
+            var userName = User.Identity.Name;
             var userId = User.Identity.GetUserId();
             if (userId == null)
             {
@@ -704,19 +696,11 @@ namespace collegeCompanionApp.Controllers
             }
             else
             {
-                FormdataDB formdb = new FormdataDB();
-                LifeStyle lifeStyle = new LifeStyle();
-                lifeStyle.SearchResults = db.SearchResults;
-                lifeStyle.DemoAges = formdb.DemoAges;
-                lifeStyle.DemoRaces = formdb.DemoRaces;
-                //if (lifeStyle.SearchResults == null)
-                //{
-                //    Debug.WriteLine("LifeSyle is NULL!");
-                //    return RedirectToAction("SearchesMenu");
-                //}
-                //FormdataDB formdb = new FormdataDB();
-                //Debug.Assert(formdb != null, "Database has the wrong connection.");
-                //return View(formdb);
+                FormdataDB fd = new FormdataDB();
+                LifeStyle lifeStyle = _repository.GetLifeStyleVM();
+                lifeStyle.SearchResults = _repository.GetSavedColleges(userName);
+                lifeStyle.DemoAges = _repository.GetFormData().DemoAges;
+                lifeStyle.DemoRaces = _repository.GetFormData().DemoRaces;
                 return View(lifeStyle);
             }
         }
