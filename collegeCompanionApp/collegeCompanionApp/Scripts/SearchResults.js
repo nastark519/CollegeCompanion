@@ -72,6 +72,13 @@ function successSearch(data) {
     var i = 0;
     var xi = 0;
     var schools = data.metadata.total; // Total number of schools found
+
+    // since we are only doing 100 schools set to 100 if total returns > 100 school
+    // we are doing this because otherwise we would need to do another api call.
+    if (schools > 100) {
+        schools = 100;
+    }
+
     console.log("Total Results: " + schools); // Display Total Results
     var j = 0;
     // add an action listener that will hear a onclick here for the paganation.

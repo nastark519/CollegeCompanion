@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using collegeCompanionApp.Models;
 
+
 namespace collegeCompanionApp.Controllers
 {
     [Authorize]
