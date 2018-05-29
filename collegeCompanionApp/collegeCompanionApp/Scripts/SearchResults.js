@@ -141,7 +141,7 @@ function successSearch(data) {
                     schoolDegree = "No Degree Selected";
                 }
 
-                if (schoolURL[0] === 'w') { // If School URL starts with 'w' for 'www'
+                if (schoolURL[0] === 'w' || schoolURL[0] === 'W') { // If School URL starts with 'w' for 'www'
                     schoolURL = "https://" + schoolURL; // Add 'https://' to the School URL
                 }
                 if (schoolURL.endsWith("/")) {
@@ -156,7 +156,7 @@ function successSearch(data) {
                 //http://localhost:30375/Home/SaveData?userID=2&name=blah&stateName=blah&city=blah&zipCode=92000&accreditor=blah&degree=blah&degreeType=blah&ownership=1&cost=10000
 
                 //The resulting view and its designed formatting
-                var resultString = '<div style="float:left; width:20em;margin-right:2em;">' +
+                page.push('<div style="float:left; width:20em;margin-right:2em;">' +
                     '<div class="panel panel-info">' +
                     '<div class="panel-heading text-center panel-height">' +
                     '<div class="row">' +
@@ -232,8 +232,8 @@ function successSearch(data) {
                     '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
                     '</div>' +
                         '</div>' +
-                    '</div>'
-                );
+                    '</div>');
+
                 xi++;
             }
         }
