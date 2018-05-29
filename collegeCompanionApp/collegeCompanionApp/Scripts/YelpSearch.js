@@ -42,11 +42,7 @@ function start() {
         return false;
     }
 
-    //Create URL
-    var fields = "location=" + location + "&term=" + term + "&isOpen=" + isOpen;
-    var url = "YelpSearch?" + fields;
-    url = url.replace(/ /g, "%20"); //replace spaces with '%20'
-    console.log("URL: " + url);
+    var url = createYelpURL(location, term, isOpen);
 
     //Requesting JSon through Ajax
     $.ajax({
@@ -57,6 +53,16 @@ function start() {
         error: errorOnAjax
     });
 
+}
+
+//function to create the URL for the API call
+function createYelpURL(location, term, isOpen) {
+    //Create URL
+    var fields = "location=" + location + "&term=" + term + "&isOpen=" + isOpen;
+    var url = "YelpSearch?" + fields;
+    url = url.replace(/ /g, "%20"); //replace spaces with '%20'
+    console.log("URL: " + url);
+    return url;
 }
 
 //Success on AJAX returns Yelp stores that meet criteria

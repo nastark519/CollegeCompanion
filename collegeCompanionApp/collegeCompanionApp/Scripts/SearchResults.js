@@ -154,9 +154,14 @@ function successSearch(data) {
 
                 //var zipCode = 97128;
                 //http://localhost:30375/Home/SaveData?userID=2&name=blah&stateName=blah&city=blah&zipCode=92000&accreditor=blah&degree=blah&degreeType=blah&ownership=1&cost=10000
+                console.log(tuition);
+
+                var nocomma = tuition.replace(/,/g, "");
+                var cost = parseInt(nocomma);
+                console.log(cost);
 
                 //The resulting view and its designed formatting
-                var resultString = '<div style="float:left; width:20em;margin-right:2em;">' +
+                page.push( '<div style="float:left; width:20em;margin-right:2em;">' +
                     '<div class="panel panel-info">' +
                     '<div class="panel-heading text-center panel-height">' +
                     '<div class="row">' +
@@ -184,7 +189,7 @@ function successSearch(data) {
                     + '&ownership='
                     + ownership
                     + '&cost='
-                    + tuition
+                    + cost
                     + '"></a>' +      // This this a starting point fot sp4 for fav.
                     '</h2>' +
                     '</div>' +
@@ -232,8 +237,7 @@ function successSearch(data) {
                     '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
                     '</div>' +
                         '</div>' +
-                    '</div>'
-                );
+                    '</div>');
                 xi++;
             }
         }
