@@ -1,4 +1,4 @@
-﻿
+﻿//The supplied code to run MapQuest
 window.onload = function () {
     L.mapquest.key = mpKey
     var map = L.mapquest.map('map', {

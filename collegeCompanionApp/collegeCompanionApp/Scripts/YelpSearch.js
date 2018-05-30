@@ -1,5 +1,6 @@
 ﻿console.log("You're in the YelpSearch.js script");
 
+//Gets the location on keypress
 $("#Location").keypress(function (e) {
     //If 'Enter' Key Pressed
     if (e.keyCode === 13) {
@@ -8,7 +9,7 @@ $("#Location").keypress(function (e) {
     }
 });
 
-
+//Search button event listener
 $("#Search").click(start);
 
 
@@ -41,11 +42,7 @@ function start() {
         return false;
     }
 
-    //Create URL
-    var fields = "location=" + location + "&term=" + term + "&isOpen=" + isOpen;
-    var url = "YelpSearch?" + fields;
-    url = url.replace(/ /g, "%20"); //replace spaces with '%20'
-    console.log("URL: " + url);
+    var url = createYelpURL(location, term, isOpen);
 
     //Requesting JSon through Ajax
     $.ajax({
@@ -58,7 +55,17 @@ function start() {
 
 }
 
+//function to create the URL for the API call
+function createYelpURL(location, term, isOpen) {
+    //Create URL
+    var fields = "location=" + location + "&term=" + term + "&isOpen=" + isOpen;
+    var url = "YelpSearch?" + fields;
+    url = url.replace(/ /g, "%20"); //replace spaces with '%20'
+    console.log("URL: " + url);
+    return url;
+}
 
+//Success on AJAX returns Yelp stores that meet criteria
 function successSearch(data) {
     //Businesses Data
     var business = data.businesses;

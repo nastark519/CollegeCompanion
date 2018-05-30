@@ -30,7 +30,7 @@ CREATE TABLE SearchResults (
 	Degree		nvarchar(100),
 	DegreeType	nvarchar(100)	
 	PRIMARY KEY (SearchResultsID ASC),
-	CONSTRAINT FK_CompanionID FOREIGN KEY (CompanionID) REFERENCES CompanionUser(CompanionID) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT FK_CompanionID FOREIGN KEY (CompanionID) REFERENCES CompanionUser(CompanionID) ON DELETE CASCADE
 );
 
 /*===================List Tables==================*/
@@ -168,43 +168,43 @@ VALUES (1, 'Public'),
 
 INSERT INTO DegreeList (DegreeName, DegreeValue)
 VALUES	('Agriculture, Agriculture Operations, And Related Sciences', 'agriculture'),
-		('Natural Resources And Conservation', 'resources'),
 		('Architecture And Related Services', 'architecture'),
 		('Area, Ethnic, Cultural, Gender, And Group Studies', 'ethnic_cultural_gender'),
+		('Biological And Biomedical Sciences', 'biological'),
+		('Business, Management, Marketing, And Related Support Services', 'business_marketing'),
+		('Construction Trades', 'construction'),
 		('Communication, Journalism, And Related Programs', 'communication'),
 		('Communications Technologies/Technicians And Support Services', 'communications_technology'),
-		('Computer And Information Sciences And Support Services', 'computer'),
-		('Personal And Culinary Services', 'personal_culinary'),
+		('Computer And Information Sciences And Support Services', 'computer'),	
 		('Education', 'education'),
 		('Engineering', 'engineering'),
 		('Engineering Technologies And Engineering-Related Fields', 'engineering_technology'),
-		('Foreign Languages, Literatures, And Linguistics', 'language'),
-		('Family And Consumer Sciences/Human Sciences', 'family_consumer_science'),
-		('Legal Professions And Studies', 'legal'),
 		('English Language And Literature/Letters', 'english'),
+		('Family And Consumer Sciences/Human Sciences', 'family_consumer_science'),
+		('Foreign Languages, Literatures, And Linguistics', 'language'),
+		('Health Professions And Related Programs', 'health'),	
+		('History', 'history'),
+		('Homeland Security, Law Enforcement, Firefighting And Related Protective Services', 'security_law_enforcement'),
+		('Legal Professions And Studies', 'legal'),
 		('Liberal Arts And Sciences, General Studies And Humanities', 'humanities'),
 		('Library Science', 'library'),
-		('Biological And Biomedical Sciences', 'biological'),
 		('Mathematics And Statistics', 'mathematics'),
+		('Mechanic And Repair Technologies/Technicians', 'mechanic_repair_technology'),	
 		('Military Technologies And Applied Sciences', 'military'),
 		('Multi/Interdisciplinary Studies', 'multidiscipline'),
+		('Natural Resources And Conservation', 'resources'),
 		('Parks, Recreation, Leisure, And Fitness Studies', 'parks_recreation_fitness'),
+		('Personal And Culinary Services', 'personal_culinary'),
 		('Philosophy And Religious Studies', 'philosophy_religious'),
-		('Theology And Religious Vocations', 'theology_religious_vocation'),
 		('Physical Sciences', 'physical_science'),
-		('Science Technologies/Technicians', 'science_technology'),
-		('Psychology', 'psychology'),
-		('Homeland Security, Law Enforcement, Firefighting And Related Protective Services', 'security_law_enforcement'),
-		('Public Administration And Social Service Professions', 'public_administration_social_service'),
-		('Social Sciences', 'social_science'),
-		('Construction Trades', 'construction'),
-		('Mechanic And Repair Technologies/Technicians', 'mechanic_repair_technology'),
 		('Precision Production', 'precision_production'),
+		('Psychology', 'psychology'),
+		('Public Administration And Social Service Professions', 'public_administration_social_service'),
+		('Science Technologies/Technicians', 'science_technology'),
+		('Social Sciences', 'social_science'),
+		('Theology And Religious Vocations', 'theology_religious_vocation'),
 		('Transportation And Materials Moving', 'transportation'),
-		('Visual And Performing Arts', 'visual_performing'),
-		('Health Professions And Related Programs', 'health'),
-		('Business, Management, Marketing, And Related Support Services', 'business_marketing'),
-		('History', 'history');
+		('Visual And Performing Arts', 'visual_performing');
 
 
 INSERT INTO DegreeType (DegreeTypeName, DegreeTypeValue)

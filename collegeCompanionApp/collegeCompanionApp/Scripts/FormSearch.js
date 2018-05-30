@@ -88,6 +88,7 @@ function start() {
     }
 }
 
+//Gets the upper and lower bound of the financial limit for the API call
 function getBounds(finLimit) {
     if (finLimit !== null) { // If finLimit not null
         if (finLimit === 'Any') { // Chose any range 
@@ -109,6 +110,7 @@ function getBounds(finLimit) {
     }
 }
 
+//Gets the acceptance rate for the API call
 function getAcceptRate(acceptRate) {
     if (acceptRate === 'Any') { // Any Acceptance Rate
         acceptRate = '0..';
@@ -123,6 +125,7 @@ function getAcceptRate(acceptRate) {
     return acceptRate;
 }
 
+//Gets the degree information for the API call
 function checkStateDegree(state, degree, degreeType) {
     if (state === 'Any' && degree === null) {
         if (degreeType !== null) {
@@ -140,6 +143,8 @@ function checkStateDegree(state, degree, degreeType) {
     }
 }
 
+//A massive IF statement begging for refactor into a dictionary at my nearest convienence
+//This function allows the front page search to run on a state only
 function stateInputFormatting(state) {
     if (state === "Any") {
         state = "";

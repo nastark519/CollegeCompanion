@@ -8,9 +8,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CompanionUser.Email)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
@@ -18,9 +15,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Accreditor)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Ownership)
@@ -31,21 +25,12 @@
         <th>
             @Html.DisplayNameFor(model => model.ZipCode)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Degree)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DegreeType)
-        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanionUser.Email)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -56,22 +41,24 @@
                 @Html.DisplayFor(modelItem => item.City)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Accreditor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ownership)
+                @if (item.Ownership == 1)
+                {
+                    <text>Public</text>
+                }
+                else if (item.Ownership == 2)
+                {
+                     <text>Private, Non-Profit</text>
+                }
+                else
+                {
+                     <text>Private, For Profit"</text>
+                 }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cost)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ZipCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Degree)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DegreeType)
             </td>
             <td>
                 @Html.ActionLink("Delete", "Delete", new { id = item.SearchResultsID })
