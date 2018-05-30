@@ -8,16 +8,26 @@ namespace collegeCompanionApp.Models
     public partial class CompanionContext : DbContext
     {
         public CompanionContext()
-            : base("name=CompanionContextDB")
+            : base("name=CompanionContext")
         {
         }
 
-        public virtual DbSet<College_User_Relations> College_User_Relations { get; set; }
-        public virtual DbSet<College> Colleges { get; set; }
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<AcceptanceRate> AcceptanceRates { get; set; }
         public virtual DbSet<CompanionUser> CompanionUsers { get; set; }
+        public virtual DbSet<DegreeList> DegreeLists { get; set; }
+        public virtual DbSet<DegreeType> DegreeTypes { get; set; }
+        public virtual DbSet<FinLimitList> FinLimitLists { get; set; }
+        public virtual DbSet<PrivacyList> PrivacyLists { get; set; }
+        public virtual DbSet<SearchResult> SearchResults { get; set; }
+        public virtual DbSet<StateList> StateLists { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CompanionUser>()
+                .HasMany(e => e.SearchResults)
+                .WithOptional(e => e.CompanionUser)
+                .WillCascadeOnDelete();
         }
     }
 }

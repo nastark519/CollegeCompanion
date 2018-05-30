@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Log in";
 }
-
+<img src="~/Content/books.jpeg" class="bg">
 <body class="adjustTop">
     <h2>@ViewBag.Title.</h2>
     <div class="row">
@@ -50,11 +50,6 @@
                             @Html.ActionLink("Forgot your password?", "ForgotPassword")
                         </p>*@
                 }
-            </section>
-        </div>
-        <div class="col-md-4">
-            <section id="socialLoginForm">
-                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
             </section>
         </div>
     </div>

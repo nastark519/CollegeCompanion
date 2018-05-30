@@ -17,6 +17,11 @@ using collegeCompanionApp.Repository;
 using Ninject;
 using Geocoding;
 using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity;
+using System.Web.Http;
+using System.Web.Http.Description;
+using System.Windows.Forms;
+
 
 namespace collegeCompanionApp.Controllers
 {
@@ -32,52 +37,170 @@ namespace collegeCompanionApp.Controllers
         string acceptRate = "";
         string degree = "";
         string degreeType = "";
-        int storedLimit = 0;
 
         //Adding in the repository pattern connection
-        IRepository _repository;
+        private readonly ICollegeRepository _repository;
 
-        public HomeController(IRepository repo)
+        public HomeController(ICollegeRepository repo)
         {
             _repository = repo;
         }
 
+        //An empty controller so the site will work when not passing in the repository.
         public HomeController(){}
 
+        /// <summary>
+        /// Home page of the website. Enables search via javascript: FormSearch.js. 
+        /// Also connects to DegreeQuiz via quizForm.js
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Travel()
-        {
-            return View();
-        }
-
-        public ActionResult SearchesMenu()
-        {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            return View();
-        }
-
-        public ActionResult Test()
+        /// <summary>
+        /// DegreeQuiz page of the website. Functionality via quizForm.js
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
+        public ActionResult DegreeQuiz()
         {
             return View();
         }
 
         /// <summary>
+        /// Error page of the website. 
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
+        public ActionResult Error()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Travel page of the website. Enables WalkScore via TravelSearch.js.
+        /// Also connects to map via googleSearch.js.
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
+        public ActionResult Travel()
+        {
+            var userName = User.Identity.Name;
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                return View(_repository.GetSavedColleges(userName));
+            }
+        }
+
+        /// <summary>
+        /// SearchesMenu page of the website. Enables an accordion via accordion.js.
+        /// Connects to other pages: Travel, Demographic & Yelp.
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
+        public ActionResult SearchesMenu()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// About page of the website. 
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
+        public ActionResult About()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Contact page of the website.
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
+        public ActionResult Contact()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// DELETE: api/SearchResults/5
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
+        [ResponseType(typeof(SearchResult))]
+        public ActionResult Delete(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                SearchResult searchResult = _repository.FindCollege(id);
+                if (searchResult == null)
+                {
+                    Debug.WriteLine("Error for Delete() method.");
+                    return RedirectToAction("SaveDataList", "Home");
+                }
+
+                _repository.DeleteCollege(searchResult);
+                _repository.SaveCollege(searchResult);
+
+                return RedirectToAction("SaveDataList", "Home");
+            } else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        /// <summary>
+        /// SaveDataList page of the website, it presents the list of saved colleges
+        /// for a given user.
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
+        public ActionResult SaveDataList()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                Debug.WriteLine("SaveDataList() Method!");
+
+                if (ModelState.IsValid)
+                { 
+                    return View(_repository.GetSavedColleges(User.Identity.Name));
+                }
+                else
+                {
+                    Debug.WriteLine("Error for SaveDataList() method.");
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+        }
+		
+		
+		//****************************************************WalkScore*******************************************************//
+        /// <summary>
         /// Searches for ratings of Walking, Transit & Bike for a given city using Walk Score API.
         /// </summary>
-        /// <param name="location">A string from the user provided variable "locationInput" in TravelSearch.js</param>
         /// <returns>
         /// A "Content" result of JSON String with ratings within the requested city.
         /// </returns>
@@ -121,16 +244,30 @@ namespace collegeCompanionApp.Controllers
         }
 
 
+        //****************************************************College Search*******************************************************//
+
+        /// <summary>
+        /// SearchForm page of the website. This page presents multiple input/selector fields the user
+        /// can alter to get back a college search result on the SearchResults.cshtml page.
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
         public ActionResult SearchForm()
         {
-            FormdataDB formdb = new FormdataDB();
-            Debug.Assert(formdb != null, "Database has the wrong connection.");
-            return View(formdb);
+            return View(_repository.GetFormData());
         }
 
+        /// <summary>
+        /// SearchResults page of the website. This page takes the results of the API call and presents
+        /// them in a pleasing format via the SearchResults.js file.
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
         public ActionResult SearchResults()
         {
-            return View();
+            return View(_repository.GetAllUsers());
         }
 
         /// <summary>
@@ -184,55 +321,81 @@ namespace collegeCompanionApp.Controllers
 
         /// <summary>
         /// Saves selected data into the College Database
+        /// If the college already exists it throws a pop up error to the user.
         /// </summary>
-        /// <returns>
-        /// True if data is successfully saved, False if it is not.
-        /// </returns>
-        /// <param name="schoolName">A string from the dataset of API results.</param>
-        /// <param name="stateName">A string from the dataset of API results.</param>
-        /// <param name="cityName">A string from the dataset of API results.</param>
-        /// <param name="accreditor">A string from the dataset of API results.</param>
-        /// <param name="ownership">An integer from the dataset of API results.</param>
-        /// <param name="finLimit">An integer from the dataset of API results.</param>
-        public ActionResult SaveData([Bind(Include = "CollegeID,Name,StateName,City,Accreditor,Ownership,Cost")]College college)
+        public ActionResult SaveData()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                Debug.WriteLine("saveData() Method!");
+            int userID = Int32.Parse(Request.QueryString["UserID"]);
+            string name = Request.QueryString["Name"];
+            string stateName = Request.QueryString["StateName"];
+            string city = Request.QueryString["City"];
+            int zipCode = Int32.Parse(Request.QueryString["ZipCode"]);
+            string accreditor = Request.QueryString["Accreditor"];
+            string degree = Request.QueryString["Degree"];
+            string degreeType = Request.QueryString["DegreeType"];
+            int ownership = Int32.Parse(Request.QueryString["Ownership"]);
+            int cost;
 
-                if (ModelState.IsValid)
+            int.TryParse(Request.QueryString["Cost"], out cost);
+
+            if (_repository.GetCollege(name, userID) == 0) { 
+                SearchResult college = new SearchResult {
+                                                            CompanionID = userID,
+                                                            Name = name,
+                                                            StateName = stateName,
+                                                            City = city,
+                                                            ZipCode = zipCode,
+                                                            Accreditor = accreditor,
+                                                            Degree = degree,
+                                                            DegreeType = degreeType,
+                                                            Ownership = ownership,
+                                                            Cost = cost
+                };
+
+                if (User.Identity.IsAuthenticated)
                 {
-                    _repository.AddCollege(college);
+                    Debug.WriteLine("saveData() Method!");
 
-                    _repository.SaveCollege(college);
-                    return View();
+                    if (ModelState.IsValid)
+                    {
+                        _repository.AddCollege(college);
+
+                        _repository.SaveCollege(college);
+
+                        System.Windows.Forms.MessageBox.Show("You Have Successfully Saved This College");
+                        return RedirectToAction("SaveDataList", "Home");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Error for SaveData() method.");
+                        return View();
+                    }
                 }
                 else
                 {
-                    Debug.WriteLine("Error for SaveData() method.");
-                    return View();
+                    return RedirectToAction("Login","Account");
                 }
             }
             else
             {
-                return RedirectToAction("Register","Account");
+                System.Windows.Forms.MessageBox.Show("You Have Already Saved This College");
+                return RedirectToAction("SaveDataList", "Home");
+                
             }
-            //College db = new College
-            //{
-            // Name = schoolName,
-            //StateName = stateName,
-            //City = cityName,
-            //Accreditor = accreditor,
-            //Focus = Request.QueryString["degreeInput"],
-            //Ownership = ownership,
-            //Cost = cost,
-            //AdmissionRate = acceptRate
-            //};
         }
 
         /// <summary>
         /// Creats a URL for the API search based on User Input.
         /// </summary>
+        /// <param name="acceptRate">The acceptance rate of the college.</param>
+        /// <param name="cityName">The city the college is located in.</param>
+        /// <param name="degree">The degree selected by the user.</param>
+        /// <param name="accreditor">The accreditory for the school.</param>
+        /// <param name="degreeType">The type of degree selected by the user.</param>
+        /// <param name="finLimit">The finanicial limit selected by the user.</param>
+        /// <param name="ownership">The ownership status of the school: Public, Private For Profit, Private NonProfit.</param>
+        /// <param name="schoolName">The school's name.</param>
+        /// <param name="stateName">The school's state of location.</param>
         /// <returns>
         /// A URL string.
         /// </returns>
@@ -284,12 +447,27 @@ namespace collegeCompanionApp.Controllers
             return url;
         }
 
+        /// <summary>
+        /// A method to ensure colelge fields are set up correctly in the URL string.
+        /// </summary>
+        /// <returns>
+        /// A string of fields for the URL call.
+        /// </returns>
         public string SetCollegeFields()
         {
             // Default Fields to get
-            return "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall,school.school_url";
+            return "&_fields=school.name,school.state,school.city,school.accreditor,school.ownership,school.tuition_revenue_per_fte,2015.admissions.admission_rate.overall,school.school_url,school.zip&_per_page=100";
         }
 
+        /// <summary>
+        /// A method to set selected fields to the entered values of the user.
+        /// </summary>
+        /// <param name="acceptRate">The selected acceptance rate.</param>
+        /// <param name="finLimit">The selected financial limit.</param>
+        /// <param name="ownership">The selected ownership.</param>
+        /// <returns>
+        /// A string for the URL call.
+        /// </returns>
         public string SetCollegeValues(string ownership, string acceptRate, string finLimit)
         {
             string collegeValues = "school.ownership=" + ownership + "&2015.admissions.admission_rate.overall__range=" + acceptRate
@@ -297,18 +475,40 @@ namespace collegeCompanionApp.Controllers
             return collegeValues;
         }
 
+        /// <summary>
+        /// A method to append the degree type to the degree category in the format the API desires.
+        /// </summary>
+        /// <param name="theDegree">The degree category.</param>
+        /// <returns>
+        /// A string for the URL call.
+        /// </returns>
         public string AddDegreeField(string theDegree)
         {
             string field = "," + theDegree; // Add Degree to fields
             return field;
         }
 
+        /// <summary>
+        /// A method to add a range to the degree is necessary.
+        /// </summary>
+        /// <param name="theDegree">Gets the selected type to append the data around.</param>
+        /// <returns>
+        /// A string for the URL call.
+        /// </returns>
         public string AddDegreeValue(string theDegree)
         {
             string val = "&" + theDegree + "__range=1.."; // Add Degree to parameters
             return val;
         }
 
+        /// <summary>
+        /// A method to set up the degree string to set it.
+        /// </summary>
+        /// <param name="degree">The degree field.</param>
+        /// <param name="degreeType">The degree type.</param>
+        /// <returns>
+        /// A string for the URL call.
+        /// </returns>
         public string SetDegree(string degreeType, string degree)
         {
             string aDegree = "2015.academics.program." + degreeType + "." + degree; // Degree to Search
@@ -316,11 +516,34 @@ namespace collegeCompanionApp.Controllers
         }
 
 
+        //****************************************************Yelp*******************************************************//
+
+        /// <summary>
+        /// Yelp page for the website.
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
         public ActionResult Yelp()
         {
-            return View();
+            var userName = User.Identity.Name;
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                return View(_repository.GetSavedColleges(userName));
+            }
         }
 
+        /// <summary>
+        /// A search method for the Yelp API call. This runs via the YelpSearch.js.
+        /// </summary>
+        /// <returns>
+        /// A JSON result for the API call.
+        /// </returns>
         public JsonResult YelpSearch()
         {
             Debug.WriteLine("YelpSearch() Method!");
@@ -332,8 +555,10 @@ namespace collegeCompanionApp.Controllers
             string location = GetLocation(Request.QueryString["location"]);
             //Get Term
             string term = GetTerm(Request.QueryString["term"]);
+            //Get IsOpen
+            string isOpen = Request.QueryString["isOpen"];
             //Set Parameters
-            string param = SetParam(location, term);
+            string param = SetParam(location, term, isOpen);
             //URL Endpoint
             var url = SetURL(param);
 
@@ -366,8 +591,14 @@ namespace collegeCompanionApp.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-		
-        /// Yelp NUnit Testing
+
+        /// <summary>
+        /// A simple method to test if something is an API key or not.
+        /// </summary>
+        /// <param name="key">The API key being tested.</param>
+        /// <returns>
+        /// The API key if successful, or "NoKey" if not.
+        /// </returns>
         public string IsAPIKey(string key)
         {
             if (key.Length <= 5)
@@ -377,6 +608,13 @@ namespace collegeCompanionApp.Controllers
             return key;
         }
 
+        /// <summary>
+        /// A simple method to test if a location if being populated or not.
+        /// </summary>
+        /// <param name="location">The location being tested.</param>
+        /// <returns>
+        /// The location if it is not null, otherwise it throws a debug statement that it is null.
+        /// </returns>
         public string GetLocation(string location)
         {
             if (location == null)
@@ -386,6 +624,13 @@ namespace collegeCompanionApp.Controllers
             return location;
         }
 
+        /// <summary>
+        /// A method to set null term strings to empty strings to avoid errors with the API.
+        /// </summary>
+        /// <param name="term">The term being tested/converted.</param>
+        /// <returns>
+        /// An empty string if the term was null.
+        /// </returns>
         public string GetTerm(string term)
         {
             if (term == null)
@@ -395,87 +640,77 @@ namespace collegeCompanionApp.Controllers
             return term;
         }
 
-        public string SetParam(string location, string term)
+        /// <summary>
+        /// A method to create a parameter string for the geolocation.
+        /// </summary>
+        /// <param name="location">The location field.</param>
+        /// <param name="term">The term field.</param>
+        /// <returns>
+        /// The resulting string for the URL.
+        /// </returns>
+        public string SetParam(string location, string term, string isOpen)
         {
-            return "term=" + term + "&location=" + location + "&limit=10&sort_by=distance";
+            var param = "term=" + term + "&location=" + location + "&limit=12&sort_by=distance&open_now=";
+
+            if(isOpen == "Open")
+            {
+                param = param + "true";
+            }
+            else
+            {
+                param = param + "false";
+            }
+
+            return param;
         }
 
+        /// <summary>
+        /// A simple method to set the URL for the yelp search.
+        /// </summary>
+        /// <param name="param">A parameter upon which the search is run.</param>
+        /// <returns>
+        /// The resulting parameter URL string.
+        /// </returns>
         public string SetURL(string param)
         {
             return "https://api.yelp.com/v3/businesses/search?" + param;
         }
 
+        
 
-        //working on getting the xml from zillow's api to work.
-        //may end up not needing this code.
-        //public XmlDocument CollegeRentsInArea()
-        //{
+        //****************************************************Demographic*******************************************************//
 
-
-        //I have put this at the end so I can just append to the div I want to.
-        // a url for the zillow calls.
-        //string theZillowApiUrl =
-        //"http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id={theAPIKeyHere}&state=" + state + "&city=" + city;
-
-        //string collegeRentsUrl = "CollegeRentsInArea?school.state=" + state + "&school.city=" + city;
-
-        //WebRequest request = WebRequest.Create(theZillowApiUrl);
-        //Stream stream = request.GetResponse().GetResponseStream();
-
-        //XmlDocument xmlDoc = new XmlDocument();
-
-        //stream.Close();
-
-        //return xmlDoc;
-        //}
-
-        //public ActionResult CollegeSearch()
-        //{
-        //    var college = new College();
-        //    college.CollegeName = Request.QueryString["school.name"];
-        //    college.StateName = Request.QueryString["state.name"];
-
-        //    return View(college);
-        //}
-
-        //[Route("Home/Search")]
-        //public JsonResult Search()
-        //{
-        //    Console.WriteLine("In the Search method in Home Controller");
-
-        //    //Get College Scorecard API
-        //    string key = System.Web.Configuration.WebConfigurationManager.AppSettings["CollegeScoreCardAPIKey"];
-        //    //School Name
-        //    string schoolName = Request.QueryString["schoolName"];
-        //    HttpUtility.UrlPathEncode(schoolName);//Adds %20 to spaces
-
-
-        //    //URL to College Scorecard
-        //    string url = "https://api.data.gov/ed/collegescorecard/v1/schools?api_key=" + 
-        //        key + "&school.name=" + schoolName + "&_fields=school.name,id";
-
-
-        //    //Sends request to College Scorecard to get JSon
-        //    WebRequest request = WebRequest.Create(url);
-        //    request.Credentials = CredentialCache.DefaultCredentials;
-        //    WebResponse response = request.GetResponse(); //The Response            
-        //    Stream dataStream = response.GetResponseStream(); //Start Data Stream from Server.            
-        //    string reader = new StreamReader(dataStream).ReadToEnd(); //Data Stream to a reader string
-
-
-        //    //JSon string to a JSon object             
-        //    var serializer = new JavaScriptSerializer();
-        //    var data = serializer.DeserializeObject(reader); //Deserialize string into JSon Object
-
-
-
+        /// <summary>
+        /// The demographic search page. Runs with the DemographicSearch.js.
+        /// </summary>
+        /// <returns>
+        /// A view.
+        /// </returns>
         public ActionResult Demographic()
         {
-            FormdataDB formdb = new FormdataDB();
-            Debug.Assert(formdb != null, "Database has the wrong connection.");
-            return View(formdb);
+            var userName = User.Identity.Name;
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                FormdataDB fd = new FormdataDB();
+                LifeStyle lifeStyle = _repository.GetLifeStyleVM();
+                lifeStyle.SearchResults = _repository.GetSavedColleges(userName);
+                lifeStyle.DemoAges = _repository.GetFormData().DemoAges;
+                lifeStyle.DemoRaces = _repository.GetFormData().DemoRaces;
+                return View(lifeStyle);
+            }
         }
 
+        /// <summary>
+        /// The DemographicSearch method to run the API call to Demographics Inquiry.
+        /// </summary>
+        /// <returns>
+        /// A JSON result for the API call.
+        /// </returns>
         public JsonResult DemographicSearch()
         {
             Debug.WriteLine("DemographicSearch() Method!");
@@ -521,7 +756,13 @@ namespace collegeCompanionApp.Controllers
         }
 
 
-        //Demographic NUnit Tests
+        /// <summary>
+        /// A method to set up the URL starting parameters being serarched on.
+        /// </summary>
+        /// <param name="param">The parameter being appended by the user.</param>
+        /// <returns>
+        /// A string for the URL.
+        /// </returns>
         public string SetDemoURL(string param)
         {
             string url = "https://mapfruition-demoinquiry.p.mashape.com/inquirebypoint/" + param;
@@ -529,6 +770,14 @@ namespace collegeCompanionApp.Controllers
             return url;
         }
 
+        /// <summary>
+        /// A method to put a slash between the coordinates and the variables.
+        /// </summary>
+        /// <param name="coordinates">The coordinates provided.</param>
+        /// <param name="variables">The variables selected.</param>
+        /// <returns>
+        /// A string for the URL call.
+        /// </returns>
         public string SetDemoParams(string coordinates, string variables)
         {
             string param = coordinates + "/" + variables;
@@ -536,6 +785,14 @@ namespace collegeCompanionApp.Controllers
             return param;
         }
 
+        /// <summary>
+        /// A method to get coordinates based on a latitude and longitude.
+        /// </summary>
+        /// <param name="lat">The Latitutde</param>
+        /// <param name="lon">The Longitude</param>
+        /// <returns>
+        /// A string for the URL.
+        /// </returns>
         public string GetCoordinates(string lat, string lon)
         {
             string cord = lat + "," + lon;

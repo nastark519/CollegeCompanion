@@ -7,6 +7,11 @@ window.onload = start;
 var degree;
 var degreeType;
 
+// An array that holds the divs on the school information.
+var pages = [];
+
+var indexPage = 0;
+
 function start() {
 
     // Gets the Current URL
@@ -52,6 +57,7 @@ function start() {
     // Console Check Ajax Call URL
     console.log("Ajax URL: " + url);
 
+
     // Requesting JSon through Ajax
     $.ajax({
         type: "GET",
@@ -62,48 +68,69 @@ function start() {
     });
 }
 
+//On success of AJAX call
 function successSearch(data) {
+    var i = 0;
+    var xi = 0;
     var schools = data.metadata.total; // Total number of schools found
+
+    // since we are only doing 100 schools set to 100 if total returns > 100 school
+    // we are doing this because otherwise we would need to do another api call.
+    if (schools > 100) {
+        schools = 100;
+    }
+
     console.log("Total Results: " + schools); // Display Total Results
+    var j = 0;
+    // add an action listener that will hear a onclick here for the paganation.
 
     if (schools > 0) { // If Schools Found...
         // Clear Error message & Past Results
         $("#NotFound").empty();
         $("#Results").empty();
 
+        
+        
         var schoolDegreeType = "2015.academics.program." + degreeType + "." + degree; // Degree to look for
 
-        for (i = 0; i <= schools; i++) {
-            if (data.results[i]) {
+        while ((12 < (schools - (i * 12))) || ((schools - i) > 0)) {
+
+            var page = [];
+
+            for (j = 0; j < 12; j++) {
+
+            if (data.results[xi]) {
                 // Get data into variables
-                var accreditor = data.results[i]["school.accreditor"];
-                var ownership = data.results[i]["school.ownership"];
-                var tuition = data.results[i]["school.tuition_revenue_per_fte"];
+                var accreditor = data.results[xi]["school.accreditor"];
+                var ownership = data.results[xi]["school.ownership"];
+                var tuition = data.results[xi]["school.tuition_revenue_per_fte"];
                 tuition = tuition.toLocaleString(); // Convert Object to String
-                var acceptRate = data.results[i]["2015.admissions.admission_rate.overall"];
-                var schoolDegree = data.results[i][schoolDegreeType];
-                var schoolURL = data.results[i]["school.school_url"];
-                var collegeName = data.results[i]["school.name"];
-                //setting up these next two vars for my zillow call.
-                var state = data.results[i]["school.state"];
-                var city = data.results[i]["school.city"];
+                var acceptRate = data.results[xi]["2015.admissions.admission_rate.overall"];
+                var schoolDegree = data.results[xi][schoolDegreeType];
+                var schoolURL = data.results[xi]["school.school_url"];
+                var collegeName = data.results[xi]["school.name"];
+                var state = data.results[xi]["school.state"];
+                var city = data.results[xi]["school.city"];
+                var zipCode = data.results[xi]["school.zip"];
 
                 if (accreditor === null) { // If accreditor is NULL than display 'N/A'
-                    accreditor = "N/A";
+                    accreditor = "None";
                 }
 
                 if (acceptRate === null) { // If acceptance rate is NULL than display 'N/A'
-                    acceptRate = "N/A";
+                    acceptRate = "None";
                 } else { // Else get acceptance rate percentage
                     acceptRate = (acceptRate * 100).toFixed(2); // Round to second decimal place
                 }
 
+                var ownershipStr;
+
                 if (ownership === 1) { // If ownership is 1, it's public
-                    ownership = "Public";
+                    ownershipStr = "Public";
                 } else if (ownership === 2) { // If ownership is 2, it's Private Non-Profit
-                    ownership = "Private Non-Profit";
+                    ownershipStr = "Private Non-Profit";
                 } else { // Else it's Private For-Profit
-                    ownership = "Private For-Profit";
+                    ownershipStr = "Private For-Profit";
                 }
 
                 if (schoolDegree === 2) { // If School Degree is 2, Program Offered with exclusibely education
@@ -114,83 +141,134 @@ function successSearch(data) {
                     schoolDegree = "No Degree Selected";
                 }
 
-                if (schoolURL[0] === 'w') { // If School URL starts with 'w' for 'www'
+                if (schoolURL[0] === 'w' || schoolURL[0] === 'W') { // If School URL starts with 'w' for 'www'
                     schoolURL = "https://" + schoolURL; // Add 'https://' to the School URL
                 }
+                if (schoolURL.endsWith("/")) {
+                    schoolURL = schoolURL.slice(0, schoolURL.length - 1);
+                }
 
-                // Set up Result String 
-                var resultsString = getResultString(collegeName, state, city, accreditor, ownership, tuition, schoolDegree, schoolDegreeType, acceptRate, schoolURL);
+                if (zipCode.length > 5) {
+                    zipCode = zipCode.slice(0, 5);
+                }
 
-                // Display to Page
-                $("#Results").append(resultsString);
+                //var zipCode = 97128;
+                //http://localhost:30375/Home/SaveData?userID=2&name=blah&stateName=blah&city=blah&zipCode=92000&accreditor=blah&degree=blah&degreeType=blah&ownership=1&cost=10000
+                console.log(tuition);
+
+                var nocomma = tuition.replace(/,/g, "");
+                var cost = parseInt(nocomma);
+                console.log(cost);
+
+                //The resulting view and its designed formatting
+                page.push('<div style="float:left; width:20em;margin-right:2em;">' +
+                    '<div class="panel panel-info">' +
+                    '<div class="panel-heading text-center panel-height">' +
+                    '<div class="row">' +
+                    '<div class="col-sm-1">' +
+                    '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
+                    '<a class="fa fa-heart-o" href="/Home/SaveData'
+                    + '?userID='
+                    + companionID
+                    + '&name='
+                    + collegeName
+                    + '&stateName='
+                    + state
+                    + '&city='
+                    + city
+                    + '&zipCode='
+                    + zipCode
+                    //Accreditor causes save errors, need to figure out what's going on here.
+                    + '&accreditor='
+                    + 'None'
+                    + '&degree='
+                    + schoolDegree
+                    + '&degreeType='
+                    //Degree Type unreachable, need to combine our horrible moshpit of appended code.
+                    + degreeType
+                    + '&ownership='
+                    + ownership
+                    + '&cost='
+                    + cost
+                    + '"></a>' +      // This this a starting point fot sp4 for fav.
+                    '</h2>' +
+                    '</div>' +
+                    '<div class="col-sm-offset-0"></div>' +
+                    '<div class="col-sm-9">' + // College Name
+                    '<div class="spaceLeft">' +
+                    //So the math function below takes the line height, divides it by the number of characters and presents the centered characters
+                    //within the height of the panel header.
+                    '<h5 class="ccPanelHeader" style="line-height:' + 45 / (Math.ceil(collegeName.length / 30)) + 'px;"' + ">" +
+                    collegeName +
+                    '</h5>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="panel-body text-primary ccPanelBody">' +
+                    '<div class="row">' +
+                    '<h4 class="text-center">' +
+                    '$' + tuition + '/year' +
+                    '</h4>' +
+                    '<div class="row" style="margin-top:5%;">' +
+                    '<div class="col-sm-6">' + // State
+                    '&emsp; <b> State</b>: ' + state +
+                                '</div>' +
+                    '<div class="col-sm-6">' + // City
+                    '<b>City</b>: ' + city +
+                                '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="row">' + // Degree Selected?
+                                    '&emsp; <b>Degree Selected</b>: ' + schoolDegree +
+                        '</div>' +
+                                '<div class="row">' + // Ownership
+                    '&emsp; <b>Ownership</b>: ' + ownershipStr +
+                        //'</div>' +
+                        //        '<div class="row">' +
+                        //            '&emsp; Accreditor: ' + accreditor +
+                        //'</div>' +
+                        '</div>' +
+                                '<div class="row">' + // Acceptance Rate
+                                    '&emsp; <b>Acceptance Rate</b>: ' + acceptRate + "%" +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="panel-footer" style="text-align:center">' + // School URL
+                    '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
+                    '</div>' +
+                        '</div>' +
+                    '</div>');
+
+                xi++;
             }
         }
-    } else { //School Not found
+            pages[i++] = page;
+        }
+
+        $("#Results").append(pages[0]);
+    }
+    else { //School Not found
         $("#NotFound").text("No Schools Found!");
     }
-
 }
 
-
-function getResultString(collegeName, state, city, accreditor, ownership, tuition, schoolDegree, schoolDegreeType, acceptRate, schoolURL) {
-
-    return '<div style="float:left; width:20em;margin-right:2em;">' +
-        '<div class="panel panel-info">' +
-        '<div class="panel-heading text-center panel-height">' +
-        '<div class="row">' +
-        '<div class="col-sm-1">' +
-        '<h2>' + //Name,StateName,City,Accreditor,Ownership,Cost
-        '<a class="fa fa-heart-o" href="@Url.Action("SaveData", "Home", new {Name=' + collegeName + ',StateName=' + state + ',City=' + city + ',Accreditor' + accreditor + ',Ownership=' + ownership + ',Cost=' + tuition + '})"></a>' +      // This this a starting point fot sp4 for fav.
-        '</h2>' +
-        '</div>' +
-        '<div class="col-sm-offset-0"></div>' +
-        '<div class="col-sm-9">' + // College Name
-        '<div class="spaceLeft">' +
-        //So the math function below takes the line height, divides it by the number of characters and presents the centered characters
-        //within the height of the panel header.
-        '<h5 class="ccPanelHeader" style="line-height:' + 45 / (Math.ceil(collegeName.length / 30)) + 'px;"' + ">" +
-        collegeName +
-        '</h5>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<div class="panel-body text-primary ccPanelBody">' +
-        '<div class="row">' +
-        '<h4 class="text-center">' +
-        '$' + tuition + '/year' +
-        '</h4>' +
-        '<div class="row" style="margin-top:5%;">' +
-        '<div class="col-sm-6">' + // State
-        '&emsp; State: ' + state +
-        '</div>' +
-        '<div class="col-sm-6">' + // City
-        'City: ' + city +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<div class="row">' + // Degree Selected
-        '&emsp; Degree Selected: ' + schoolDegree +
-        '</div>' +
-        '<div class="row">' + // Ownership
-        '&emsp; Ownership: ' + ownership +
-        //'</div>' +
-        //        '<div class="row">' +
-        //            '&emsp; Accreditor: ' + accreditor +
-        //'</div>' +
-        '</div>' +
-        '<div class="row">' + // Acceptance Rate
-        '&emsp; Acceptance Rate: ' + acceptRate + "%" +
-        '</div>' +
-        '<div class="row">' + // School URL
-        '&emsp; College Website: ' + '<a href=' + schoolURL + '><u>' + schoolURL + '</u></a>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>';
+// This function is for pagenation.
+function pageNum(numb) {
+    // Clear Error message & Past Results
+    $("#NotFound").empty();
+    $("#Results").empty();
+    var tempPage = [];
+    tempPage = pages[numb];
+    if (tempPage.length > 0) {
+        $("#Results").append(pages[numb]);
+    }
+    else { //School Not found
+        $("#NotFound").text("No Other Schools Found.");
+    }
+    
 }
 
-
+//Error on AJAX
 function errorOnAjax() {
     console.log("error on Ajax");
     $("#NotFound").text("Error on Ajax!"); // Display Error if ajax error

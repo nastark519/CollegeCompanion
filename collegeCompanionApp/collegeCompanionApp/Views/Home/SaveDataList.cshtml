@@ -1,0 +1,70 @@
+﻿@model IEnumerable<collegeCompanionApp.Models.SearchResult>
+@{
+    ViewBag.Title = "SaveDataList";
+}
+
+<h2 style="margin-top:2em;text-align:center">@User.Identity.Name's Saved Colleges</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StateName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ownership)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StateName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @if (item.Ownership == 1)
+                {
+                    <text>Public</text>
+                }
+                else if (item.Ownership == 2)
+                {
+                     <text>Private, Non-Profit</text>
+                }
+                else
+                {
+                     <text>Private, For Profit"</text>
+                 }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.SearchResultsID })
+            </td>
+        </tr>
+    }
+
+</table>
+

@@ -1,8 +1,6 @@
 ﻿console.log("You're in the Demographic Search JavaScript file");
 
-//global.window = window;
-//global.$ = require('jquery');
-
+//Listener for the zipcode entry field 
 $("#Zipcode").keypress(function (e) {
     //If 'Enter' Key Pressed
     if (e.keyCode === 13) {
@@ -61,19 +59,23 @@ function start() {
     }
     console.log("Array Variable Check[0]: " + ageRangeVar[0]);
 
+    var zipURL = "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" + zipcode + "&sensor=false&key=AIzaSyCS8ZI4cCMMVdu1SWSSFJ1wnX4ZZniB8zU";
+    console.log("zipURL: " + zipURL);
 
     //************************ Get Latitude & Longitude *********************************//
 
     //Credit: https://stackoverflow.com/questions/6100264/google-maps-get-latitude-and-longitude-from-zip-code
     //Get Latidude and Longitude 
     $.ajax({
-        url: "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" + zipcode + "&sensor=false&key= AIzaSyCS8ZI4cCMMVdu1SWSSFJ1wnX4ZZniB8zU",
+        url: zipURL, 
         method: "GET",
         success: getCoordinates,
         error: errorOnAjax
     });
 }
 
+//A function to validate the zipcode entry as correct data for
+//use in the JS logic
 function checkZipcode(zipcode) {
     //Check to see if Zipcode is a 5-digit zipcode & Numeric
     if (zipcode.length != 5) {
@@ -91,6 +93,7 @@ function checkZipcode(zipcode) {
     }
 }
 
+//A function to get the age range from the user input
 function getAgeRange() {
     // Get Race, Gender, Age Range
     var race = $('#raceInput').val();
@@ -130,6 +133,8 @@ function getAgeRange() {
     }
 }
 
+//A function to check which check boxes are selected and 
+//prevent the selection of more than 10
 function boxCheck(race, gender, ageRange) {
     // Check if 10 or less are checked
     if (ageRange.length > 10) {
@@ -147,8 +152,11 @@ function boxCheck(race, gender, ageRange) {
     }
 }
 
+//Gets the longitude and latitude for API call
 function getCoordinates(data) {
+    console.log("Data is: " + data.status);
     if (data.status === "OK") { //Results Found
+        console.log("There is Data!");
         //Get Latitude
         latitude = data.results[0].geometry.location.lat;
         //Get Longitude
@@ -172,6 +180,7 @@ function getCoordinates(data) {
     }
 }
 
+//Creates a URl for the API call
 function createURL(variables) {
     var fields = "latitude=" + latitude + "&longitude=" + longitude;
     var url = "DemographicSearch?" + fields + variables;
@@ -180,6 +189,7 @@ function createURL(variables) {
     return url;
 }
 
+//Calls AJAX as needed through the JS file
 function ajaxCall(url, proceed) {
     //Requesting JSon through Ajax
     $.ajax({
@@ -191,6 +201,7 @@ function ajaxCall(url, proceed) {
     });
 }
 
+//Get the selected ages by the user
 function getFirstAges(data) {
     if (data.success == true) { //Results Found
         //Age Properties Data
@@ -214,6 +225,8 @@ function getFirstAges(data) {
     }
 }
 
+//Success results for AJAX with appending logic
+//for view results to user
 function successSearch(data) {
     if (data.success == true) { //Results Found
         //Properties Data
@@ -239,7 +252,7 @@ function successSearch(data) {
         console.log("Projection Population: " + prop.pstotpop);
 
         //Display Data onto List
-        $("#SearchResults").append('<li class="list-group-item"><b>Total Population</b>: ' + prop.pstotpop + '</li>' + //Total Population
+        $("#SearchResults").append('<li class="list-group-item"><b><u>Total Population</u></b>: ' + prop.pstotpop + '</li>' + //Total Population
             '<li class="list-group-item"><b>Median Age</b>: ' + prop.psmedage + '</li>'); //Median Age 
 
         displayData(); //Adds Ages & percentage to List -- Display Results
@@ -253,6 +266,7 @@ function successSearch(data) {
 
 }
 
+//The formatting for the user results - including pie charts for data
 function displayData() {
     var lowAge = 0; //Lower Bound Age
     var highAge = 4; //Upper Bound Age
@@ -309,6 +323,7 @@ function displayData() {
     ajaxCall(createURL(variables), displayResult);
 }
 
+//Results view for the selected ages as a key on the side
 function displayResult(data) { // Display Selected Age Ranges
     console.log("In the Display Results!");
     if (data.success == true) { //Results Found
@@ -324,7 +339,7 @@ function displayResult(data) { // Display Selected Age Ranges
         console.log("SelectedRange[0]: " + selectedRange[0]);
         console.log("ageRange[0]: " + ageRange[0]);
 
-        $("#SelectedAges").append('<li class="list-group-item"><b><u>Selected Ages</u></b></li>');
+        $("#SelectedAges").append('<li class="list-group-item"><b><u>Your Selection</u></b></li>');
 
         for (i = 0; i < ageRangeVar.length; i++) {
             $("#SelectedAges").append('<li class="list-group-item"><b>Ages ' + ageRange[i]
