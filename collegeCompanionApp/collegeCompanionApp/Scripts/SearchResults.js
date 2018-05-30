@@ -92,11 +92,11 @@ function successSearch(data) {
         
         var schoolDegreeType = "2015.academics.program." + degreeType + "." + degree; // Degree to look for
 
-        while (12 < (schools - (i * 12))) {
+        while ((12 < (schools - (i * 12))) || ((schools - i) > 0)) {
 
             var page = [];
 
-            for (j = 0; j < 12; j++) { // replaced schools with the number 5 to test paganation.
+            for (j = 0; j < 12; j++) {
 
             if (data.results[xi]) {
                 // Get data into variables
@@ -253,8 +253,9 @@ function pageNum(numb) {
     // Clear Error message & Past Results
     $("#NotFound").empty();
     $("#Results").empty();
-
-    if (pages[numb]) {
+    var tempPage = [];
+    tempPage = pages[numb];
+    if (tempPage.length > 0) {
         $("#Results").append(pages[numb]);
     }
     else { //School Not found
