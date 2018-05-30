@@ -12,36 +12,43 @@ var url;
 
 //Get Input From User
 $("#submit").click(function () {
-    addressInput = $("#addressInput").val(); //Get address information from user.
+    addressInput = "";//$("#addressInput").val(); //Get address information from user.
     console.log(addressInput); //Verify we're getting back the data we expect.
 
-    cityInput = $("#cityInput").val(); //Get city information from user.
-    console.log(cityInput); //Verify we're getting back the data we expect.
+    var collegeInput = $("#collegeInput").val(); // Get Zipcode, State; City Values
+    console.log("College Input: " + collegeInput); // Console Check
 
-    stateInput = $("#stateInput").val().toUpperCase(); //Get state information from user.
-    console.log(stateInput); //Verify we're getting back the data we expect.
+    cityInput = collegeInput.slice(9,);//$("#cityInput").val(); //Get city information from user.
+    console.log("City: " + cityInput); //Verify we're getting back the data we expect.
 
-    zipInput = $("#zipInput").val(); //Get zipcode information from user.
-    console.log(zipInput); //Verify we're getting back the data we expect.
-    console.log("URL before ajax: " + "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityInput + "&components=postal_code:" + zipInput + "&sensor=false&key= AIzaSyCS8ZI4cCMMVdu1SWSSFJ1wnX4ZZniB8zU");
+    stateInput = collegeInput.slice(6,8);//$("#stateInput").val().toUpperCase(); //Get state information from user.
+    console.log("State: " + stateInput); //Verify we're getting back the data we expect.
 
-    $.ajax({ 
-        url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityInput + "&components=postal_code:" + zipInput + "&sensor=false",
+    zipInput = collegeInput.slice(0,5);//$("#zipInput").val(); //Get zipcode information from user.
+    console.log("Zipcode: " + zipInput); //Verify we're getting back the data we expect.
+    
+    console.log("URL before ajax: " + "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityInput + "&components=postal_code:" + zipInput + "&sensor=false&key=AIzaSyCS8ZI4cCMMVdu1SWSSFJ1wnX4ZZniB8zU");
+
+    $.ajax({ //Took off " + cityInput + " from URL 
+        url: "https://maps.googleapis.com/maps/api/geocode/json?address=&components=postal_code:" + zipInput + "&sensor=false&key=AIzaSyCS8ZI4cCMMVdu1SWSSFJ1wnX4ZZniB8zU",
         method: "POST",
         success: getCoords,
         error: errorOnAjax
     });
 });
 
+//Gets the longitutde and latitude for API call
 function getCoords(data) {
     latitude = data.results[0].geometry.location.lat;
     longitude = data.results[0].geometry.location.lng;
     console.log("Lat: " + latitude + "Long: " + longitude);
     url = "?zipInput=" + zipInput + "&addressInput=" + addressInput + "&cityInput=" + cityInput + "&stateInput=" + stateInput + "&longitude=" + longitude + "&latitude=" + latitude;
+    url = url.replace(/ /g, '') // Remove White Space
     console.log(url);
     getURL(url);
 }
 
+//runs the AJAX call 
 function getURL(url) {
     //Requesting JSon through AJAX
     $.ajax({
@@ -58,6 +65,7 @@ function errorOnAjax() {
     console.log("error");
 }
 
+//Displays results in designed format
 function displaySearch(results) {
     console.log(results);
     $(".travelResults").empty(); //Prevents Search Duplicates
@@ -73,7 +81,6 @@ function displaySearch(results) {
     searchContent += '</a>';
     searchContent += '</div>';
     searchContent += '<div class="panel-body">';
-    console.log(results["transit.score"]);
     searchContent += '<p style="font-size: 11pt;color: steelblue;vertical-align: middle;"> <strong>Description:</strong> ' + results["description"] + '</p>';
     searchContent += '</div>';
     searchContent += '<div class="panel-footer">';
@@ -82,6 +89,7 @@ function displaySearch(results) {
     $(".travelResults").append(searchContent);
 }
 
+//Takes any unpleasant results in the view and makes them "No Data Found"
 function convertToNA(results) {
     if (typeof results === 'undefined' || results === null) {
         results = "No Data Found";

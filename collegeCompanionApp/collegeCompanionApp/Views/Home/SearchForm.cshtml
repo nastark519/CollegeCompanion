@@ -5,14 +5,14 @@
 }
 
 <body>
-    <div class="img-fullpage" id="img-searchForm">
+    <img src="~/Content/blackboard.jpg" class="bg">
         <div class="searchFormBox">
             <div class="shiftDiv-Tinydown">
                 <form method="post">
                     <div class="col-sm-4">
                         @*Input Field for School Name*@
                         <div class="form-group">
-                            <label for="schoolNameInput" class="ccheader">School Name</label>
+                            <label for="schoolNameInput" class="ccheader" title="Enter keywords from the schools name, such as State or Western">School Name</label>
                             <input type="text" class="form-control" id="schoolNameInput" name="schoolNameInput" aria-describedby="nameHelp" placeholder="Enter School Name...">
                             <small id="nameHelp" class="form-text text-muted">Enter a full or a partial value.</small>
                         </div>
@@ -31,7 +31,7 @@
                         @*Input Field for City*@
                         @*This field is not controlled for numeric content because there are at least 8 cities in the US with only numbers for names!*@
                         <div class="form-group">
-                            <label for="cityInput" class="ccheader">City</label>
+                            <label for="cityInput" class="ccheader" title="You can even enter part of the name, such as New or Los">City</label>
                             <input type="text" class="form-control" id="cityInput" name="cityInput" aria-describedby="cityHelp" placeholder="Enter City Name...">
                             <small id="nameHelp" class="form-text text-muted">Enter a full or a partial value.</small>
                         </div>
@@ -39,7 +39,7 @@
                         @*Input Field for Degree / Major Desired*@
                         @*Note: This data is saved but not used in search criteria.*@
                         <div class="form-group">
-                            <label for="degreeInput" class="ccheader">Desired Degree Focus</label>
+                            <label for="degreeInput" class="ccheader" title="You can select Degree type take a look at our list.">Desired Degree Focus</label>
                             <select class="form-control" id="degreeInput" name="degreeInput">
                                 <option disabled selected> -- select an option -- </option>
                                 @foreach (var item in Model.DegreeLists)
@@ -50,7 +50,7 @@
                         </div>
                         @*Input Type of Degree*@
                         <div class="form-group">
-                            <label for="degreeType" class="ccheader">Degree Type</label>
+                            <label for="degreeType" class="ccheader" title="Any Undergrad degree">Degree Type</label>
                             <select class="form-control" id="degreeType" name="degreeType">
                                 <option disabled selected> -- select an option -- </option>
                                 @foreach (var item in Model.DegreeTypes)
@@ -66,7 +66,7 @@
                     <div class="col-sm-4">
                         @*Input for Financial Limit*@
                         <div class="form-group">
-                            <label for="finLimitInput" class="ccheader">Financial Limits</label>
+                            <label for="finLimitInput" class="ccheader" title="A range of what the college's tuition is">Financial Limits</label>
                             <select class="form-control" id="finLimitInput" name="finLimitInput">
                                 <option selected> Any </option>
                                 <option>&lt;1000</option>
@@ -93,7 +93,7 @@
                         </div>
                         @*Selector for Ownership*@
                         <div class="form-group">
-                            <label for="ownershipInput" class="ccheader">Please Select Ownership Type</label>
+                            <label for="ownershipInput" class="ccheader" title="Do you want to go to a Publicly owned school or a Private, beaware of for-Profit">Please Select Ownership Type</label>
                             <select class="form-control" id="ownershipInput" name="ownershipInput">
                                 <option selected> Any </option>
                                 @foreach (var item in Model.PrivacyLists)
@@ -106,7 +106,7 @@
                     <div class="col-sm-3">
                         @*Input for Student Loan Acceptance Rate*@
                         <div class="form-group">
-                            <label for="acceptRateInput" class="ccheader">Acceptance Rate</label>
+                            <label for="acceptRateInput" class="ccheader" title="What is the percentage of applecates that the school accepts.">Acceptance Rate</label>
                             <select class="form-control" id="acceptRateInput" name="acceptRateInput">
                                 <option selected> Any </option>
                                 <option value="10">&lt;10&#37;</option>
@@ -129,8 +129,7 @@
                 </form>
             </div>
         </div>
-    </div>
-</body>
+ </body>
 
 @section scripts{
     <script type="text/javascript" src="~/Scripts/FormSearch.js"></script>
