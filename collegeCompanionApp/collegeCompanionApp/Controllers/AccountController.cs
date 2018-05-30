@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using collegeCompanionApp.Models;
+using Recaptcha.Web;
+using Recaptcha.Web.Mvc;
 
 
 namespace collegeCompanionApp.Controllers
@@ -150,6 +152,23 @@ namespace collegeCompanionApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            RecaptchaVerificationHelper recaptchaHelper = this.GetRecaptchaVerificationHelper();
+            if (string.IsNullOrEmpty(recaptchaHelper.Response))
+            {
+                ModelState.AddModelError("reCAPTCHA", "Please complete the reCAPTCHA");
+                 // If we got this far, something failed, redisplay form
+                return View(model);
+            }
+            else
+            {
+                RecaptchaVerificationResult recaptchaResult = recaptchaHelper.VerifyRecaptchaResponse();
+                if (recaptchaResult != RecaptchaVerificationResult.Success)
+                {
+                    ModelState.AddModelError("reCAPTCHA", "The reCAPTCHA is incorrect");
+                    // If we got this far, something failed, redisplay form
+                    return View(model);
+                }
+            }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
