@@ -1,4 +1,5 @@
 ﻿@model collegeCompanionApp.Models.RegisterViewModel
+@using Recaptcha.Web.Mvc
 @{
     ViewBag.Title = "Register";
 }
@@ -35,8 +36,13 @@
                     <input type="submit" class="btn btn-default" value="Register" />
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.Recaptcha(theme: Recaptcha.Web.RecaptchaTheme.Clean)
+                </div>
+            </div>
         }
-</body>
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
+    </body>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

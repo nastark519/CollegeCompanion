@@ -15,15 +15,6 @@
     margin-top:50px;
 }
 
-/*Tool tips*/
-#schoolName {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inline-block;
-    white-space: nowrap;
-    width: 100px;
-}
-
 .center {
     margin: auto;
     width: 50%;
@@ -100,7 +91,6 @@ body, img {
     overflow: hidden;
     display: inline-block;
     white-space: nowrap;
-    width: 225px;
 }
 
 .ccPanelHeader {
